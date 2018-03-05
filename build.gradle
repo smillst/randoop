@@ -28,10 +28,6 @@ plugins {
   id "net.ltgt.errorprone-base" version "0.0.11" // 0.0.13 does not work with Java 7
 }
 
-// Checker Framework pluggable type-checking
-apply from: "checkerframework-annos-in-comments.gradle"
-// apply from: "checkerframework.gradle"
-
 /* Common build configuration for Randoop and agents */
 allprojects {
 
@@ -244,7 +240,7 @@ import net.ltgt.gradle.errorprone.ErrorProneToolChain
 
 tasks.withType(JavaCompile).each { t ->
   if (JavaVersion.current().isJava8Compatible()) {
-    if (!t.name.equals("compileTestInputJava")) {
+      if (!t.name.equals("compileTestInputJava") && !t.name.startsWith("checkTypes")) {
       t.toolChain ErrorProneToolChain.create(project)
       t.options.compilerArgs += [
         // undocumented, and suggestion seems bad
