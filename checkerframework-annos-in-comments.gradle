@@ -62,35 +62,39 @@ afterEvaluate {
         // Create a checkTypes tasks for each source set and make the 'check' task depend on them.
         sourceSets.forEach { sourceset ->
             String name = sourceset.name
-            if (sourceset.name.is('main')) {
-                name = ""
-            } else {
-                // Capitalize first letter
-                name = name.substring(0, 1).toUpperCase() + name.substring(1);
-            }
+            if (!name.contains("Test")) {
+                if (sourceset.name.is('main')) {
+                    name = ""
+                } else {
+                    // Capitalize first letter
+                    name = name.substring(0, 1).toUpperCase() + name.substring(1);
+                }
 
-            tasks.create(name: "checkTypes${name}", type: JavaCompile, group: 'Verification') {
-                description "Run the Checker Framework on ${sourceset.name} sources"
-                source = sourceset.java.asFileTree
-                classpath = tasks.getByName(sourceset.compileJavaTaskName).classpath
-                destinationDir = new File("${buildDir}", 'checkerframework')
+                tasks.create(name: "checkTypes${name}", type: JavaCompile, group: 'Verification') {
+                    description "Run the Checker Framework on ${sourceset.name} sources"
+                    dependsOn 'generateWorkingDirs'
+                    source = sourceset.java.asFileTree
+                    classpath = tasks.getByName(sourceset.compileJavaTaskName).classpath
+                    destinationDir = new File("${buildDir}", "checkerframework-${name}")
 
-                options.compilerArgs = [
-                        '-processorpath', "${configurations.checkerFrameworkCheckerJar.asPath}",
-                        '-processor', 'org.checkerframework.checker.nullness.NullnessChecker',
-                        '-Xmaxerrs', '10000',
-                        '-Xmaxwarns', '10000',
-                        // '-Awarns',      // turn Checker Framework errors into warnings
-                        '-source', '7', '-target', '7', // include if Java 7 compatibility is needed
-                        '-AcheckPurityAnnotations',
-                        '-AprintErrorStack',
-                        '-AsuppressWarnings=all',
-                        "-Xbootclasspath/p:${configurations.checkerFrameworkAnnotatedJDK.asPath}"
-                ]
-                options.fork = true
-                options.forkOptions.jvmArgs += ["-Xbootclasspath/p:${configurations.checkerFrameworkJavac.asPath}"]
+                    options.compilerArgs = [
+                            '-processorpath', "${configurations.checkerFrameworkCheckerJar.asPath}",
+                            '-processor', 'org.checkerframework.checker.index.IndexChecker',
+                            '-Xmaxerrs', '10000',
+                            '-Xmaxwarns', '10000',
+                            // '-Awarns',      // turn Checker Framework errors into warnings
+                            '-source', '7', '-target', '7', // include if Java 7 compatibility is needed
+                            '-AcheckPurityAnnotations',
+                            '-AprintErrorStack',
+                            '-AsuppressWarnings=all',
+                            "-Xbootclasspath/p:${configurations.checkerFrameworkAnnotatedJDK.asPath}",
+                            '-g', '-Xlint:-classfile'
+                    ]
+                    options.fork = true
+                    options.forkOptions.jvmArgs += ["-Xbootclasspath/p:${configurations.checkerFrameworkJavac.asPath}"]
+                }
+                check.dependsOn "checkTypes${name}"
             }
-            check.dependsOn "checkTypes${name}"
         }
     }
 }
