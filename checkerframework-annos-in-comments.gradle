@@ -81,5 +81,5 @@ if (JavaVersion.current().isJava8Compatible()) {
         options.fork = true
         options.forkOptions.jvmArgs += ["-Xbootclasspath/p:${configurations.checkerFrameworkJavac.asPath}"]
     }
-    check.dependsOn "checkTypes${name}"
+    check.dependsOn "checkTypes"
 }
