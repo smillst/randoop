@@ -158,7 +158,7 @@ public class ReflectionManager {
         // Fields
         // The set of fields declared in class c is needed to ensure we don't
         // collect inherited fields that are shadowed by a local declaration.
-        @Det Set<String> declaredNames = new TreeSet<>();
+        Set<String> declaredNames = new TreeSet<>();
         for (Field f : ClassDeterministic.getDeclaredFields(c)) { // for fields declared by c
           declaredNames.add(f.getName());
           if (predicate.isVisible(f)) {
@@ -204,7 +204,7 @@ public class ReflectionManager {
       applyTo(visitor, e);
       if (!e.getClass().equals(c)) { // does constant have an anonymous class?
         for (Method m : e.getClass().getDeclaredMethods()) {
-          @Det Set<Method> methodSet = overrideMethods.get(m.getName());
+          Set<Method> methodSet = overrideMethods.get(m.getName());
           if (methodSet == null) {
             methodSet = new LinkedHashSet<>();
           }
@@ -225,7 +225,7 @@ public class ReflectionManager {
     // constant
     for (Method m : ClassDeterministic.getMethods(c)) {
       if (isVisible(m)) {
-        @Det Set<Method> methodSet = overrideMethods.get(m.getName());
+        Set<Method> methodSet = overrideMethods.get(m.getName());
         if (methodSet != null) {
           for (Method method : methodSet) {
             applyTo(visitor, method);

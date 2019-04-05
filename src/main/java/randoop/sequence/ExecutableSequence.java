@@ -477,7 +477,7 @@ public class ExecutableSequence {
    * @return the list of values created and used by the last statement of this sequence
    */
   public List<ReferenceValue> getLastStatementValues(@Det ExecutableSequence this) {
-    @Det Set<ReferenceValue> values = new LinkedHashSet<>();
+    Set<ReferenceValue> values = new LinkedHashSet<>();
 
     Object outputValue = getValue(sequence.size() - 1);
     Variable outputVariable = sequence.getLastVariable();
@@ -522,7 +522,7 @@ public class ExecutableSequence {
       skipSet.add(inputVariable.index);
     }
 
-    @Det Set<ReferenceValue> values = new LinkedHashSet<>();
+    Set<ReferenceValue> values = new LinkedHashSet<>();
     for (int i = 0; i < sequence.size() - 1; i++) {
       if (!skipSet.contains(i)) {
         Object value = getValue(i);
@@ -541,7 +541,7 @@ public class ExecutableSequence {
    * @return the set of variables that have the given value, or null if none
    */
   public List<Variable> getVariables(@Det Object value) {
-    @Det Set<Variable> variables = variableMap.get(value);
+    Set<Variable> variables = variableMap.get(value);
     if (variables == null) {
       return null;
     } else {

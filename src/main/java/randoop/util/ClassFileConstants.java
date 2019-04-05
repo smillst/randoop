@@ -623,8 +623,7 @@ public class ClassFileConstants {
    * @param constantSets the sets of constantSets
    * @return a map of types to constant operations
    */
-  public static MultiMap<Class<?>, NonreceiverTerm> toMap(
-      @Det Collection<ConstantSet> constantSets) {
+  public static MultiMap<Class<?>, NonreceiverTerm> toMap(Collection<ConstantSet> constantSets) {
     final MultiMap<Class<?>, NonreceiverTerm> map = new MultiMap<>();
     for (ConstantSet cs : constantSets) {
       Class<?> clazz;

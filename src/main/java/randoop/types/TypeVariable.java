@@ -161,7 +161,7 @@ public abstract class TypeVariable extends ParameterType {
    */
   @Override
   public List<TypeVariable> getTypeParameters(@Det TypeVariable this) {
-    @Det Set<TypeVariable> parameters = new LinkedHashSet<>(super.getTypeParameters());
+    Set<TypeVariable> parameters = new LinkedHashSet<>(super.getTypeParameters());
     parameters.add(this);
     return new ArrayList<>(parameters);
   }

@@ -24,7 +24,7 @@ public class OperationHistoryLogger implements OperationHistoryLogInterface {
   private final PrintWriter writer;
 
   /** A sparse representation for the operation-outcome table. */
-  private final @OrderNonDet Map<TypedOperation, @Det Map<OperationOutcome, Integer>> operationMap;
+  private final @OrderNonDet Map<TypedOperation, Map<OperationOutcome, Integer>> operationMap;
 
   /**
    * Creates an {@link OperationHistoryLogger} that will write to the given {@code PrintWriter}.
@@ -38,7 +38,7 @@ public class OperationHistoryLogger implements OperationHistoryLogInterface {
 
   @Override
   public void add(@Det TypedOperation operation, @Det OperationOutcome outcome) {
-    @Det Map<OperationOutcome, Integer> outcomeMap = operationMap.get(operation);
+    Map<OperationOutcome, Integer> outcomeMap = operationMap.get(operation);
     // TODO-jason: The @Det here should be unnecessary, but the checker thinks it's @NonDet unless I
     // put this here. Why?
     @Det int count = 0;
@@ -65,7 +65,7 @@ public class OperationHistoryLogger implements OperationHistoryLogInterface {
       @Det int nameLength = operation.getSignatureString().length();
       maxNameLength = Math.max(nameLength, maxNameLength);
     }
-    @Det Map<OperationOutcome, String> formatMap = printHeader(maxNameLength);
+    Map<OperationOutcome, String> formatMap = printHeader(maxNameLength);
     @OrderNonDet List<TypedOperation> keys = new ArrayList<>(operationMap.keySet());
     Collections.sort(keys);
     for (TypedOperation key : keys) {

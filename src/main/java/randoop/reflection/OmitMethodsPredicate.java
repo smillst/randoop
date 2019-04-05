@@ -102,7 +102,7 @@ public class OmitMethodsPredicate {
      * Search the type and its supertypes that have the method.
      */
     @OrderNonDet Set<ClassOrInterfaceType> visited = new HashSet<>();
-    @Det Queue<ClassOrInterfaceType> typeQueue = new ArrayDeque<>();
+    Queue<ClassOrInterfaceType> typeQueue = new ArrayDeque<>();
     typeQueue.add(operation.getDeclaringType());
     while (!typeQueue.isEmpty()) {
       ClassOrInterfaceType type = typeQueue.remove();

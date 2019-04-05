@@ -88,7 +88,7 @@ public class ComponentManager {
    *     considered empty.
    */
   public ComponentManager(Collection<Sequence> generalSeeds) {
-    @Det Set<Sequence> seedSet = new LinkedHashSet<>(generalSeeds.size());
+    Set<Sequence> seedSet = new LinkedHashSet<>(generalSeeds.size());
     seedSet.addAll(generalSeeds);
     this.gralSeeds = Collections.unmodifiableSet(seedSet);
     gralComponents = new SequenceCollection(seedSet);

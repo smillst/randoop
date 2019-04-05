@@ -79,7 +79,7 @@ public class KeyToMultiSet<T1 extends @Det Object, T2 extends @Det Object> {
 
   // Removes all keys with an empty set
   public void clean() {
-    @Det Iterator<Entry<T1, MultiSet<T2>>> iter = map.entrySet().iterator();
+    Iterator<Entry<T1, MultiSet<T2>>> iter = map.entrySet().iterator();
     for (; iter.hasNext(); ) {
       Entry<T1, MultiSet<T2>> element = iter.next();
       if (element.getValue().isEmpty()) {

@@ -16,7 +16,7 @@ public final class CollectionsExt {
   }
 
   static <T extends @Det Object> T getNthIteratedElement(
-      @Det Collection<? extends T> s, @Det int index) {
+      Collection<? extends T> s, @Det int index) {
     if (s == null) throw new IllegalArgumentException("s cannot be null.");
     if (s.isEmpty()) throw new IllegalArgumentException("s cannot be empty.");
     if (index >= s.size()) {
@@ -46,7 +46,7 @@ public final class CollectionsExt {
    * @param c the collection of objects to include in string
    * @return the concatenated string of object strings as lines
    */
-  static String toStringInLines(@Det Collection<? extends @Det Object> c) {
+  static String toStringInLines(Collection<? extends @Det Object> c) {
     if (c.isEmpty()) {
       return "";
     }
@@ -59,7 +59,7 @@ public final class CollectionsExt {
    * @param c the collection of objects to include in string
    * @return the concatenated string of object strings
    */
-  private static List<String> toStringLines(@Det Collection<? extends @Det Object> c) {
+  private static List<String> toStringLines(Collection<? extends @Det Object> c) {
     List<String> lines = new ArrayList<>(c.size());
     for (Object each : c) {
       lines.add(String.valueOf(each));

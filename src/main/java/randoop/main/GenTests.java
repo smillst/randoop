@@ -209,15 +209,15 @@ public class GenTests extends GenInputsAbstract {
      * Setup model of classes under test
      */
     // Get names of classes under test
-    @Det Set<@ClassGetName String> classnames = GenInputsAbstract.getClassnamesFromArgs();
+    Set<@ClassGetName String> classnames = GenInputsAbstract.getClassnamesFromArgs();
 
     // Get names of classes that must be covered by output tests
     @SuppressWarnings("signature") // TOOD: read from file, no guarantee strings are @ClassGetName
-    @Det Set<@ClassGetName String> coveredClassnames =
+    Set<@ClassGetName String> coveredClassnames =
         GenInputsAbstract.getStringSetFromFile(require_covered_classes, "coverage class names");
 
     // Get names of fields to be omitted
-    @Det Set<String> omitFields = GenInputsAbstract.getStringSetFromFile(omit_field_list, "field list");
+    Set<String> omitFields = GenInputsAbstract.getStringSetFromFile(omit_field_list, "field list");
     omitFields.addAll(omit_field);
 
     VisibilityPredicate visibility;
@@ -248,7 +248,7 @@ public class GenTests extends GenInputsAbstract {
       classNameErrorHandler = new WarnOnBadClassName();
     }
 
-    @Det Set<String> methodSignatures =
+    Set<String> methodSignatures =
         GenInputsAbstract.getStringSetFromFile(methodlist, "method list");
 
     String classpath = Globals.getClassPath();
@@ -319,7 +319,7 @@ public class GenTests extends GenInputsAbstract {
     assert operationModel != null;
 
     List<TypedOperation> operations = operationModel.getOperations();
-    @Det Set<ClassOrInterfaceType> classesUnderTest = operationModel.getClassTypes();
+    Set<ClassOrInterfaceType> classesUnderTest = operationModel.getClassTypes();
 
     /*
      * Stop if there is only 1 operation. This will be Object().
@@ -340,7 +340,7 @@ public class GenTests extends GenInputsAbstract {
      *   <li>Add any values for TestValue annotated static fields in operationModel
      * </ul>
      */
-    @Det Set<Sequence> components = new LinkedHashSet<>();
+    Set<Sequence> components = new LinkedHashSet<>();
     components.addAll(SeedSequences.defaultSeeds());
     components.addAll(operationModel.getAnnotatedTestValues());
 
@@ -350,7 +350,7 @@ public class GenTests extends GenInputsAbstract {
 
     RandoopListenerManager listenerMgr = new RandoopListenerManager();
 
-    @Det Set<String> observerSignatures =
+    Set<String> observerSignatures =
         GenInputsAbstract.getStringSetFromFile(
             GenInputsAbstract.observers, "observer", "//.*", null);
 
@@ -362,7 +362,7 @@ public class GenTests extends GenInputsAbstract {
       System.exit(1);
       throw new Error("dead code");
     }
-    @Det Set<TypedOperation> observers = new LinkedHashSet<>();
+    Set<TypedOperation> observers = new LinkedHashSet<>();
     for (Type keyType : observerMap.keySet()) {
       observers.addAll(observerMap.getValues(keyType));
     }
@@ -409,7 +409,7 @@ public class GenTests extends GenInputsAbstract {
     }
 
     Sequence newObj = new Sequence().extend(objectConstructor);
-    @Det Set<Sequence> excludeSet = new LinkedHashSet<>();
+    Set<Sequence> excludeSet = new LinkedHashSet<>();
     excludeSet.add(newObj);
 
     // Define test predicate to decide which test sequences will be output
@@ -597,7 +597,7 @@ public class GenTests extends GenInputsAbstract {
       List<Path> testFiles = new ArrayList<>();
 
       // Create and write test classes.
-      @Det LinkedHashMap<String, CompilationUnit> testMap =
+      LinkedHashMap<String, CompilationUnit> testMap =
           getTestASTMap(basename, testSequences, junitCreator);
       for (Map.Entry<String, CompilationUnit> entry : testMap.entrySet()) {
         String classname = entry.getKey();
@@ -883,7 +883,7 @@ public class GenTests extends GenInputsAbstract {
   private LinkedHashMap<String, CompilationUnit> getTestASTMap(
       String classNamePrefix, List<ExecutableSequence> sequences, JUnitCreator junitCreator) {
 
-    @Det LinkedHashMap<String, CompilationUnit> testMap = new LinkedHashMap<>();
+    LinkedHashMap<String, CompilationUnit> testMap = new LinkedHashMap<>();
 
     NameGenerator methodNameGenerator =
         new NameGenerator(TEST_METHOD_NAME_PREFIX, 1, sequences.size());

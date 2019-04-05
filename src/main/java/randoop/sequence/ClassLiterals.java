@@ -37,7 +37,7 @@ public class ClassLiterals extends MappedSequences<ClassOrInterfaceType> {
   public SimpleList<Sequence> getSequences(
       @Det ClassLiterals this, @Det ClassOrInterfaceType key, @Det Type desiredType) {
 
-    @Det Set<ClassOrInterfaceType> superClasses = hashedSuperClasses.get(key);
+    Set<ClassOrInterfaceType> superClasses = hashedSuperClasses.get(key);
     if (superClasses == null) {
       superClasses = getSuperClasses(key);
       hashedSuperClasses.put(key, superClasses);
@@ -58,7 +58,7 @@ public class ClassLiterals extends MappedSequences<ClassOrInterfaceType> {
    */
   private Set<ClassOrInterfaceType> getSuperClasses(
       @Det ClassLiterals this, @Det ClassOrInterfaceType cls) {
-    @Det Set<ClassOrInterfaceType> ret = new LinkedHashSet<>();
+    Set<ClassOrInterfaceType> ret = new LinkedHashSet<>();
     @Det ClassOrInterfaceType sup = cls.getSuperclass();
     while (sup != null && !sup.equals(JavaTypes.OBJECT_TYPE)) {
       ret.add(sup);

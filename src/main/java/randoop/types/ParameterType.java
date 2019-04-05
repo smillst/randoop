@@ -64,7 +64,7 @@ public abstract class ParameterType extends ReferenceType {
 
   @Override
   public List<TypeVariable> getTypeParameters(@Det ParameterType this) {
-    @Det Set<TypeVariable> parameters = new LinkedHashSet<>();
+    Set<TypeVariable> parameters = new LinkedHashSet<>();
     parameters.addAll(lowerBound.getTypeParameters());
     parameters.addAll(upperBound.getTypeParameters());
     return new ArrayList<>(parameters);

@@ -22,7 +22,7 @@ public final class SizeToArrayLength extends ObjectContract {
     assert objects != null && objects.length == 1;
     Object o = objects[0];
     if (o instanceof Collection) {
-      @Det Collection<? extends @Det Object> c = (Collection<? extends @Det Object>) o;
+      Collection<? extends @Det Object> c = (Collection<? extends @Det Object>) o;
       assert c != null;
       return c.size() == c.toArray().length;
     }

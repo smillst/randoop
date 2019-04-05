@@ -74,8 +74,8 @@ public class MappedSequences<T extends @Det Object> {
    *
    * @return the set of all sequence objects in this set of collections
    */
-  public @Det Set<Sequence> getAllSequences() {
-    @Det Set<Sequence> result = new LinkedHashSet<>();
+  public Set<Sequence> getAllSequences() {
+    Set<Sequence> result = new LinkedHashSet<>();
     for (@Det SequenceCollection c : map.values()) {
       result.addAll(c.getAllSequences());
     }

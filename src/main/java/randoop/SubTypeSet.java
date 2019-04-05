@@ -82,12 +82,12 @@ public class SubTypeSet {
 
   private void addQueryType(@Det Type type) {
     if (type == null) throw new IllegalArgumentException("c cannot be null.");
-    @Det Set<Type> keySet = subTypes.keySet();
+    Set<Type> keySet = subTypes.keySet();
     if (keySet.contains(type)) {
       return;
     }
 
-    @Det Set<Type> compatibleTypes = new LinkedHashSet<>();
+    Set<Type> compatibleTypes = new LinkedHashSet<>();
     for (Type t : types.getElements()) {
       if (type.isAssignableFrom(t)) {
         compatibleTypes.add(t);

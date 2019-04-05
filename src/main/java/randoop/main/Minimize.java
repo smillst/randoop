@@ -823,7 +823,7 @@ public class Minimize extends CommandHandler {
     }
 
     // Set of fully-qualified type names that are used in variable declarations.
-    @Det Set<ClassOrInterfaceType> fullyQualifiedNames =
+    Set<ClassOrInterfaceType> fullyQualifiedNames =
         new TreeSet<>(
             new Comparator<ClassOrInterfaceType>() {
               @Override

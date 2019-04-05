@@ -867,7 +867,7 @@ public abstract class GenInputsAbstract extends CommandHandler {
    */
   @SuppressWarnings("signature") // TODO: reading from file; no guarantee strings are @ClassGetName
   public static Set<@ClassGetName String> getClassnamesFromArgs() {
-    @Det Set<@ClassGetName String> classnames = getStringSetFromFile(classlist, "tested classes");
+    Set<@ClassGetName String> classnames = getStringSetFromFile(classlist, "tested classes");
     classnames.addAll(testclass);
     return classnames;
   }
@@ -899,7 +899,7 @@ public abstract class GenInputsAbstract extends CommandHandler {
       @Det String fileDescription,
       @Det String commentRegex,
       @Det String includeRegex) {
-    @Det Set<String> elementSet = new LinkedHashSet<>();
+    Set<String> elementSet = new LinkedHashSet<>();
     if (listFile != null) {
       try (EntryReader er = new EntryReader(listFile.toFile(), commentRegex, includeRegex)) {
         for (String line : er) {

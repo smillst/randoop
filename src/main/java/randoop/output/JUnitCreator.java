@@ -361,7 +361,7 @@ public class JUnitCreator {
     annotations.add(
         new SingleMemberAnnotationExpr(new NameExpr("RunWith"), new NameExpr("Suite.class")));
     StringBuilder classList = new StringBuilder();
-    @Det Iterator<String> testIterator = testClassNames.iterator();
+    Iterator<String> testIterator = testClassNames.iterator();
     if (testIterator.hasNext()) {
       String classCode = testIterator.next() + ".class";
       while (testIterator.hasNext()) {

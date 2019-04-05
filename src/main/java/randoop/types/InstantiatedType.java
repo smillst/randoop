@@ -227,7 +227,7 @@ public class InstantiatedType extends ParameterizedType {
 
   @Override
   public List<TypeVariable> getTypeParameters(@Det InstantiatedType this) {
-    @Det Set<TypeVariable> paramSet = new LinkedHashSet<TypeVariable>(super.getTypeParameters());
+    Set<TypeVariable> paramSet = new LinkedHashSet<TypeVariable>(super.getTypeParameters());
     for (TypeArgument argument : argumentList) {
       List<TypeVariable> params = argument.getTypeParameters();
       paramSet.addAll(params);

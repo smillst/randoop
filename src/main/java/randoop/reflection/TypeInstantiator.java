@@ -226,7 +226,7 @@ public class TypeInstantiator {
    */
   private TypedClassOperation instantiateOperationTypes(TypedClassOperation operation) {
     // answer question: what type instantiation would allow a call to this operation?
-    @Det Set<TypeVariable> typeParameters = new LinkedHashSet<>();
+    Set<TypeVariable> typeParameters = new LinkedHashSet<>();
     Substitution<ReferenceType> substitution = new Substitution<>();
     for (Type parameterType : operation.getInputTypes()) {
       Type workingType = parameterType.apply(substitution);
@@ -353,7 +353,7 @@ public class TypeInstantiator {
         if (nonGenCandidates.isEmpty()) {
           return Collections.emptyList();
         }
-        @Det ListEnumerator<ReferenceType> enumerator = new ListEnumerator<>(nonGenCandidates);
+        ListEnumerator<ReferenceType> enumerator = new ListEnumerator<>(nonGenCandidates);
         while (enumerator.hasNext()) {
           // choose instantiating substitution for non-generic bounded parameters
           Substitution<ReferenceType> initialSubstitution =
@@ -449,7 +449,7 @@ public class TypeInstantiator {
       // cannot use `Collections.emptyList()` because clients will add elements to the returned list
       return new ArrayList<>();
     }
-    @Det ListEnumerator<ReferenceType> enumerator = new ListEnumerator<>(candidateTypes);
+    ListEnumerator<ReferenceType> enumerator = new ListEnumerator<>(candidateTypes);
     while (enumerator.hasNext()) {
       List<ReferenceType> tuple = enumerator.next();
       Substitution<ReferenceType> partialSubstitution = Substitution.forArgs(parameters, tuple);

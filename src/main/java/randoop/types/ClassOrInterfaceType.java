@@ -316,7 +316,7 @@ public abstract class ClassOrInterfaceType extends ReferenceType {
    * @return the set of all supertypes of this type
    */
   public Collection<ClassOrInterfaceType> getSuperTypes(@Det ClassOrInterfaceType this) {
-    @Det Collection<ClassOrInterfaceType> supertypes = new ArrayList<>();
+    Collection<ClassOrInterfaceType> supertypes = new ArrayList<>();
     if (this.isObject()) {
       return supertypes;
     }

@@ -138,7 +138,7 @@ public final class Randomness {
    * @return a randomly selected element from {@code list}
    */
   public static <T extends @Det Object> T randomMemberWeighted(
-      @Det SimpleList<T> list, @Det Map<T, Double> weights) {
+      @Det SimpleList<T> list, Map<T, Double> weights) {
 
     if (list.size() == 0) {
       throw new IllegalArgumentException("Empty list");
@@ -211,7 +211,7 @@ public final class Randomness {
    * @param set the collection from which to select an element
    * @return a randomly-selected member of the set
    */
-  public static <T extends @Det Object> T randomSetMember(@Det Collection<T> set) {
+  public static <T extends @Det Object> T randomSetMember(Collection<T> set) {
     int setSize = set.size();
     int randIndex = Randomness.nextRandomInt(setSize);
     logSelection(randIndex, "randomSetMember", set);

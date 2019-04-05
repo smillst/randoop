@@ -13,7 +13,7 @@ public class MultiSet<T extends @Det Object> {
     frequencyMap = new LinkedHashMap<>();
   }
 
-  public void add(@Det MultiSet<T> this, T obj) {
+  public void add(T obj) {
     Integer i = frequencyMap.get(obj);
     if (i == null) {
       i = 0;
@@ -21,7 +21,7 @@ public class MultiSet<T extends @Det Object> {
     frequencyMap.put(obj, i + 1);
   }
 
-  public void remove(@Det MultiSet<T> this, T obj) {
+  public void remove(T obj) {
     Integer i = frequencyMap.get(obj);
     if (i == null || i < 1) {
       throw new IllegalStateException(
@@ -39,7 +39,7 @@ public class MultiSet<T extends @Det Object> {
     return frequencyMap.isEmpty();
   }
 
-  public void removeAllInstances(@Det MultiSet<T> this, @Det Set<T> values) {
+  public void removeAllInstances(Set<T> values) {
     for (T value : values) {
       frequencyMap.remove(value);
     }

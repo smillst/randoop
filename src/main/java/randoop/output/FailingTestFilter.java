@@ -242,7 +242,7 @@ public class FailingTestFilter implements CodeWriter {
     String qualifiedClassname = packageName == null ? classname : packageName + "." + classname;
 
     // Iterator to move through JUnit output. (JUnit only writes to standard output.)
-    @Det Iterator<String> lineIterator = status.standardOutputLines.iterator();
+    Iterator<String> lineIterator = status.standardOutputLines.iterator();
 
     int totalFailures = numJunitFailures(lineIterator, status, qualifiedClassname, javaCode);
 

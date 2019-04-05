@@ -157,7 +157,7 @@ public class TypedClassOperation extends TypedOperation {
 
   @Override
   public List<TypeVariable> getTypeParameters(@Det TypedClassOperation this) {
-    @Det Set<TypeVariable> paramSet = new LinkedHashSet<>();
+    Set<TypeVariable> paramSet = new LinkedHashSet<>();
     paramSet.addAll(getInputTypes().getTypeParameters());
     if (getOutputType().isReferenceType()) {
       paramSet.addAll(((ReferenceType) getOutputType()).getTypeParameters());

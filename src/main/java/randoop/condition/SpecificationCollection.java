@@ -104,7 +104,7 @@ public class SpecificationCollection {
       return null;
     }
     MultiMap<OperationSignature, Method> signatureToMethods = new MultiMap<>();
-    @Det Map<AccessibleObject, OperationSpecification> specificationMap = new LinkedHashMap<>();
+    Map<AccessibleObject, OperationSpecification> specificationMap = new LinkedHashMap<>();
     for (Path specificationFile : specificationFiles) {
       readSpecificationFile(specificationFile, specificationMap, signatureToMethods);
     }
@@ -125,7 +125,7 @@ public class SpecificationCollection {
     @OrderNonDet Map<AccessibleObject, @OrderNonDet Set<Method>> overridden = new HashMap<>();
     for (OperationSignature signature : signatureToMethods.keySet()) {
       // This lookup is required because MultiMap does not have an entrySet() method.
-      @Det Set<Method> methods = signatureToMethods.getValues(signature);
+      Set<Method> methods = signatureToMethods.getValues(signature);
       for (Method method : methods) {
         Class<?> declaringClass = method.getDeclaringClass();
         @OrderNonDet Set<Method> parents = findOverridden(declaringClass, methods);
@@ -257,7 +257,7 @@ public class SpecificationCollection {
       Path specificationZipFile,
       final Map<AccessibleObject, OperationSpecification> specificationMap,
       final MultiMap<OperationSignature, Method> signatureToMethods) {
-    @Det Map<String, ? extends @Det Object> myEmptyMap = Collections.emptyMap();
+    Map<String, ? extends @Det Object> myEmptyMap = Collections.emptyMap();
     FileSystem zipFS;
     try {
       URI uri = URI.create("jar:" + specificationZipFile.toUri().toString());
@@ -340,7 +340,7 @@ public class SpecificationCollection {
       @OrderNonDet Set<Method> parents = overridden.get(executable);
       // Parents is null in some tests.  Is it ever null other than that?
       if (parents == null) {
-        @Det Set<Method> sigSet = signatureToMethods.getValues(OperationSignature.of(method));
+        Set<Method> sigSet = signatureToMethods.getValues(OperationSignature.of(method));
         if (sigSet != null) {
           // Todo: why isn't this added to the `parents` map?
           parents = findOverridden(method.getDeclaringClass(), sigSet);

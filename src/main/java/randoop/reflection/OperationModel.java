@@ -471,7 +471,7 @@ public class OperationModel {
     }
 
     // Collect classes under test
-    @Det Set<Class<?>> visitedClasses = new LinkedHashSet<>(); // consider each class just once
+    Set<Class<?>> visitedClasses = new LinkedHashSet<>(); // consider each class just once
     for (String classname : classnames) {
       Class<?> c = getClass(classname, errorHandler);
       // Note that c could be null if errorHandler just warns on bad names

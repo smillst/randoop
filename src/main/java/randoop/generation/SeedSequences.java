@@ -72,7 +72,7 @@ public final class SeedSequences {
   }
 
   public static Set<Sequence> objectsToSeeds(List<Object> seeds) {
-    @Det Set<Sequence> seedSequences = new LinkedHashSet<>();
+    Set<Sequence> seedSequences = new LinkedHashSet<>();
     for (Object seed : seeds) {
       if (seed == null) {
         seedSequences.add(Sequence.zero(JavaTypes.STRING_TYPE));
@@ -90,7 +90,7 @@ public final class SeedSequences {
    * @return the set of seed values with the given raw type
    */
   static Set<Object> getSeeds(@Det Type type) {
-    @Det Set<Object> result = new LinkedHashSet<>();
+    Set<Object> result = new LinkedHashSet<>();
     for (Object seed : primitiveSeeds) {
       if (type.isAssignableFromTypeOf(seed)) {
         result.add(seed);
