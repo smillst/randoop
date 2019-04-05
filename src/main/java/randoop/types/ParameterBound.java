@@ -150,10 +150,7 @@ public abstract class ParameterBound {
       @OrderNonDet Set<java.lang.reflect.TypeVariable<?>> recursiveSet = new HashSet<>(variableSet);
       recursiveSet.add(variable);
       for (java.lang.reflect.Type boundType : variable.getBounds()) {
-        @SuppressWarnings(
-            "determinism") // combining elements of @OrderNonDet collection for @Det result
-        @Det boolean tmp = hasTypeVariable(boundType, recursiveSet);
-        if (tmp) {
+        if (hasTypeVariable(boundType, recursiveSet)) {
           return true;
         }
       }

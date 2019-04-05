@@ -102,10 +102,7 @@ public class StringEscapeUtils {
     try {
       @Det StringPrintWriter writer = new StringPrintWriter(str.length() * 2);
       escapeJavaStyleString(writer, str, escapeSingleQuotes);
-      @SuppressWarnings("determinism") // this converts what was written to the stream to a String,
-      // so this is deterministic, just not annotated in JDK
-      @Det String result = writer.getString();
-      return result;
+      return writer.getString();
     } catch (IOException ioe) {
       // this should never ever happen while writing to a StringWriter
       ioe.printStackTrace();

@@ -38,9 +38,7 @@ class UncheckedCast extends CallableOperation {
   @Override
   public @Det ExecutionOutcome execute(@Det Object @Det [] input) {
     assert input.length == 1 : "cast only takes one input";
-    @SuppressWarnings("determinism") // https://github.com/t-rasmud/checker-framework/issues/95
-    @Det NormalExecution result = new NormalExecution(type.getRuntimeClass().cast(input[0]), 0);
-    return result;
+    return new NormalExecution(type.getRuntimeClass().cast(input[0]), 0);
   }
 
   /**

@@ -126,9 +126,7 @@ class HelperSequenceCreator {
         : String.format(
             "Collection type %s should have one type argument, has %d",
             collectionType, argumentList.size());
-    @SuppressWarnings("determinism") // assert guarantees this is deterministic: since there's only
-    // one element, @PolyDet("up") is the same as @PolyDet.
-    @PolyDet TypeArgument argumentType = argumentList.get(0);
+    TypeArgument argumentType = argumentList.get(0);
     assert argumentType instanceof ReferenceArgument
         : "Type argument " + argumentType + " should be a reference type";
     return ((ReferenceArgument) argumentType).getReferenceType();
