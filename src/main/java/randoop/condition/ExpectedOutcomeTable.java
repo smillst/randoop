@@ -94,7 +94,7 @@ public class ExpectedOutcomeTable {
   void add(
       boolean guardIsSatisfied,
       @Det ExecutableBooleanExpression postcondition,
-      @Det List<ThrowsClause> throwsClauses) {
+      List<ThrowsClause> throwsClauses) {
     // An empty table cannot represent a pre-state for which the call is invalid, so setting isEmpty
     // to false is necessary even if the entry has !guardIsSatisfied and no postcondition or
     // throwsClauses.

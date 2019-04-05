@@ -76,7 +76,7 @@ class LazyReferenceBound extends ReferenceBound {
 
   @Override
   public List<TypeVariable> getTypeParameters(@Det LazyReferenceBound this) {
-    @Det List<TypeVariable> parameters = new ArrayList<>();
+    List<TypeVariable> parameters = new ArrayList<>();
     if (getBoundType().isVariable()) {
       parameters.add((TypeVariable) getBoundType());
     } else if (getBoundType().isParameterized()) {

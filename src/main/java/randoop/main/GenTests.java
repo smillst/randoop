@@ -318,7 +318,7 @@ public class GenTests extends GenInputsAbstract {
     }
     assert operationModel != null;
 
-    @Det List<TypedOperation> operations = operationModel.getOperations();
+    List<TypedOperation> operations = operationModel.getOperations();
     @Det Set<ClassOrInterfaceType> classesUnderTest = operationModel.getClassTypes();
 
     /*
@@ -424,7 +424,7 @@ public class GenTests extends GenInputsAbstract {
     /*
      * Setup visitors
      */
-    @Det List<ExecutionVisitor> visitors = new ArrayList<>();
+    List<ExecutionVisitor> visitors = new ArrayList<>();
     // instrumentation visitor
     if (GenInputsAbstract.require_covered_classes != null) {
       visitors.add(new CoveredClassVisitor(operationModel.getCoveredClassesGoal()));
@@ -594,7 +594,7 @@ public class GenTests extends GenInputsAbstract {
       System.out.printf("Writing JUnit tests...%n");
     }
     try {
-      @Det List<Path> testFiles = new ArrayList<>();
+      List<Path> testFiles = new ArrayList<>();
 
       // Create and write test classes.
       @Det LinkedHashMap<String, CompilationUnit> testMap =
@@ -682,7 +682,7 @@ public class GenTests extends GenInputsAbstract {
    * @return contents of the file, as a set of Patterns
    */
   private List<Pattern> readOmitMethods(Path file) {
-    @Det List<Pattern> result = new ArrayList<>();
+    List<Pattern> result = new ArrayList<>();
     // Read method omissions from user-provided file
     if (file != null) {
       try (EntryReader er = new EntryReader(file.toFile(), "^#.*", null)) {
@@ -710,7 +710,7 @@ public class GenTests extends GenInputsAbstract {
    * @return the list of patterns for the signature strings
    */
   private List<Pattern> createPatternsFromSignatures(List<String> signatures) {
-    @Det List<Pattern> patterns = new ArrayList<>();
+    List<Pattern> patterns = new ArrayList<>();
     for (String signatureString : signatures) {
       patterns.add(signatureToPattern(signatureString));
     }
@@ -782,7 +782,7 @@ public class GenTests extends GenInputsAbstract {
       /*
        * Get the set of operations executed since the first execution of the flaky subsequence
        */
-      @Det List<String> executedOperationTrace = new ArrayList<>();
+      List<String> executedOperationTrace = new ArrayList<>();
       boolean flakySequenceFound = false;
       for (Sequence sequence : explorer.getAllSequences()) {
         // Look for occurrence of flaky sequence
@@ -887,7 +887,7 @@ public class GenTests extends GenInputsAbstract {
 
     NameGenerator methodNameGenerator =
         new NameGenerator(TEST_METHOD_NAME_PREFIX, 1, sequences.size());
-    @Det List<List<ExecutableSequence>> sequencePartition =
+    List<List<ExecutableSequence>> sequencePartition =
         CollectionsExt.formSublists(new ArrayList<>(sequences), testsperfile);
     for (int i = 0; i < sequencePartition.size(); i++) {
       String testClassName = classNamePrefix + i;
@@ -980,7 +980,7 @@ public class GenTests extends GenInputsAbstract {
    * @return the list of JDK specification files
    */
   private Collection<? extends Path> getJDKSpecificationFiles() {
-    @Det List<Path> fileList = new ArrayList<>();
+    List<Path> fileList = new ArrayList<>();
     final String specificationDirectory = "/specifications/jdk/";
     Path directoryPath = getResourceDirectoryPath(specificationDirectory);
 

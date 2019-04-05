@@ -2,7 +2,6 @@ package randoop.reflection;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.checkerframework.checker.determinism.qual.Det;
 import randoop.types.ReferenceType;
 import randoop.types.Substitution;
 import randoop.types.TypeArgument;
@@ -39,12 +38,12 @@ class TypeTupleSet {
    *
    * @param types the list of types
    */
-  public void extend(@Det List<ReferenceType> types) {
+  public void extend(List<ReferenceType> types) {
     tupleLength += 1;
-    @Det List<List<ReferenceType>> tupleList = new ArrayList<>();
-    for (@Det List<ReferenceType> tuple : typeTuples) {
+    List<List<ReferenceType>> tupleList = new ArrayList<>();
+    for (List<ReferenceType> tuple : typeTuples) {
       for (ReferenceType type : types) {
-        @Det List<ReferenceType> extTuple = new ArrayList<>(tuple);
+        List<ReferenceType> extTuple = new ArrayList<>(tuple);
         extTuple.add(type);
         assert extTuple.size() == tupleLength
             : "tuple lengths don't match, expected: " + tupleLength + " have " + extTuple.size();
@@ -61,12 +60,12 @@ class TypeTupleSet {
    * @param typeParameters the type arguments
    * @return the list of substitutions that instantiate the type arguments
    */
-  List<Substitution<ReferenceType>> filter(@Det List<TypeVariable> typeParameters) {
+  List<Substitution<ReferenceType>> filter(List<TypeVariable> typeParameters) {
     assert typeParameters.size() == tupleLength
         : "tuple size " + tupleLength + " must equal number of parameters " + typeParameters.size();
-    @Det List<Substitution<ReferenceType>> substitutionSet = new ArrayList<>();
-    @Det List<List<ReferenceType>> tupleList = new ArrayList<>();
-    for (@Det List<ReferenceType> tuple : typeTuples) {
+    List<Substitution<ReferenceType>> substitutionSet = new ArrayList<>();
+    List<List<ReferenceType>> tupleList = new ArrayList<>();
+    for (List<ReferenceType> tuple : typeTuples) {
       Substitution<ReferenceType> substitution = Substitution.forArgs(typeParameters, tuple);
 
       int i = 0;

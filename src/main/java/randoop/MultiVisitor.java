@@ -2,7 +2,6 @@ package randoop;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.checkerframework.checker.determinism.qual.Det;
 import randoop.sequence.ExecutableSequence;
 
 /**
@@ -30,7 +29,7 @@ public class MultiVisitor implements ExecutionVisitor {
    * @param visitors the visitors to compose
    * @return a visitor that has the effect of all the visitors in the argument
    */
-  public static ExecutionVisitor createMultiVisitor(@Det List<ExecutionVisitor> visitors) {
+  public static ExecutionVisitor createMultiVisitor(List<ExecutionVisitor> visitors) {
     switch (visitors.size()) {
       case 0:
         return new DummyVisitor();

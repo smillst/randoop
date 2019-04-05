@@ -18,14 +18,14 @@ public class JarReader {
   }
 
   public static void main(String[] args) throws IOException {
-    @Det List<String> names = getClasseNamesInJar(args[0]);
+    List<String> names = getClasseNamesInJar(args[0]);
     Collections.sort(names);
     System.out.println(CollectionsExt.toStringInLines(names));
   }
 
   public static List<String> getClassNamesInPackage(@Det String jarName, @Det String packageName)
       throws IOException {
-    @Det ArrayList<String> classes = new ArrayList<>();
+    ArrayList<String> classes = new ArrayList<>();
 
     packageName = packageName.replaceAll("\\.", "/");
     if (debug) {
@@ -54,7 +54,7 @@ public class JarReader {
   }
 
   public static List<String> getClasseNamesInJar(@Det String jarName) throws IOException {
-    @Det ArrayList<String> classes = new ArrayList<>();
+    ArrayList<String> classes = new ArrayList<>();
 
     if (debug) {
       System.out.println("Jar " + jarName);

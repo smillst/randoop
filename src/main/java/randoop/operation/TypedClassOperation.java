@@ -102,8 +102,7 @@ public class TypedClassOperation extends TypedOperation {
    * @param b the {@link StringBuilder} to which code is added
    */
   @Override
-  public void appendCode(
-      @Det TypedClassOperation this, @Det List<Variable> inputVars, StringBuilder b) {
+  public void appendCode(@Det TypedClassOperation this, List<Variable> inputVars, StringBuilder b) {
     assert inputVars.size() == this.getInputTypes().size()
         : "number of inputs doesn't match on operation appendCode";
     this.getOperation().appendCode(declaringType, getInputTypes(), getOutputType(), inputVars, b);

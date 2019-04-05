@@ -65,7 +65,7 @@ public class MappedSequences<T extends @Det Object> {
   private static final SimpleList<Sequence> emptyList;
 
   static {
-    @Det List<SimpleList<Sequence>> emptyJDKList = Collections.emptyList();
+    List<SimpleList<Sequence>> emptyJDKList = Collections.emptyList();
     emptyList = new ListOfLists<>(emptyJDKList);
   }
 

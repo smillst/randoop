@@ -45,10 +45,10 @@ public class FileCompiler {
    * @param destinationDir the destination directory for class files
    * @throws FileCompilerException if the compilation fails
    */
-  public void compile(@Det List<File> sourceFiles, @Det Path destinationDir)
+  public void compile(List<File> sourceFiles, @Det Path destinationDir)
       throws FileCompilerException {
     // Set the destination directory for the compiler
-    @Det List<String> compileOptions = new ArrayList<>(options);
+    List<String> compileOptions = new ArrayList<>(options);
     compileOptions.add("-d");
     compileOptions.add(destinationDir.toString());
 

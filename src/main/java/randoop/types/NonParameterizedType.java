@@ -81,7 +81,7 @@ public class NonParameterizedType extends ClassOrInterfaceType {
    * @return the list of direct interfaces for this class or interface type
    */
   private List<ClassOrInterfaceType> getGenericInterfaces() {
-    @Det List<ClassOrInterfaceType> interfaces = new ArrayList<>();
+    List<ClassOrInterfaceType> interfaces = new ArrayList<>();
     for (java.lang.reflect.Type type : runtimeType.getGenericInterfaces()) {
       interfaces.add(ClassOrInterfaceType.forType(type));
     }
@@ -99,7 +99,7 @@ public class NonParameterizedType extends ClassOrInterfaceType {
    * @return the list of rawtypes for the direct interfaces of this type
    */
   private List<ClassOrInterfaceType> getRawTypeInterfaces() {
-    @Det List<ClassOrInterfaceType> interfaces = new ArrayList<>();
+    List<ClassOrInterfaceType> interfaces = new ArrayList<>();
     for (Class<?> c : runtimeType.getInterfaces()) {
       interfaces.add(new NonParameterizedType(c));
     }

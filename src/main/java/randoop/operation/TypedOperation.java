@@ -261,7 +261,7 @@ public abstract class TypedOperation implements Operation, Comparable<TypedOpera
    * @param b the {@code StringBuilder}
    */
   public abstract void appendCode(
-      @Det TypedOperation this, @Det List<Variable> inputVars, StringBuilder b);
+      @Det TypedOperation this, List<Variable> inputVars, StringBuilder b);
 
   /**
    * Performs this operation using the array of input values. Returns the results of execution as an
@@ -319,7 +319,7 @@ public abstract class TypedOperation implements Operation, Comparable<TypedOpera
     ConstructorCall op = new ConstructorCall(constructor);
     ClassOrInterfaceType declaringType =
         ClassOrInterfaceType.forClass(constructor.getDeclaringClass());
-    @Det List<Type> paramTypes = new ArrayList<>();
+    List<Type> paramTypes = new ArrayList<>();
     for (java.lang.reflect.Type t : constructor.getGenericParameterTypes()) {
       paramTypes.add(Type.forType(t));
     }
@@ -335,7 +335,7 @@ public abstract class TypedOperation implements Operation, Comparable<TypedOpera
    */
   public static TypedClassOperation forMethod(@Det Method method) {
 
-    @Det List<Type> methodParamTypes = new ArrayList<>();
+    List<Type> methodParamTypes = new ArrayList<>();
     for (java.lang.reflect.Type t : method.getGenericParameterTypes()) {
       methodParamTypes.add(Type.forType(t));
     }
@@ -348,7 +348,7 @@ public abstract class TypedOperation implements Operation, Comparable<TypedOpera
       return getAnonEnumOperation(method, methodParamTypes, declaringClass.getEnclosingClass());
     }
 
-    @Det List<Type> paramTypes = new ArrayList<>();
+    List<Type> paramTypes = new ArrayList<>();
     MethodCall op = new MethodCall(method);
     ClassOrInterfaceType declaringType = ClassOrInterfaceType.forClass(method.getDeclaringClass());
     if (!op.isStatic()) {
@@ -387,7 +387,7 @@ public abstract class TypedOperation implements Operation, Comparable<TypedOpera
     for (Method m : enumClass.getMethods()) {
       if (m.getName().equals(method.getName())
           && m.getGenericParameterTypes().length == method.getGenericParameterTypes().length) {
-        @Det List<Type> paramTypes = new ArrayList<>();
+        List<Type> paramTypes = new ArrayList<>();
         MethodCall op = new MethodCall(m);
         if (!op.isStatic()) {
           paramTypes.add(enumType);
@@ -447,7 +447,7 @@ public abstract class TypedOperation implements Operation, Comparable<TypedOpera
       @Det Field field, @Det ClassOrInterfaceType declaringType) {
     Type fieldType = Type.forType(field.getGenericType());
     AccessibleField accessibleField = new AccessibleField(field, declaringType);
-    @Det List<Type> inputTypes = new ArrayList<>();
+    List<Type> inputTypes = new ArrayList<>();
     if (!accessibleField.isStatic()) {
       inputTypes.add(declaringType);
     }
@@ -466,7 +466,7 @@ public abstract class TypedOperation implements Operation, Comparable<TypedOpera
       @Det Field field, @Det ClassOrInterfaceType declaringType) {
     Type fieldType = Type.forType(field.getGenericType());
     AccessibleField accessibleField = new AccessibleField(field, declaringType);
-    @Det List<Type> inputTypes = new ArrayList<>();
+    List<Type> inputTypes = new ArrayList<>();
     if (!accessibleField.isStatic()) {
       inputTypes.add(declaringType);
     }
@@ -537,7 +537,7 @@ public abstract class TypedOperation implements Operation, Comparable<TypedOpera
    * @return an operation to create an array of the given type
    */
   public static TypedOperation createArrayCreation(@Det ArrayType arrayType) {
-    @Det List<Type> typeList = Collections.singletonList(JavaTypes.INT_TYPE);
+    List<Type> typeList = Collections.singletonList(JavaTypes.INT_TYPE);
     TypeTuple inputTypes = new TypeTuple(typeList);
     return new TypedTermOperation(new ArrayCreation(arrayType), inputTypes, arrayType);
   }
@@ -550,7 +550,7 @@ public abstract class TypedOperation implements Operation, Comparable<TypedOpera
    * @return an operation that casts the input type to the result type
    */
   public static TypedOperation createCast(@Det Type fromType, @Det Type toType) {
-    @Det List<Type> typeList = Collections.singletonList(fromType);
+    List<Type> typeList = Collections.singletonList(fromType);
     TypeTuple inputTypes = new TypeTuple(typeList);
     return new TypedTermOperation(new UncheckedCast(toType), inputTypes, toType);
   }
@@ -562,7 +562,7 @@ public abstract class TypedOperation implements Operation, Comparable<TypedOpera
    * @return return an operation that
    */
   public static TypedOperation createArrayElementAssignment(@Det ArrayType arrayType) {
-    @Det List<Type> typeList = new ArrayList<>();
+    List<Type> typeList = new ArrayList<>();
     typeList.add(arrayType);
     typeList.add(JavaTypes.INT_TYPE);
     typeList.add(arrayType.getComponentType());

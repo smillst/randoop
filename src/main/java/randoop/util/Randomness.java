@@ -102,7 +102,7 @@ public final class Randomness {
    * @param list the list from which to choose a random member
    * @return a randomly-chosen member of the list
    */
-  public static <T extends @Det Object> T randomMember(@Det List<T> list) {
+  public static <T extends @Det Object> T randomMember(List<T> list) {
     if (list == null || list.isEmpty()) {
       throw new IllegalArgumentException("Expected non-empty list");
     }

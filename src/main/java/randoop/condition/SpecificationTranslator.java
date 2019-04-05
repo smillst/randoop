@@ -106,7 +106,7 @@ public class SpecificationTranslator {
     RawSignature poststateExpressionSignature = getExpressionSignature(executable, true);
 
     // parameterNames is side-effected, then used, then side-effected and used again.
-    @Det List<String> parameterNames = new ArrayList<>();
+    List<String> parameterNames = new ArrayList<>();
 
     // Get expression method parameter declaration strings.
     if (executable instanceof Method) { // TODO: inner class constructors have a receiver
@@ -268,7 +268,7 @@ public class SpecificationTranslator {
    *     {@link Precondition}
    */
   private List<ExecutableBooleanExpression> getGuardExpressions(List<Precondition> preconditions) {
-    @Det List<ExecutableBooleanExpression> guardExpressions = new ArrayList<>();
+    List<ExecutableBooleanExpression> guardExpressions = new ArrayList<>();
     for (Precondition precondition : preconditions) {
       try {
         guardExpressions.add(create(precondition.getGuard()));
@@ -293,7 +293,7 @@ public class SpecificationTranslator {
    *     Postcondition}
    */
   private ArrayList<GuardPropertyPair> getReturnConditions(List<Postcondition> postconditions) {
-    @Det ArrayList<GuardPropertyPair> returnConditions = new ArrayList<>();
+    ArrayList<GuardPropertyPair> returnConditions = new ArrayList<>();
     for (Postcondition postcondition : postconditions) {
       try {
         ExecutableBooleanExpression guard = create(postcondition.getGuard());
@@ -321,7 +321,7 @@ public class SpecificationTranslator {
    *     ThrowsCondition}
    */
   private ArrayList<GuardThrowsPair> getThrowsConditions(List<ThrowsCondition> throwsConditions) {
-    @Det ArrayList<GuardThrowsPair> throwsPairs = new ArrayList<>();
+    ArrayList<GuardThrowsPair> throwsPairs = new ArrayList<>();
     for (ThrowsCondition throwsCondition : throwsConditions) {
       ClassOrInterfaceType exceptionType;
       try {

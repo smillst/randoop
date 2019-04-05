@@ -118,7 +118,7 @@ class CaptureTypeVariable extends TypeVariable {
     if (getUpperTypeBound().isObject()) {
       setUpperBound(parameterBound);
     } else {
-      @Det List<ParameterBound> boundList = new ArrayList<>();
+      List<ParameterBound> boundList = new ArrayList<>();
       boundList.add(parameterBound);
       boundList.add(getUpperTypeBound());
       setUpperBound(new IntersectionTypeBound(boundList));

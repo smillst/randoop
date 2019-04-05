@@ -109,7 +109,7 @@ public class RawSignature {
    */
   @Override
   public String toString() {
-    @Det List<String> typeNames = new ArrayList<>();
+    List<String> typeNames = new ArrayList<>();
     for (Class<?> type : parameterTypes) {
       typeNames.add(type.getCanonicalName());
     }
@@ -157,7 +157,7 @@ public class RawSignature {
    *     same as the number of parameter types in this signature
    * @return the parameter declarations for this signature using the given parameter names
    */
-  public String getDeclarationArguments(@Det List<String> parameterNames) {
+  public String getDeclarationArguments(List<String> parameterNames) {
     if (parameterNames.size() != parameterTypes.length) {
       throw new IllegalArgumentException(
           String.format(
@@ -169,7 +169,7 @@ public class RawSignature {
               this));
     }
 
-    @Det List<String> paramDeclarations = new ArrayList<>();
+    List<String> paramDeclarations = new ArrayList<>();
     for (int i = 0; i < parameterTypes.length; i++) {
       paramDeclarations.add(parameterTypes[i].getCanonicalName() + " " + parameterNames.get(i));
     }

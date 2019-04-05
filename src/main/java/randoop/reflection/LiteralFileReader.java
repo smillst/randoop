@@ -69,7 +69,7 @@ public class LiteralFileReader {
     RecordProcessor processor =
         new RecordProcessor() {
           @Override
-          public void processRecord(@Det List<String> lines) {
+          public void processRecord(List<String> lines) {
 
             if (!(lines.size() >= 1 && lines.get(0).trim().toUpperCase().equals("CLASSNAME"))) {
               throwRecordSyntaxError("record does not begin with \"CLASSNAME\"", lines, 0);

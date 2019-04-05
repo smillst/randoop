@@ -72,7 +72,7 @@ class LazyParameterBound extends ParameterBound {
 
     if (boundType instanceof java.lang.reflect.ParameterizedType) {
       boolean isLazy = false;
-      @Det List<TypeArgument> argumentList = new ArrayList<>();
+      List<TypeArgument> argumentList = new ArrayList<>();
       for (java.lang.reflect.Type parameter :
           ((ParameterizedType) boundType).getActualTypeArguments()) {
         TypeArgument typeArgument = apply(parameter, substitution);
@@ -115,7 +115,7 @@ class LazyParameterBound extends ParameterBound {
     }
 
     if (type instanceof java.lang.reflect.ParameterizedType) {
-      @Det List<TypeArgument> argumentList = new ArrayList<>();
+      List<TypeArgument> argumentList = new ArrayList<>();
       for (java.lang.reflect.Type parameter : ((ParameterizedType) type).getActualTypeArguments()) {
         TypeArgument paramType = apply(parameter, substitution);
         argumentList.add(paramType);
@@ -183,7 +183,7 @@ class LazyParameterBound extends ParameterBound {
    * @return the list of type variables in the given type
    */
   private static List<TypeVariable> getTypeParameters(java.lang.reflect.@Det Type type) {
-    @Det List<TypeVariable> variableList = new ArrayList<>();
+    List<TypeVariable> variableList = new ArrayList<>();
     if (type instanceof java.lang.reflect.TypeVariable) {
       variableList.add(TypeVariable.forType(type));
     } else if (type instanceof java.lang.reflect.ParameterizedType) {

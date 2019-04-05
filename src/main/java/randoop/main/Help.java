@@ -77,7 +77,7 @@ public class Help extends CommandHandler {
       String command = args[0];
 
       // User wants help on a specific command.
-      @Det List<CommandHandler> allHandlers = new ArrayList<>();
+      List<CommandHandler> allHandlers = new ArrayList<>();
       allHandlers.addAll(Main.handlers);
 
       for (CommandHandler h : allHandlers) {

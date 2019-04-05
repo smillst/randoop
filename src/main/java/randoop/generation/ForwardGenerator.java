@@ -277,7 +277,7 @@ public class ForwardGenerator extends AbstractGenerator {
       boolean isObserver = stmt.isMethodCall() && observers.contains(stmt.getOperation());
       Log.logPrintf("isObserver => %s for %s%n", isObserver, stmt);
       if (isObserver) {
-        @Det List<Integer> inputVars = stmts.getInputsAsAbsoluteIndices(i);
+        List<Integer> inputVars = stmts.getInputsAsAbsoluteIndices(i);
         for (Integer inputIndex : inputVars) {
           seq.sequence.clearActiveFlag(inputIndex);
         }
@@ -395,7 +395,7 @@ public class ForwardGenerator extends AbstractGenerator {
     Sequence concatSeq = Sequence.concatenate(inputs.sequences);
 
     // Figure out input variables.
-    @Det List<Variable> inputVars = new ArrayList<>();
+    List<Variable> inputVars = new ArrayList<>();
     for (Integer inputIndex : inputs.indices) {
       Variable v = concatSeq.getVariable(inputIndex);
       inputVars.add(v);
@@ -463,7 +463,7 @@ public class ForwardGenerator extends AbstractGenerator {
   private Sequence repeat(Sequence seq, TypedOperation operation, int times) {
     Sequence retval = new Sequence(seq.statements);
     for (int i = 0; i < times; i++) {
-      @Det List<Integer> vil = new ArrayList<>();
+      List<Integer> vil = new ArrayList<>();
       for (Variable v : retval.getInputs(retval.size() - 1)) {
         if (v.getType().equals(JavaTypes.INT_TYPE)) {
           int randint = Randomness.nextRandomInt(100);
@@ -475,7 +475,7 @@ public class ForwardGenerator extends AbstractGenerator {
           vil.add(v.getDeclIndex());
         }
       }
-      @Det List<Variable> vl = new ArrayList<>();
+      List<Variable> vl = new ArrayList<>();
       for (Integer vi : vil) {
         vl.add(retval.getVariable(vi));
       }
@@ -577,7 +577,7 @@ public class ForwardGenerator extends AbstractGenerator {
     // a single concatenation of the subsequences in the end than repeatedly
     // extending S.)
 
-    @Det List<Sequence> sequences = new ArrayList<>();
+    List<Sequence> sequences = new ArrayList<>();
 
     // We store the total size of S in the following variable.
 
@@ -596,7 +596,7 @@ public class ForwardGenerator extends AbstractGenerator {
     // of this method, variables will contain inputTypes.size() variables.
     // Note additionally that for every i in variables, 0 <= i < |S|.
 
-    @Det List<Integer> variables = new ArrayList<>();
+    List<Integer> variables = new ArrayList<>();
 
     // [Optimization]
     // The following two variables are used in the loop below only when
@@ -621,7 +621,7 @@ public class ForwardGenerator extends AbstractGenerator {
 
         // candidateVars will store the indices that can serve as input to the
         // i-th input in st.
-        @Det List<SimpleList<Integer>> candidateVars = new ArrayList<>();
+        List<SimpleList<Integer>> candidateVars = new ArrayList<>();
 
         // For each type T in S compatible with inputTypes[i], add all the
         // indices in S of type T.
@@ -688,7 +688,7 @@ public class ForwardGenerator extends AbstractGenerator {
 
         SimpleList<Sequence> l1 = componentManager.getSequencesForType(operation, i, isReceiver);
         Log.logPrintf("Collection creation heuristic: will create helper of type %s%n", classType);
-        @Det SimpleArrayList<Sequence> l2 = new SimpleArrayList<>();
+        SimpleArrayList<Sequence> l2 = new SimpleArrayList<>();
         Sequence creationSequence =
             HelperSequenceCreator.createCollection(componentManager, classType);
         if (creationSequence != null) {
@@ -837,7 +837,7 @@ public class ForwardGenerator extends AbstractGenerator {
     // Can't get here unless isReceiver is true.  TODO: fix design so this cannot happen.
     assert isReceiver;
     // Try every element of the list, in order.
-    @Det List<VarAndSeq> validResults = new ArrayList<>();
+    List<VarAndSeq> validResults = new ArrayList<>();
     for (int i = 0; i < candidates.size(); i++) {
       Sequence s = candidates.get(i);
       Variable randomVariable = s.randomVariableForTypeLastStatement(inputType, isReceiver);

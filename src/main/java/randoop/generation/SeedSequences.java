@@ -67,11 +67,11 @@ public final class SeedSequences {
    * @return the default set of seed sequences
    */
   public static Set<Sequence> defaultSeeds() {
-    @Det List<Object> seeds = new ArrayList<>(primitiveSeeds);
+    List<Object> seeds = new ArrayList<>(primitiveSeeds);
     return SeedSequences.objectsToSeeds(seeds);
   }
 
-  public static Set<Sequence> objectsToSeeds(@Det List<Object> seeds) {
+  public static Set<Sequence> objectsToSeeds(List<Object> seeds) {
     @Det Set<Sequence> seedSequences = new LinkedHashSet<>();
     for (Object seed : seeds) {
       if (seed == null) {

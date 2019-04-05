@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import org.checkerframework.checker.determinism.qual.Det;
 import org.checkerframework.checker.determinism.qual.NonDet;
 
 /**
@@ -173,7 +172,7 @@ public class OperationSpecification {
    *
    * @param specifications the list of {@link Precondition} objects
    */
-  public void addParamSpecifications(@Det List<Precondition> specifications) {
+  public void addParamSpecifications(List<Precondition> specifications) {
     preSpecifications.addAll(specifications);
   }
 
@@ -182,7 +181,7 @@ public class OperationSpecification {
    *
    * @param specifications the list of {@link Postcondition} objects
    */
-  public void addReturnSpecifications(@Det List<Postcondition> specifications) {
+  public void addReturnSpecifications(List<Postcondition> specifications) {
     postSpecifications.addAll(specifications);
   }
 
@@ -191,7 +190,7 @@ public class OperationSpecification {
    *
    * @param specifications the list of {@link ThrowsCondition} objects
    */
-  public void addThrowsConditions(@Det List<ThrowsCondition> specifications) {
+  public void addThrowsConditions(List<ThrowsCondition> specifications) {
     throwsSpecifications.addAll(specifications);
   }
 

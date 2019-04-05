@@ -154,7 +154,7 @@ public class ExecutableSequence {
    * @return the sequence as a string
    */
   private List<String> toCodeLines() {
-    @Det List<String> lines = new ArrayList<>();
+    List<String> lines = new ArrayList<>();
     for (int i = 0; i < sequence.size(); i++) {
 
       // Only print primitive declarations if the last/only statement
@@ -352,12 +352,11 @@ public class ExecutableSequence {
     }
   }
 
-  public @Det Object[] getRuntimeInputs(@Det List<Variable> inputs) {
+  public @Det Object[] getRuntimeInputs(List<Variable> inputs) {
     return getRuntimeInputs(executionResults.outcomes, inputs);
   }
 
-  private @Det Object[] getRuntimeInputs(
-      @Det List<ExecutionOutcome> outcome, @Det List<Variable> inputs) {
+  private @Det Object[] getRuntimeInputs(List<ExecutionOutcome> outcome, List<Variable> inputs) {
     @Det Object @Det [] ros = getRuntimeValuesForVars(inputs, outcome);
     for (Object ro : ros) {
       if (ro == null) {
@@ -375,13 +374,13 @@ public class ExecutableSequence {
    * @param execution the object representing outcome of executing this sequence
    * @return array of values corresponding to variables
    */
-  public static @Det Object[] getRuntimeValuesForVars(
-      @Det List<Variable> vars, Execution execution) {
+  public static @Det Object @Det [] getRuntimeValuesForVars(
+      List<Variable> vars, Execution execution) {
     return getRuntimeValuesForVars(vars, execution.outcomes);
   }
 
-  private static Object[] getRuntimeValuesForVars(
-      @Det List<Variable> vars, @Det List<ExecutionOutcome> execution) {
+  private static @Det Object @Det [] getRuntimeValuesForVars(
+      List<Variable> vars, List<ExecutionOutcome> execution) {
     @Det Object @Det [] runtimeObjects = new Object[vars.size()];
     for (int j = 0; j < runtimeObjects.length; j++) {
       int creatingStatementIdx = vars.get(j).getDeclIndex();
@@ -397,7 +396,7 @@ public class ExecutableSequence {
   // Precondition: this method has been invoked on 0..index-1.
   private static void executeStatement(
       @Det Sequence s,
-      @Det List<ExecutionOutcome> outcome,
+      List<ExecutionOutcome> outcome,
       @Det int index,
       @Det Object @Det [] inputVariables) {
     Statement statement = s.getStatement(index);

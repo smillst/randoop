@@ -57,7 +57,7 @@ public class Substitution<T extends @Det Object> {
    */
   @SafeVarargs
   public static <T extends @Det Object> Substitution<T> forArgs(
-      @Det List<TypeVariable> parameters, T @Det ... arguments) {
+      List<TypeVariable> parameters, T @Det ... arguments) {
     assert parameters.size() == arguments.length;
     Substitution<T> s = new Substitution<>();
     for (int i = 0; i < parameters.size(); i++) {
@@ -75,7 +75,7 @@ public class Substitution<T extends @Det Object> {
    * @return the substitution that maps the type parameters to the corresponding type argument
    */
   public static <T extends @Det Object> Substitution<T> forArgs(
-      @Det List<TypeVariable> parameters, @Det List<T> arguments) {
+      List<TypeVariable> parameters, List<T> arguments) {
     assert parameters.size() == arguments.size();
     Substitution<T> s = new Substitution<>();
     for (int i = 0; i < parameters.size(); i++) {
@@ -111,7 +111,7 @@ public class Substitution<T extends @Det Object> {
    */
   @Override
   public @NonDet String toString() {
-    List<String> pairs = new @NonDet ArrayList<>();
+    List<String> pairs = new ArrayList<>();
     for (Entry<TypeVariable, T> p : map.entrySet()) {
       pairs.add(p.getKey().toString() + " := " + p.getValue().toString());
     }

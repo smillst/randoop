@@ -81,7 +81,7 @@ public class ArrayCreation extends CallableOperation {
       Type declaringType,
       TypeTuple inputTypes,
       Type outputType,
-      @Det List<Variable> inputVars,
+      List<Variable> inputVars,
       StringBuilder b) {
     Variable inputVar = inputVars.get(0);
     b.append("new").append(" ").append(this.elementType.getName());

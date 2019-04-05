@@ -198,7 +198,7 @@ public abstract class AbstractGenerator {
    *
    * @param visitors the list of visitors
    */
-  public void setExecutionVisitor(@Det List<ExecutionVisitor> visitors) {
+  public void setExecutionVisitor(List<ExecutionVisitor> visitors) {
     this.executionVisitor = MultiVisitor.createMultiVisitor(visitors);
   }
 

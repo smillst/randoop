@@ -166,7 +166,7 @@ public abstract class ReferenceType extends Type {
     }
     if (otherType.isVariable()) {
       TypeVariable variable = (TypeVariable) otherType;
-      @Det List<TypeVariable> typeParameters = Collections.singletonList(variable);
+      List<TypeVariable> typeParameters = Collections.singletonList(variable);
       Substitution<ReferenceType> substitution = Substitution.forArgs(typeParameters, this);
       if (variable.getLowerTypeBound().isLowerBound(this, substitution)
           && variable.getUpperTypeBound().isUpperBound(this, substitution)) {

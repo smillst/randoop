@@ -342,7 +342,7 @@ public abstract class ClassOrInterfaceType extends ReferenceType {
     if (this.isObject()) {
       return Collections.emptyList();
     }
-    @Det List<ClassOrInterfaceType> supertypes = new ArrayList<>();
+    List<ClassOrInterfaceType> supertypes = new ArrayList<>();
     ClassOrInterfaceType superclass = this.getSuperclass();
     supertypes.add(superclass);
     supertypes.addAll(this.getInterfaces());

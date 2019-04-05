@@ -88,7 +88,7 @@ public final class ConstructorCall extends CallableOperation {
       @Det Type declaringType,
       @Det TypeTuple inputTypes,
       Type outputType,
-      @Det List<Variable> inputVars,
+      List<Variable> inputVars,
       StringBuilder b) {
     assert declaringType instanceof ClassOrInterfaceType : "constructor must be member of class";
 

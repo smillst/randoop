@@ -60,7 +60,7 @@ public final class CollectionsExt {
    * @return the concatenated string of object strings
    */
   private static List<String> toStringLines(@Det Collection<? extends @Det Object> c) {
-    @Det List<String> lines = new ArrayList<>(c.size());
+    List<String> lines = new ArrayList<>(c.size());
     for (Object each : c) {
       lines.add(String.valueOf(each));
     }
@@ -79,13 +79,13 @@ public final class CollectionsExt {
    * @return the partitioned list
    */
   public static <T extends @Det Object> List<List<T>> formSublists(
-      @Det List<T> list, @Det int maxLength) {
+      List<T> list, @Det int maxLength) {
     if (maxLength <= 0) {
       throw new IllegalArgumentException("maxLength must be > 0 but was " + maxLength);
     }
     int numberOfFullSublists = list.size() / maxLength;
 
-    @Det List<List<T>> result = new ArrayList<>(numberOfFullSublists + 1);
+    List<List<T>> result = new ArrayList<>(numberOfFullSublists + 1);
     for (int i = 0; i < numberOfFullSublists; i++) {
       List<T> subList = list.subList(i * maxLength, (i + 1) * maxLength);
       if (subList.size() != maxLength) {

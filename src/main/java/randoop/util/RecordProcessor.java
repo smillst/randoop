@@ -11,5 +11,5 @@ public interface RecordProcessor {
    *
    * @param record the lines of a record
    */
-  void processRecord(@Det RecordProcessor this, @Det List<String> record);
+  void processRecord(@Det RecordProcessor this, List<String> record);
 }

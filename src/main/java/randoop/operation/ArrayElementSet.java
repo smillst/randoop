@@ -44,7 +44,7 @@ class ArrayElementSet extends CallableOperation {
       Type declaringType,
       TypeTuple inputTypes,
       Type outputType,
-      @Det List<Variable> inputVars,
+      List<Variable> inputVars,
       StringBuilder b) {
 
     b.append(inputVars.get(ARRAY).getName()).append("[");

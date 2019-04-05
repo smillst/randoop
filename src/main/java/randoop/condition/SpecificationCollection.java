@@ -88,7 +88,7 @@ public class SpecificationCollection {
     this.overridden = overridden;
     this.getExecutableSpecificationCache = new HashMap<>();
     SequenceClassLoader sequenceClassLoader = new SequenceClassLoader(getClass().getClassLoader());
-    @Det List<String> options = new ArrayList<>();
+    List<String> options = new ArrayList<>();
     this.compiler = new SequenceCompiler(sequenceClassLoader, options);
   }
 
@@ -164,7 +164,7 @@ public class SpecificationCollection {
    */
   private static AccessibleObject getAccessibleObject(OperationSignature operation) {
     if (operation.isValid()) {
-      @Det List<@ClassGetName String> paramTypeNames = operation.getParameterTypeNames();
+      List<@ClassGetName String> paramTypeNames = operation.getParameterTypeNames();
       @Det Class<?> @Det [] argTypes = new Class<?>[paramTypeNames.size()];
       try {
         for (int i = 0; i < argTypes.length; i++) {
@@ -209,7 +209,7 @@ public class SpecificationCollection {
 
     Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
     try (BufferedReader reader = Files.newBufferedReader(specificationFile, UTF_8)) {
-      @Det List<OperationSpecification> specificationList =
+      List<OperationSpecification> specificationList =
           gson.fromJson(reader, LIST_OF_OS_TYPE_TOKEN.getType());
 
       for (@Det OperationSpecification specification : specificationList) {

@@ -72,7 +72,7 @@ public abstract class ParameterBound {
     if (bounds.length == 1) {
       return ParameterBound.forType(variableSet, bounds[0]);
     } else {
-      @Det List<ParameterBound> boundList = new ArrayList<>();
+      List<ParameterBound> boundList = new ArrayList<>();
       for (java.lang.reflect.@Det Type type : bounds) {
         boundList.add(ParameterBound.forType(variableSet, type));
       }

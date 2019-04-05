@@ -97,7 +97,7 @@ public class FieldSet extends CallableOperation {
       @Det Type declaringType,
       TypeTuple inputTypes,
       Type outputType,
-      @Det List<Variable> inputVars,
+      List<Variable> inputVars,
       StringBuilder b) {
 
     b.append(field.toCode(declaringType, inputVars));
@@ -157,7 +157,7 @@ public class FieldSet extends CallableOperation {
       throw new OperationParseException(
           "Cannot create setter for final field " + classname + "." + opname);
     }
-    @Det List<Type> setInputTypeList = new ArrayList<>();
+    List<Type> setInputTypeList = new ArrayList<>();
     if (!accessibleField.isStatic()) {
       setInputTypeList.add(classType);
     }

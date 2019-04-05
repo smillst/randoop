@@ -47,7 +47,7 @@ public abstract class ParameterizedType extends ClassOrInterfaceType {
     assert (rawType instanceof Class<?>) : "rawtype not an instance of Class<?> type ";
 
     // Categorize the type arguments as either a type variable or other kind of argument
-    @Det List<TypeArgument> typeArguments = new ArrayList<>();
+    List<TypeArgument> typeArguments = new ArrayList<>();
     for (@Det Type argType : t.getActualTypeArguments()) {
       TypeArgument argument = TypeArgument.forType(argType);
       typeArguments.add(argument);

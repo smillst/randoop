@@ -124,7 +124,7 @@ public class SequenceCollection {
    * @param components the sequences to add
    */
   public void addAll(SequenceCollection components) {
-    for (@Det SimpleArrayList<Sequence> s : components.sequenceMap.values()) {
+    for (SimpleArrayList<Sequence> s : components.sequenceMap.values()) {
       for (Sequence seq : s) {
         add(seq);
       }
@@ -151,8 +151,8 @@ public class SequenceCollection {
    * @param sequence the sequence to add to this collection
    */
   public void add(Sequence sequence) {
-    @Det List<Type> formalTypes = sequence.getTypesForLastStatement();
-    @Det List<Variable> arguments = sequence.getVariablesOfLastStatement();
+    List<Type> formalTypes = sequence.getTypesForLastStatement();
+    List<Variable> arguments = sequence.getVariablesOfLastStatement();
     assert formalTypes.size() == arguments.size();
     for (int i = 0; i < formalTypes.size(); i++) {
       Variable argument = arguments.get(i);
@@ -181,7 +181,7 @@ public class SequenceCollection {
    * @param type the {@link Type}
    */
   private void updateCompatibleMap(Sequence sequence, Type type) {
-    @Det SimpleArrayList<Sequence> set = this.sequenceMap.get(type);
+    SimpleArrayList<Sequence> set = this.sequenceMap.get(type);
     if (set == null) {
       set = new SimpleArrayList<>();
       this.sequenceMap.put(type, set);
@@ -212,7 +212,7 @@ public class SequenceCollection {
 
     Log.logPrintf("getSequencesForType(%s, %s, %s)%n", type, exactMatch, onlyReceivers);
 
-    @Det List<SimpleList<Sequence>> resultList = new ArrayList<>();
+    List<SimpleList<Sequence>> resultList = new ArrayList<>();
 
     if (exactMatch) {
       SimpleList<Sequence> l = this.sequenceMap.get(type);
@@ -225,7 +225,7 @@ public class SequenceCollection {
             "candidate compatibleType (isNonreceiverType=%s): %s%n",
             compatibleType.isNonreceiverType(), compatibleType);
         if (!(onlyReceivers && compatibleType.isNonreceiverType())) {
-          @Det SimpleArrayList<Sequence> newMethods = this.sequenceMap.get(compatibleType);
+          SimpleArrayList<Sequence> newMethods = this.sequenceMap.get(compatibleType);
           Log.logPrintf("  Adding %d methods.%n", newMethods.size());
           resultList.add(newMethods);
         }
@@ -247,7 +247,7 @@ public class SequenceCollection {
    */
   public Set<Sequence> getAllSequences() {
     @PolyDet Set<Sequence> result = new LinkedHashSet<>();
-    for (@Det SimpleArrayList<Sequence> a : sequenceMap.values()) {
+    for (SimpleArrayList<Sequence> a : sequenceMap.values()) {
       result.addAll(a);
     }
     return result;
@@ -262,7 +262,7 @@ public class SequenceCollection {
       return;
     }
     for (Type t : sequenceMap.keySet()) {
-      @Det SimpleArrayList<Sequence> a = sequenceMap.get(t);
+      SimpleArrayList<Sequence> a = sequenceMap.get(t);
       int asize = a.size();
       Log.logPrintf("Type %s: %d sequences%n", t, asize);
       for (int i = 0; i < asize; i++) {

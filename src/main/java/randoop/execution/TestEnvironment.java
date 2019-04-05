@@ -79,7 +79,7 @@ public class TestEnvironment {
   public RunCommand.Status runTest(
       @Det TestEnvironment this, @Det String testClassName, @Det Path workingDirectory)
       throws CommandException {
-    @Det List<String> command = commandPrefix();
+    List<String> command = commandPrefix();
     command.add(testClassName);
     return RunCommand.run(command, workingDirectory, timeout);
   }
@@ -91,7 +91,7 @@ public class TestEnvironment {
    * @return the base command to run JUnit tests in this environment, without a test class name
    */
   private List<String> commandPrefix(@Det TestEnvironment this) {
-    @Det List<String> command = new ArrayList<>();
+    List<String> command = new ArrayList<>();
     command.add("java");
     command.add("-ea");
 

@@ -33,7 +33,7 @@ public class RunCommand {
    * @return the {@link Status} capturing the outcome of executing the command
    * @throws CommandException if there is an error running the command
    */
-  static Status run(@Det List<String> command, @Det Path workingDirectory, @Det long timeout)
+  static Status run(List<String> command, @Det Path workingDirectory, @Det long timeout)
       throws CommandException {
 
     @Det String @Det [] args = command.toArray(new String[0]);
@@ -74,14 +74,14 @@ public class RunCommand {
     }
     boolean timedOut = executor.isFailure(exitValue) && watchdog.killedProcess();
 
-    @Det List<String> standardOutputLines;
+    List<String> standardOutputLines;
     try {
       standardOutputLines = Arrays.asList(outStream.toString().split(Globals.lineSep));
     } catch (RuntimeException e) {
       throw new CommandException("Exception getting process standard output", e);
     }
 
-    @Det List<String> errorOutputLines;
+    List<String> errorOutputLines;
     try {
       errorOutputLines = Arrays.asList(errStream.toString().split(Globals.lineSep));
     } catch (RuntimeException e) {

@@ -45,7 +45,7 @@ public class Main {
 
     // Figure out which handler handles this command.
     CommandHandler handler = null;
-    @Det List<CommandHandler> allHandlers = new ArrayList<>();
+    List<CommandHandler> allHandlers = new ArrayList<>();
     allHandlers.addAll(handlers);
     for (CommandHandler h : allHandlers) {
       if (h.handles(command)) {

@@ -67,7 +67,7 @@ class IntersectionTypeBound extends ParameterBound {
   @Override
   public IntersectionTypeBound apply(
       @Det IntersectionTypeBound this, @Det Substitution<ReferenceType> substitution) {
-    @Det List<ParameterBound> bounds = new ArrayList<>();
+    List<ParameterBound> bounds = new ArrayList<>();
     for (ParameterBound bound : this.boundList) {
       bounds.add(bound.apply(substitution));
     }
@@ -81,7 +81,7 @@ class IntersectionTypeBound extends ParameterBound {
    */
   @Override
   public ParameterBound applyCaptureConversion(@Det IntersectionTypeBound this) {
-    @Det List<ParameterBound> convertedBoundList = new ArrayList<>();
+    List<ParameterBound> convertedBoundList = new ArrayList<>();
     for (ParameterBound b : boundList) {
       convertedBoundList.add(b.applyCaptureConversion());
     }
@@ -96,7 +96,7 @@ class IntersectionTypeBound extends ParameterBound {
    */
   @Override
   public List<TypeVariable> getTypeParameters(@Det IntersectionTypeBound this) {
-    @Det List<TypeVariable> paramList = new ArrayList<>();
+    List<TypeVariable> paramList = new ArrayList<>();
     for (ParameterBound b : boundList) {
       paramList.addAll(b.getTypeParameters());
     }

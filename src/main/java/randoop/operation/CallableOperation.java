@@ -91,7 +91,7 @@ public abstract class CallableOperation implements Operation {
       @Det Type declaringType,
       @Det TypeTuple inputTypes,
       @Det Type outputType,
-      @Det List<Variable> inputVars,
+      List<Variable> inputVars,
       StringBuilder b);
 
   /**

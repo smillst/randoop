@@ -107,7 +107,7 @@ public abstract class TypeVariable extends ParameterType {
    */
   private static Substitution<ReferenceType> getSubstitution(
       @Det TypeVariable variable, @Det ReferenceType otherType) {
-    @Det List<TypeVariable> variableList = Collections.singletonList(variable);
+    List<TypeVariable> variableList = Collections.singletonList(variable);
     return Substitution.forArgs(variableList, otherType);
   }
 
@@ -160,7 +160,7 @@ public abstract class TypeVariable extends ParameterType {
    * @return this variable
    */
   @Override
-  public @Det List<TypeVariable> getTypeParameters(@Det TypeVariable this) {
+  public List<TypeVariable> getTypeParameters(@Det TypeVariable this) {
     @Det Set<TypeVariable> parameters = new LinkedHashSet<>(super.getTypeParameters());
     parameters.add(this);
     return new ArrayList<>(parameters);

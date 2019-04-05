@@ -84,8 +84,8 @@ public final class TupleSequence {
    */
   public static TupleSequence createElementsSequence(
       @Det SimpleList<Sequence> candidates, @Det int length, @Det Type elementType) {
-    @Det List<Sequence> sequences = new ArrayList<>();
-    @Det List<Integer> variables = new ArrayList<>();
+    List<Sequence> sequences = new ArrayList<>();
+    List<Integer> variables = new ArrayList<>();
     for (int i = 0; i < length; i++) {
       Sequence sequence = candidates.get(Randomness.nextRandomInt(candidates.size()));
       sequences.add(sequence);

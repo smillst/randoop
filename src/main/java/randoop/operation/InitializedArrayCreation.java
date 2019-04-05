@@ -87,7 +87,7 @@ public final class InitializedArrayCreation extends CallableOperation {
       Type declaringType,
       TypeTuple inputTypes,
       Type outputType,
-      @Det List<Variable> inputVars,
+      List<Variable> inputVars,
       StringBuilder b) {
     if (inputVars.size() > length) {
       throw new IllegalArgumentException(

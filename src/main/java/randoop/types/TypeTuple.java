@@ -64,7 +64,7 @@ public class TypeTuple implements Iterable<Type>, Comparable<TypeTuple> {
    * @return a new type tuple resulting from applying the given substitution to this tuple
    */
   public TypeTuple apply(@Det Substitution<ReferenceType> substitution) {
-    @Det List<Type> typeList = new ArrayList<>();
+    List<Type> typeList = new ArrayList<>();
     for (Type type : this.list) {
       Type newType = type.apply(substitution);
       if (newType != null) {
@@ -83,7 +83,7 @@ public class TypeTuple implements Iterable<Type>, Comparable<TypeTuple> {
    * @return a new type tuple after performing a capture conversion
    */
   public TypeTuple applyCaptureConversion() {
-    @Det List<Type> typeList = new ArrayList<>();
+    List<Type> typeList = new ArrayList<>();
     for (Type type : this.list) {
       typeList.add(type.applyCaptureConversion());
     }

@@ -121,7 +121,7 @@ class VariableRenamer {
         varName = "collection";
       }
 
-      @Det List<TypeArgument> arglist = ((ClassOrInterfaceType) type).getTypeArguments();
+      List<TypeArgument> arglist = ((ClassOrInterfaceType) type).getTypeArguments();
       // TODO: This test seems like a hack.  Shouldn't the arglist always be empty
       /// for a parameterized type?
       if (!arglist.isEmpty()) {

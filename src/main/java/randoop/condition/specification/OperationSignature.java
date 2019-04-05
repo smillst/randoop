@@ -91,7 +91,7 @@ public class OperationSignature {
   public static OperationSignature forConstructorName(
       @ClassGetName @Det String classname,
       @Det String simpleName,
-      @Det List<@ClassGetName String> parameterTypes) {
+      List<@ClassGetName String> parameterTypes) {
     return new OperationSignature(classname, simpleName, parameterTypes);
   }
 
@@ -108,7 +108,7 @@ public class OperationSignature {
   public static OperationSignature forMethodName(
       @ClassGetName @Det String classname,
       @Det String name,
-      @Det List<@ClassGetName String> parameterTypes) {
+      List<@ClassGetName String> parameterTypes) {
     return new OperationSignature(classname, name, parameterTypes);
   }
 
@@ -221,8 +221,8 @@ public class OperationSignature {
    * @param classes the array of {@code Class<?>} objects
    * @return the list of fully-qualified type names for the objects in {@code classes}
    */
-  private static @Det List<@ClassGetName String> getTypeNames(@Det Class<?> @Det [] classes) {
-    @Det List<@ClassGetName String> parameterTypes = new ArrayList<>();
+  private static List<@ClassGetName String> getTypeNames(@Det Class<?> @Det [] classes) {
+    List<@ClassGetName String> parameterTypes = new ArrayList<>();
     for (Class<?> aClass : classes) {
       parameterTypes.add(aClass.getName());
     }

@@ -70,7 +70,7 @@ public class InstantiatedType extends ParameterizedType {
   @Override
   public InstantiatedType apply(
       @Det InstantiatedType this, @Det Substitution<ReferenceType> substitution) {
-    @Det List<TypeArgument> argumentList = new ArrayList<>();
+    List<TypeArgument> argumentList = new ArrayList<>();
     for (TypeArgument argument : this.argumentList) {
       argumentList.add(argument.apply(substitution));
     }
@@ -101,7 +101,7 @@ public class InstantiatedType extends ParameterizedType {
       return this;
     }
 
-    @Det List<ReferenceType> convertedTypeList = new ArrayList<>();
+    List<ReferenceType> convertedTypeList = new ArrayList<>();
     for (TypeArgument argument : argumentList) {
       if (argument.isWildcard()) {
         WildcardArgument convertedArgument = ((WildcardArgument) argument).applyCaptureConversion();
@@ -122,7 +122,7 @@ public class InstantiatedType extends ParameterizedType {
       }
     }
 
-    @Det List<TypeArgument> convertedArgumentList = new ArrayList<>();
+    List<TypeArgument> convertedArgumentList = new ArrayList<>();
     for (ReferenceType type : convertedTypeList) {
       convertedArgumentList.add(TypeArgument.forType(type));
     }
@@ -140,7 +140,7 @@ public class InstantiatedType extends ParameterizedType {
    */
   @Override
   public List<ClassOrInterfaceType> getInterfaces(@Det InstantiatedType this) {
-    @Det List<ClassOrInterfaceType> interfaces = new ArrayList<>();
+    List<ClassOrInterfaceType> interfaces = new ArrayList<>();
     Substitution<ReferenceType> substitution =
         Substitution.forArgs(instantiatedType.getTypeParameters(), getReferenceArguments());
     for (ClassOrInterfaceType type : instantiatedType.getInterfaces(substitution)) {
@@ -181,7 +181,7 @@ public class InstantiatedType extends ParameterizedType {
    * @return the list of reference types that are arguments to this type
    */
   List<ReferenceType> getReferenceArguments() {
-    @Det List<ReferenceType> referenceArgList = new ArrayList<>();
+    List<ReferenceType> referenceArgList = new ArrayList<>();
     for (TypeArgument argument : argumentList) {
       if (!argument.isWildcard()) {
         referenceArgList.add(((ReferenceArgument) argument).getReferenceType());
@@ -229,7 +229,7 @@ public class InstantiatedType extends ParameterizedType {
   public List<TypeVariable> getTypeParameters(@Det InstantiatedType this) {
     @Det Set<TypeVariable> paramSet = new LinkedHashSet<TypeVariable>(super.getTypeParameters());
     for (TypeArgument argument : argumentList) {
-      @Det List<TypeVariable> params = argument.getTypeParameters();
+      List<TypeVariable> params = argument.getTypeParameters();
       paramSet.addAll(params);
     }
     return new ArrayList<TypeVariable>(paramSet);
@@ -244,7 +244,7 @@ public class InstantiatedType extends ParameterizedType {
    *     instantiated type
    */
   public Substitution<ReferenceType> getTypeSubstitution(@Det InstantiatedType this) {
-    @Det List<ReferenceType> arguments = new ArrayList<>();
+    List<ReferenceType> arguments = new ArrayList<>();
     for (TypeArgument arg : this.getTypeArguments()) {
       if (!arg.isWildcard()) {
         arguments.add(((ReferenceArgument) arg).getReferenceType());
@@ -411,8 +411,8 @@ public class InstantiatedType extends ParameterizedType {
       // second clause: rawtype same and parameters S_i of otherType contains T_i of this
       if (otherType.runtimeClassIs(this.getRuntimeClass())) {
         ParameterizedType otherParameterizedType = (ParameterizedType) otherType;
-        @Det List<TypeArgument> otherTypeArguments = otherParameterizedType.getTypeArguments();
-        @Det List<TypeArgument> thisTypeArguments = this.getTypeArguments();
+        List<TypeArgument> otherTypeArguments = otherParameterizedType.getTypeArguments();
+        List<TypeArgument> thisTypeArguments = this.getTypeArguments();
         assert otherTypeArguments.size() == thisTypeArguments.size();
         int i = 0;
         while (i < thisTypeArguments.size()

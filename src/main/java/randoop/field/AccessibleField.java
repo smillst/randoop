@@ -55,7 +55,7 @@ public class AccessibleField {
    * @param inputVars list of input variables
    * @return string representing code representation of field
    */
-  public String toCode(@Det Type declaringType, @Det List<Variable> inputVars) {
+  public String toCode(@Det Type declaringType, List<Variable> inputVars) {
     StringBuilder sb = new StringBuilder();
     if (isStatic) {
       sb.append(declaringType.getCanonicalName());

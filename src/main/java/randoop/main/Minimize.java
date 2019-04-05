@@ -435,7 +435,7 @@ public class Minimize extends CommandHandler {
       @OrderNonDet Map<String, String> expectedOutput,
       int timeoutLimit)
       throws IOException {
-    @Det List<Statement> statements = method.getBody().getStmts();
+    List<Statement> statements = method.getBody().getStmts();
 
     // Map from primitive variable name to the variable's value extracted
     // from a passing assertion.
@@ -454,7 +454,7 @@ public class Minimize extends CommandHandler {
       statements.remove(i);
 
       // Obtain a list of possible replacements for the current statement.
-      @Det List<Statement> replacements = getStatementReplacements(currStmt, primitiveValues);
+      List<Statement> replacements = getStatementReplacements(currStmt, primitiveValues);
       boolean replacementFound = false;
       for (Statement stmt : replacements) {
         // Add replacement statement to the method's body.
@@ -513,7 +513,7 @@ public class Minimize extends CommandHandler {
         MethodCallExpr mCall = (MethodCallExpr) exp;
         // Check that the method call is an assertTrue statement.
         if (mCall.getName().equals("assertTrue")) {
-          @Det List<Expression> mArgs = mCall.getArgs();
+          List<Expression> mArgs = mCall.getArgs();
           // The condition expression from the assert statement.
           Expression mExp;
           if (mArgs.size() == 1) {
@@ -576,7 +576,7 @@ public class Minimize extends CommandHandler {
    */
   private static List<Statement> getStatementReplacements(
       Statement currStmt, @OrderNonDet Map<String, String> primitiveValues) {
-    @Det List<Statement> replacements = new ArrayList<>();
+    List<Statement> replacements = new ArrayList<>();
 
     // Null represents removal of the statement.
     replacements.add(null);
@@ -617,7 +617,7 @@ public class Minimize extends CommandHandler {
    *     expression
    */
   private static List<Statement> rhsAssignZeroValue(VariableDeclarationExpr vdExpr) {
-    @Det List<Statement> resultList = new ArrayList<>();
+    List<Statement> resultList = new ArrayList<>();
 
     if (vdExpr.getVars().size() != 1) {
       // Number of variables declared in this expression is not 1.
@@ -784,7 +784,7 @@ public class Minimize extends CommandHandler {
     // Create the resulting expression, a copy of the original expression
     // which will be modified and returned.
     VariableDeclarationExpr resultExpr = (VariableDeclarationExpr) vdExpr.clone();
-    @Det List<VariableDeclarator> vars = resultExpr.getVars();
+    List<VariableDeclarator> vars = resultExpr.getVars();
     VariableDeclarator vd = vars.get(0);
 
     // Return a new statement with only the right hand side.
@@ -1165,7 +1165,7 @@ public class Minimize extends CommandHandler {
       return;
     }
 
-    @Det List<ImportDeclaration> importDeclarations = compilationUnit.getImports();
+    List<ImportDeclaration> importDeclarations = compilationUnit.getImports();
     for (ImportDeclaration im : importDeclarations) {
       String currImportStr = im.toString().trim();
 
@@ -1200,7 +1200,7 @@ public class Minimize extends CommandHandler {
    * @param compilationUnit the compilation unit whose imports will be sorted by name
    */
   private static void sortImports(CompilationUnit compilationUnit) {
-    @Det List<ImportDeclaration> imports = compilationUnit.getImports();
+    List<ImportDeclaration> imports = compilationUnit.getImports();
 
     Collections.sort(
         imports,

@@ -88,7 +88,7 @@ public final class MethodCall extends CallableOperation {
       @Det Type declaringType,
       @Det TypeTuple inputTypes,
       Type outputType,
-      @Det List<Variable> inputVars,
+      List<Variable> inputVars,
       StringBuilder sb) {
 
     String receiverString = isStatic() ? null : inputVars.get(0).getName();

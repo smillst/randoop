@@ -75,7 +75,7 @@ public class FieldGet extends CallableOperation {
       @Det Type declaringType,
       TypeTuple inputTypes,
       Type outputType,
-      @Det List<Variable> inputVars,
+      List<Variable> inputVars,
       StringBuilder b) {
     b.append(field.toCode(declaringType, inputVars));
   }
@@ -148,7 +148,7 @@ public class FieldGet extends CallableOperation {
     ClassOrInterfaceType classType = accessibleField.getDeclaringType();
     Type fieldType = Type.forType(accessibleField.getRawField().getGenericType());
 
-    @Det List<Type> getInputTypeList = new ArrayList<>();
+    List<Type> getInputTypeList = new ArrayList<>();
     if (!accessibleField.isStatic()) {
       getInputTypeList.add(classType);
     }

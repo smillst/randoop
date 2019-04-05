@@ -58,7 +58,7 @@ class UncheckedCast extends CallableOperation {
       Type declaringType,
       TypeTuple inputTypes,
       Type outputType,
-      @Det List<Variable> inputVars,
+      List<Variable> inputVars,
       StringBuilder b) {
     b.append("(").append(type.getName()).append(")");
     int i = 0;

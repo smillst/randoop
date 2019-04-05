@@ -140,7 +140,7 @@ public final class Sequence {
   public static Sequence createSequence(
       TypedOperation operation, List<Sequence> inputSequences, List<Integer> indexes) {
     Sequence inputSequence = Sequence.concatenate(inputSequences);
-    @Det List<Variable> inputs = new ArrayList<>();
+    List<Variable> inputs = new ArrayList<>();
     for (Integer inputIndex : indexes) {
       Variable v = inputSequence.getVariable(inputIndex);
       inputs.add(v);
@@ -149,7 +149,7 @@ public final class Sequence {
   }
 
   public static Sequence createSequence(TypedOperation operation, TupleSequence elementsSequence) {
-    @Det List<Variable> inputs = new ArrayList<>();
+    List<Variable> inputs = new ArrayList<>();
     for (int index : elementsSequence.getOutputIndices()) {
       inputs.add(elementsSequence.sequence.getVariable(index));
     }
@@ -166,7 +166,7 @@ public final class Sequence {
    */
   public final Sequence extend(TypedOperation operation, List<Variable> inputVariables) {
     checkInputs(operation, inputVariables);
-    @Det List<RelativeNegativeIndex> indexList = new ArrayList<>(1);
+    List<RelativeNegativeIndex> indexList = new ArrayList<>(1);
     for (Variable v : inputVariables) {
       indexList.add(getRelativeIndexForVariable(size(), v));
     }
@@ -210,7 +210,7 @@ public final class Sequence {
    * @return the concatenation of the sequences in the list
    */
   public static Sequence concatenate(List<Sequence> sequences) {
-    @Det List<SimpleList<Statement>> statements1 = new ArrayList<>();
+    List<SimpleList<Statement>> statements1 = new ArrayList<>();
     @NonDet int newHashCode = 0;
     int newNetSize = 0;
     for (Sequence c : sequences) {
@@ -299,7 +299,7 @@ public final class Sequence {
    * @return the list of variables for the statement at the given index
    */
   public List<Variable> getInputs(int statementIndex) {
-    @Det List<Variable> inputsAsVariables = new ArrayList<>();
+    List<Variable> inputsAsVariables = new ArrayList<>();
     for (RelativeNegativeIndex relIndex : this.statements.get(statementIndex).inputs) {
       inputsAsVariables.add(getVariableForInput(statementIndex, relIndex));
     }
@@ -475,7 +475,7 @@ public final class Sequence {
                 + lastStatement.toString());
       }
 
-      @Det List<Variable> v = this.getInputs(lastStatementIndex);
+      List<Variable> v = this.getInputs(lastStatementIndex);
       if (v.size() != lastStatement.getInputTypes().size()) {
         throw new RuntimeException();
       }
@@ -653,7 +653,7 @@ public final class Sequence {
    * @return a variable used in the last statement of the given type
    */
   public List<Variable> allVariablesForTypeLastStatement(Type type, boolean onlyReceivers) {
-    @Det List<Variable> possibleVars = new ArrayList<>(this.lastStatementVariables.size());
+    List<Variable> possibleVars = new ArrayList<>(this.lastStatementVariables.size());
     for (Variable i : this.lastStatementVariables) {
       Statement s = statements.get(i.index);
       Type outputType = s.getOutputType();
@@ -675,7 +675,7 @@ public final class Sequence {
    * @return a variable used in the last statement of the given type
    */
   public Variable randomVariableForTypeLastStatement(Type type, boolean onlyReceivers) {
-    @Det List<Variable> possibleVars = allVariablesForTypeLastStatement(type, onlyReceivers);
+    List<Variable> possibleVars = allVariablesForTypeLastStatement(type, onlyReceivers);
     if (possibleVars.isEmpty()) {
       // Statement lastStatement = this.statements.get(this.statements.size() - 1);
       return null; // deal with the problem elsewhere.  TODO: fix so this cannot happen.
@@ -703,7 +703,7 @@ public final class Sequence {
     if (type == null) {
       throw new IllegalArgumentException("type cannot be null.");
     }
-    @Det List<Integer> possibleIndices = new ArrayList<>();
+    List<Integer> possibleIndices = new ArrayList<>();
     for (int i = 0; i < size(); i++) {
       Statement s = statements.get(i);
       if (isActive(i)) {
@@ -814,7 +814,7 @@ public final class Sequence {
    * @return the absolute indices for the input variables in the given statement
    */
   public List<Integer> getInputsAsAbsoluteIndices(int i) {
-    @Det List<Integer> inputsAsVariables = new ArrayList<>();
+    List<Integer> inputsAsVariables = new ArrayList<>();
     for (RelativeNegativeIndex relIndex : this.statements.get(i).inputs) {
       inputsAsVariables.add(getVariableForInput(i, relIndex).index);
     }
@@ -997,7 +997,7 @@ public final class Sequence {
           throw new SequenceParseException(msg, statements, statementCount);
         }
 
-        @Det List<Variable> inputs = new ArrayList<>();
+        List<Variable> inputs = new ArrayList<>();
         for (String inVar : inVars) {
           Integer index = valueMap.get(inVar);
           if (index == null) {

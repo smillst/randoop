@@ -71,7 +71,7 @@ public class GenericClassType extends ParameterizedType {
   @Override
   public InstantiatedType apply(
       @Det GenericClassType this, @Det Substitution<ReferenceType> substitution) {
-    @Det List<TypeArgument> argumentList = new ArrayList<>();
+    List<TypeArgument> argumentList = new ArrayList<>();
     for (TypeVariable variable : parameters) {
       ReferenceType referenceType = substitution.get(variable);
       if (referenceType == null) {
@@ -97,7 +97,7 @@ public class GenericClassType extends ParameterizedType {
    */
   @Override
   public List<ClassOrInterfaceType> getInterfaces(@Det GenericClassType this) {
-    @Det List<ClassOrInterfaceType> interfaceTypes = new ArrayList<>();
+    List<ClassOrInterfaceType> interfaceTypes = new ArrayList<>();
     for (Class<?> c : rawType.getInterfaces()) {
       interfaceTypes.add(ClassOrInterfaceType.forClass(c));
     }
@@ -119,7 +119,7 @@ public class GenericClassType extends ParameterizedType {
    */
   List<ClassOrInterfaceType> getInterfaces(
       @Det GenericClassType this, @Det Substitution<ReferenceType> substitution) {
-    @Det List<ClassOrInterfaceType> interfaces = new ArrayList<>();
+    List<ClassOrInterfaceType> interfaces = new ArrayList<>();
     for (java.lang.reflect.Type type : rawType.getGenericInterfaces()) {
       interfaces.add(ClassOrInterfaceType.forType(type).apply(substitution));
     }
@@ -177,7 +177,7 @@ public class GenericClassType extends ParameterizedType {
 
   @Override
   public List<TypeArgument> getTypeArguments() {
-    @Det List<TypeArgument> argumentList = new ArrayList<>();
+    List<TypeArgument> argumentList = new ArrayList<>();
     for (TypeVariable v : parameters) {
       argumentList.add(TypeArgument.forType(v));
     }
@@ -191,7 +191,7 @@ public class GenericClassType extends ParameterizedType {
    */
   @Override
   public List<TypeVariable> getTypeParameters(@Det GenericClassType this) {
-    @Det List<TypeVariable> params = super.getTypeParameters();
+    List<TypeVariable> params = super.getTypeParameters();
     params.addAll(parameters);
     return params;
   }
@@ -231,7 +231,7 @@ public class GenericClassType extends ParameterizedType {
    * @see #apply(Substitution)
    */
   public InstantiatedType instantiate(
-      @Det GenericClassType this, @Det List<ReferenceType> typeArguments) {
+      @Det GenericClassType this, List<ReferenceType> typeArguments) {
     if (typeArguments.size() != this.getTypeParameters().size()) {
       throw new IllegalArgumentException("number of arguments and parameters must match");
     }

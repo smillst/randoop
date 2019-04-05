@@ -101,7 +101,7 @@ public final class Statement {
    * @param b the {@code StringBuilder} to which code text is appended
    * @see Sequence#appendCode(StringBuilder, int)
    */
-  public void appendCode(Variable variable, @Det List<Variable> inputs, StringBuilder b) {
+  public void appendCode(Variable variable, List<Variable> inputs, StringBuilder b) {
     Type type = operation.getOutputType();
     if (!type.isVoid()) {
       if (operation.isUncheckedCast()) {

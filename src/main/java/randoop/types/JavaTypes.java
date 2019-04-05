@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import org.checkerframework.checker.determinism.qual.Det;
 
 /**
  * Constants for non-JDK Java types. Include primitive types, {@code Class<>}, {@code Object},
@@ -75,7 +74,7 @@ public class JavaTypes {
   private static final List<PrimitiveType> PRIMITIVE_TYPES;
 
   static {
-    @Det ArrayList<PrimitiveType> types = new ArrayList<>();
+    ArrayList<PrimitiveType> types = new ArrayList<>();
     types.add(BOOLEAN_TYPE);
     types.add(BYTE_TYPE);
     types.add(CHAR_TYPE);
