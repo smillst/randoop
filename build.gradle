@@ -110,7 +110,7 @@ sourceSets {
   }
 
   /* Code sets used by system tests. There are no actual tests here. */
-  testInput 
+  testInput
 
   test {
     resources {
@@ -192,6 +192,7 @@ dependencies {
    * Also, src/testInput/java/ps1/RatPolyTest.java uses JUnit
    */
   testInputImplementation sourceSets.main.output
+  testInputImplementation  group: 'org.checkerframework', name: 'checker-qual', version: checkerFrameworkVersion
   testInputImplementation configurations.junit.dependencies
 
   if ("true".equals(project.ext.useCheckerFramework)) {
