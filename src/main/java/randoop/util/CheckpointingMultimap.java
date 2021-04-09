@@ -51,7 +51,7 @@ public class CheckpointingMultimap<K, V> implements SetMultimap<K, V> {
   }
 
   @Override
-  public void put(K key, V value) {
+  public boolean add(K key, V value) {
     if (verbose_log) {
       Log.logPrintf("ADD %s -> %s%n", key, value);
     }
@@ -122,6 +122,11 @@ public class CheckpointingMultimap<K, V> implements SetMultimap<K, V> {
 
   @Override
   public boolean containsKey(Object key) {
+    return map.containsKey(key);
+  }
+
+  public boolean containsKey(Object key) {
+    if (key == null) throw new IllegalArgumentException("arg cannot be null.");
     return map.containsKey(key);
   }
 
