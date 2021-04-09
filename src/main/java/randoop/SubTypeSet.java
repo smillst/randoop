@@ -3,7 +3,6 @@ package randoop;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import randoop.types.Type;
@@ -36,7 +35,7 @@ public class SubTypeSet {
     } else {
       this.supportsCheckpoints = false;
       this.subTypes = HashMultimap.create();
-      this.types = new HashSet<>();
+      this.types = new LinkedHashSet<>();
     }
   }
 
@@ -118,14 +117,5 @@ public class SubTypeSet {
    */
   public int size() {
     return types.size();
-  }
-
-  /**
-   * Returns the elements of this set.
-   *
-   * @return the elements of the set
-   */
-  public Set<Type> getElements() {
-    return types;
   }
 }
