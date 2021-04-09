@@ -22,8 +22,7 @@ public class CheckpointingSet<E> implements Set<E> {
   public boolean add(E elt) {
     if (elt == null) throw new IllegalArgumentException("arg cannot be null.");
     if (contains(elt)) throw new IllegalArgumentException("set already contains elt " + elt);
-    map.put(elt, Boolean.TRUE);
-    return true;
+    return map.put(elt, Boolean.TRUE);
   }
 
   @Override
