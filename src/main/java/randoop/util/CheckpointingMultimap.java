@@ -1,6 +1,8 @@
 package randoop.util;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
 import com.google.common.collect.SetMultimap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,28 +53,33 @@ public class CheckpointingMultimap<K, V> implements SetMultimap<K, V> {
   }
 
   @Override
-  public boolean add(K key, V value) {
+  public boolean put(K key, V value) {
     if (verbose_log) {
       Log.logPrintf("ADD %s -> %s%n", key, value);
     }
-    if (map.put(key, value)) {
+    boolean result = map.put(key, value);
+    if (result) {
       ops.add(new OpKeyVal(Operation.ADD, key, value));
       steps++;
     }
+    return result;
   }
 
   @Override
-  public boolean remove(Object key, V value) {
+  public boolean remove(Object key, Object value) {
     if (verbose_log) {
       Log.logPrintf("REMOVE %s -> %s%n", key, value);
     }
-    if (map.remove(key, value)) {
-      ops.add(new OpKeyVal(Operation.REMOVE, key, value));
+    boolean result = map.remove(key, value);
+    if (result) {
+      @SuppressWarnings("unchecked") // if result is true, cast will succeed
+      K keyCasted = (K) key;
+      @SuppressWarnings("unchecked") // if result is true, cast will succeed
+      V valueCasted = (V) value;
+      ops.add(new OpKeyVal(Operation.REMOVE, keyCasted, valueCasted));
       steps++;
-      return true;
-    } else {
-      return false;
     }
+    return result;
   }
 
   /** Checkpoint the state of the data structure, for use by {@link #undoToLastMark()}. */
@@ -107,7 +114,7 @@ public class CheckpointingMultimap<K, V> implements SetMultimap<K, V> {
     } else if (op == Operation.REMOVE) {
       // Add the mapping.
       Log.logPrintf("ADD %s -> %s%n", key, val);
-      map.add(key, val);
+      map.put(key, val);
     } else {
       // Really, we should never get here.
       throw new IllegalStateException("Unhandled op: " + op);
@@ -122,11 +129,6 @@ public class CheckpointingMultimap<K, V> implements SetMultimap<K, V> {
 
   @Override
   public boolean containsKey(Object key) {
-    return map.containsKey(key);
-  }
-
-  public boolean containsKey(Object key) {
-    if (key == null) throw new IllegalArgumentException("arg cannot be null.");
     return map.containsKey(key);
   }
 
@@ -148,5 +150,60 @@ public class CheckpointingMultimap<K, V> implements SetMultimap<K, V> {
   @Override
   public Map<K, Collection<V>> asMap() {
     return map.asMap();
+  }
+
+  @Override
+  public Set<Map.Entry<K, V>> entries() {
+    return map.entries();
+  }
+
+  @Override
+  public Set<V> replaceValues(K key, Iterable<? extends V> values) {
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  @Override
+  public Set<V> removeAll(Object o) {
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  @Override
+  public Collection<V> values() {
+    return map.values();
+  }
+
+  @Override
+  public Multiset<K> keys() {
+    return map.keys();
+  }
+
+  @Override
+  public void clear() {
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  @Override
+  public boolean putAll(Multimap<? extends K, ? extends V> m) {
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  @Override
+  public boolean putAll(K key, Iterable<? extends V> values) {
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  @Override
+  public boolean containsEntry(Object key, Object value) {
+    return map.containsEntry(key, value);
+  }
+
+  @Override
+  public boolean containsValue(Object value) {
+    return map.containsValue(value);
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return map.isEmpty();
   }
 }

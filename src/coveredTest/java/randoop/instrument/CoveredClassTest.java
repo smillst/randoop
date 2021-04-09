@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import static randoop.main.GenInputsAbstract.require_classname_in_test;
 import static randoop.reflection.VisibilityPredicate.IS_PUBLIC;
 
+import com.google.common.collect.SetMultimap;
 import java.nio.file.Paths;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -40,7 +41,6 @@ import randoop.sequence.Sequence;
 import randoop.test.ContractSet;
 import randoop.test.TestCheckGenerator;
 import randoop.types.Type;
-import com.google.common.collect.SetMultimap;
 
 public class CoveredClassTest {
 
@@ -249,7 +249,7 @@ public class CoveredClassTest {
 
     Set<TypedOperation> sideEffectFreeMethods = new LinkedHashSet<>();
     for (Type keyType : sideEffectFreeMethodsByType.keySet()) {
-      sideEffectFreeMethods.addAll(sideEffectFreeMethodsByType.getValues(keyType));
+      sideEffectFreeMethods.addAll(sideEffectFreeMethodsByType.get(keyType));
     }
 
     RandoopListenerManager listenerMgr = new RandoopListenerManager();

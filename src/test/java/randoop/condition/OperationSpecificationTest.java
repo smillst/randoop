@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -36,7 +38,6 @@ import randoop.test.PostConditionCheckGenerator;
 import randoop.test.TestCheckGenerator;
 import randoop.types.JavaTypes;
 import randoop.types.Type;
-import com.google.common.collect.SetMultimap;
 
 public class OperationSpecificationTest {
   @Test

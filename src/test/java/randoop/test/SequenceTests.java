@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static randoop.reflection.VisibilityPredicate.IS_PUBLIC;
 
+import com.google.common.collect.HashMultimap;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,7 +29,6 @@ import randoop.reflection.VisibilityPredicate;
 import randoop.sequence.ExecutableSequence;
 import randoop.sequence.Sequence;
 import randoop.sequence.SequenceParseException;
-import com.google.common.collect.SetMultimap;
 import randoop.util.RecordListReader;
 import randoop.util.RecordProcessor;
 
@@ -116,7 +116,11 @@ public class SequenceTests {
         new ExtendGenerator(
             new ContractCheckingGenerator(contracts),
             new RegressionCaptureGenerator(
-                expectation, HashMultimap.create(), visibility, OmitMethodsPredicate.NO_OMISSION, true));
+                expectation,
+                HashMultimap.create(),
+                visibility,
+                OmitMethodsPredicate.NO_OMISSION,
+                true));
   }
 
   // See http://bugs.sun.com/bugdatabase/view_bug.do;:WuuT?bug_id=4094886

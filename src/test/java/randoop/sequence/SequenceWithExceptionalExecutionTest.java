@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 import static randoop.reflection.VisibilityPredicate.IS_PUBLIC;
 
+import com.google.common.collect.HashMultimap;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +25,6 @@ import randoop.types.GenericClassType;
 import randoop.types.JDKTypes;
 import randoop.types.JavaTypes;
 import randoop.types.Substitution;
-import com.google.common.collect.SetMultimap;
 
 /**
  * This test is to check behavior of sequence predicates on sequence that has an ArrayStoreException

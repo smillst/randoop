@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static randoop.reflection.VisibilityPredicate.IS_PUBLIC;
 
+import com.google.common.collect.HashMultimap;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -27,7 +28,6 @@ import randoop.sequence.SequenceExceptionError;
 import randoop.test.treeadd.TreeAdd;
 import randoop.test.treeadd.TreeNode;
 import randoop.types.ClassOrInterfaceType;
-import com.google.common.collect.SetMultimap;
 import randoop.util.ReflectionExecutor;
 
 /**

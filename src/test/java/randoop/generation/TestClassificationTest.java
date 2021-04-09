@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static randoop.reflection.VisibilityPredicate.IS_PUBLIC;
 
+import com.google.common.collect.HashMultimap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -42,7 +43,6 @@ import randoop.test.NoExceptionCheck;
 import randoop.test.TestCheckGenerator;
 import randoop.test.TestChecks;
 import randoop.types.JavaTypes;
-import com.google.common.collect.SetMultimap;
 import randoop.util.ReflectionExecutor;
 import randoop.util.SimpleList;
 import randoop.util.predicate.AlwaysTrue;

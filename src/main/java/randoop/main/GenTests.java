@@ -410,7 +410,7 @@ public class GenTests extends GenInputsAbstract {
 
     Set<TypedOperation> sideEffectFreeMethods = new LinkedHashSet<>();
     for (Type keyType : sideEffectFreeMethodsByType.keySet()) {
-      sideEffectFreeMethods.putAll(sideEffectFreeMethodsByType.get(keyType));
+      sideEffectFreeMethods.addAll(sideEffectFreeMethodsByType.get(keyType));
     }
 
     /*

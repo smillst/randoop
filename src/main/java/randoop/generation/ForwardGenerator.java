@@ -708,7 +708,7 @@ public class ForwardGenerator extends AbstractGenerator {
           // Sanity check: the domain of typesToVars contains all the types in
           // variable types.
           assert typesToVars.keySet().contains(match);
-          candidateVars.put(new SimpleArrayList<Integer>(typesToVars.get(match)));
+          candidateVars.add(new SimpleArrayList<Integer>(typesToVars.get(match)));
         }
 
         // If any type-compatible variables found, pick one at random as the

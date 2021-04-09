@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static randoop.main.GenInputsAbstract.require_classname_in_test;
 import static randoop.reflection.VisibilityPredicate.IS_PUBLIC;
 
+import com.google.common.collect.HashMultimap;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -39,7 +40,6 @@ import randoop.test.bh.Tree;
 import randoop.types.ClassOrInterfaceType;
 import randoop.types.JavaTypes;
 import randoop.types.TypeTuple;
-import com.google.common.collect.SetMultimap;
 import randoop.util.ReflectionExecutor;
 
 public class ForwardExplorerTests {
