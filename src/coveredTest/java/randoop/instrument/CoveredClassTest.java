@@ -40,7 +40,7 @@ import randoop.sequence.Sequence;
 import randoop.test.ContractSet;
 import randoop.test.TestCheckGenerator;
 import randoop.types.Type;
-import randoop.util.MultiMap;
+import com.google.common.collect.SetMultimap;
 
 public class CoveredClassTest {
 
@@ -244,7 +244,7 @@ public class CoveredClassTest {
         componentMgr, GenInputsAbstract.literals_file, GenInputsAbstract.literals_level);
 
     // Maps each class type to the side-effect-free methods in it.
-    MultiMap<Type, TypedClassOperation> sideEffectFreeMethodsByType =
+    SetMultimap<Type, TypedClassOperation> sideEffectFreeMethodsByType =
         GenTests.readSideEffectFreeMethods();
 
     Set<TypedOperation> sideEffectFreeMethods = new LinkedHashSet<>();

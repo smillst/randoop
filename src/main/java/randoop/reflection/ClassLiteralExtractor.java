@@ -1,5 +1,6 @@
 package randoop.reflection;
 
+import com.google.common.collect.SetMultimap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,7 +10,6 @@ import randoop.sequence.Sequence;
 import randoop.sequence.Variable;
 import randoop.types.ClassOrInterfaceType;
 import randoop.util.ClassFileConstants;
-import randoop.util.MultiMap;
 
 /**
  * {@code ClassLiteralExtractor} is a {@link ClassVisitor} that extracts literals from the bytecode
@@ -19,9 +19,9 @@ import randoop.util.MultiMap;
  */
 class ClassLiteralExtractor extends DefaultClassVisitor {
 
-  private MultiMap<ClassOrInterfaceType, Sequence> literalMap;
+  private SetMultimap<ClassOrInterfaceType, Sequence> literalMap;
 
-  ClassLiteralExtractor(MultiMap<ClassOrInterfaceType, Sequence> literalMap) {
+  ClassLiteralExtractor(SetMultimap<ClassOrInterfaceType, Sequence> literalMap) {
     this.literalMap = literalMap;
   }
 
@@ -29,16 +29,16 @@ class ClassLiteralExtractor extends DefaultClassVisitor {
   public void visitBefore(Class<?> c) {
     Collection<ClassFileConstants.ConstantSet> constList =
         Collections.singletonList(ClassFileConstants.getConstants(c.getName()));
-    MultiMap<Class<?>, NonreceiverTerm> constantMap = ClassFileConstants.toMap(constList);
+    SetMultimap<Class<?>, NonreceiverTerm> constantMap = ClassFileConstants.toMap(constList);
     for (Class<?> constantClass : constantMap.keySet()) {
       ClassOrInterfaceType constantType = ClassOrInterfaceType.forClass(constantClass);
-      for (NonreceiverTerm term : constantMap.getValues(constantClass)) {
+      for (NonreceiverTerm term : constantMap.get(constantClass)) {
         Sequence seq =
             new Sequence()
                 .extend(
                     TypedOperation.createNonreceiverInitialization(term),
                     new ArrayList<Variable>());
-        literalMap.add(constantType, seq);
+        literalMap.put(constantType, seq);
       }
     }
   }

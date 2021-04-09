@@ -27,7 +27,7 @@ import randoop.sequence.SequenceExceptionError;
 import randoop.test.treeadd.TreeAdd;
 import randoop.test.treeadd.TreeNode;
 import randoop.types.ClassOrInterfaceType;
-import randoop.util.MultiMap;
+import com.google.common.collect.SetMultimap;
 import randoop.util.ReflectionExecutor;
 
 /**
@@ -113,6 +113,6 @@ public class ForwardExplorerTests2 {
 
   private static TestCheckGenerator createChecker(ContractSet contracts) {
     return GenTests.createTestCheckGenerator(
-        IS_PUBLIC, contracts, new MultiMap<>(), OmitMethodsPredicate.NO_OMISSION);
+        IS_PUBLIC, contracts, HashMultimap.create(), OmitMethodsPredicate.NO_OMISSION);
   }
 }

@@ -28,7 +28,7 @@ import randoop.reflection.VisibilityPredicate;
 import randoop.sequence.ExecutableSequence;
 import randoop.sequence.Sequence;
 import randoop.sequence.SequenceParseException;
-import randoop.util.MultiMap;
+import com.google.common.collect.SetMultimap;
 import randoop.util.RecordListReader;
 import randoop.util.RecordProcessor;
 
@@ -116,7 +116,7 @@ public class SequenceTests {
         new ExtendGenerator(
             new ContractCheckingGenerator(contracts),
             new RegressionCaptureGenerator(
-                expectation, new MultiMap<>(), visibility, OmitMethodsPredicate.NO_OMISSION, true));
+                expectation, HashMultimap.create(), visibility, OmitMethodsPredicate.NO_OMISSION, true));
   }
 
   // See http://bugs.sun.com/bugdatabase/view_bug.do;:WuuT?bug_id=4094886

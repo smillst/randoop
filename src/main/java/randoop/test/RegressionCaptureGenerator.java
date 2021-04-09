@@ -3,6 +3,7 @@ package randoop.test;
 import static randoop.contract.PrimValue.EqualityMode.EQUALSEQUALS;
 import static randoop.contract.PrimValue.EqualityMode.EQUALSMETHOD;
 
+import com.google.common.collect.SetMultimap;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -28,7 +29,6 @@ import randoop.sequence.Variable;
 import randoop.types.PrimitiveTypes;
 import randoop.types.Type;
 import randoop.util.Log;
-import randoop.util.MultiMap;
 
 /**
  * A {@code TestCheckGenerator} that records regression checks on the values created by the
@@ -50,7 +50,7 @@ public final class RegressionCaptureGenerator extends TestCheckGenerator {
   private ExpectedExceptionCheckGen exceptionExpectation;
 
   /** The map from a type to the set of side-effect-free operations for the type. */
-  private MultiMap<Type, TypedClassOperation> sideEffectFreeMethodsByType;
+  private SetMultimap<Type, TypedClassOperation> sideEffectFreeMethodsByType;
 
   /** The visibility predicate. */
   private final VisibilityPredicate isVisible;
@@ -76,7 +76,7 @@ public final class RegressionCaptureGenerator extends TestCheckGenerator {
    */
   public RegressionCaptureGenerator(
       ExpectedExceptionCheckGen exceptionExpectation,
-      MultiMap<Type, TypedClassOperation> sideEffectFreeMethodsByType,
+      SetMultimap<Type, TypedClassOperation> sideEffectFreeMethodsByType,
       VisibilityPredicate isVisible,
       OmitMethodsPredicate omitMethodsPredicate,
       boolean includeAssertions) {
@@ -161,7 +161,7 @@ public final class RegressionCaptureGenerator extends TestCheckGenerator {
             // Put out any side-effect-free methods that exist for this type.
             Variable var0 = eseq.sequence.getVariable(i);
             Set<TypedClassOperation> sideEffectFreeMethods =
-                sideEffectFreeMethodsByType.getValues(var0.getType());
+                sideEffectFreeMethodsByType.get(var0.getType());
             if (sideEffectFreeMethods != null) {
               for (TypedClassOperation m : sideEffectFreeMethods) {
                 if (!isAssertableMethod(m, omitMethodsPredicate, isVisible)) {

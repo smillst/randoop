@@ -2,6 +2,8 @@ package randoop.condition;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -30,7 +32,6 @@ import randoop.compile.SequenceCompiler;
 import randoop.condition.specification.OperationSignature;
 import randoop.condition.specification.OperationSpecification;
 import randoop.reflection.TypeNames;
-import randoop.util.MultiMap;
 
 /**
  * A collection of {@link OperationSpecification} objects, indexed by {@link AccessibleObject}
@@ -52,7 +53,7 @@ public class SpecificationCollection {
    * Given a method signature, what methods (that have specifications) have that signature? Does not
    * contain constructors.
    */
-  private final MultiMap<OperationSignature, Method> signatureToMethods;
+  private final SetMultimap<OperationSignature, Method> signatureToMethods;
 
   /** Map from reflection object to all the methods it overrides (that have a specification). */
   private final Map<AccessibleObject, Set<Method>> overridden;
@@ -73,7 +74,7 @@ public class SpecificationCollection {
    */
   SpecificationCollection(
       Map<AccessibleObject, OperationSpecification> specificationMap,
-      MultiMap<OperationSignature, Method> signatureToMethods,
+      SetMultimap<OperationSignature, Method> signatureToMethods,
       Map<AccessibleObject, Set<Method>> overridden) {
     this.specificationMap = specificationMap;
     this.signatureToMethods = signatureToMethods;
@@ -93,7 +94,7 @@ public class SpecificationCollection {
     if (specificationFiles == null) {
       return null;
     }
-    MultiMap<OperationSignature, Method> signatureToMethods = new MultiMap<>();
+    SetMultimap<OperationSignature, Method> signatureToMethods = HashMultimap.create();
     Map<AccessibleObject, OperationSpecification> specificationMap = new LinkedHashMap<>();
     for (Path specificationFile : specificationFiles) {
       readSpecificationFile(specificationFile, specificationMap, signatureToMethods);
@@ -110,11 +111,11 @@ public class SpecificationCollection {
    * @return the map from an {@code AccessibleObject} to methods that it overrides
    */
   private static Map<AccessibleObject, Set<Method>> buildOverridingMap(
-      MultiMap<OperationSignature, Method> signatureToMethods) {
+      SetMultimap<OperationSignature, Method> signatureToMethods) {
     Map<AccessibleObject, Set<Method>> overridden = new HashMap<>();
     for (OperationSignature signature : signatureToMethods.keySet()) {
       // This lookup is required because MultiMap does not have an entrySet() method.
-      Set<Method> methods = signatureToMethods.getValues(signature);
+      Set<Method> methods = signatureToMethods.get(signature);
       for (Method method : methods) {
         Class<?> declaringClass = method.getDeclaringClass();
         Set<Method> parents = findOverridden(declaringClass, methods);
@@ -190,7 +191,7 @@ public class SpecificationCollection {
   private static void readSpecificationFile(
       Path specificationFile,
       Map<AccessibleObject, OperationSpecification> specificationMap,
-      MultiMap<OperationSignature, Method> signatureToMethods) {
+      SetMultimap<OperationSignature, Method> signatureToMethods) {
     if (specificationFile.toString().toLowerCase().endsWith(".zip")) {
       readSpecificationZipFile(specificationFile, specificationMap, signatureToMethods);
       return;
@@ -218,7 +219,7 @@ public class SpecificationCollection {
         specificationMap.put(accessibleObject, specification);
         if (accessibleObject instanceof Method) {
           OperationSignature signature = OperationSignature.of(accessibleObject);
-          signatureToMethods.add(signature, (Method) accessibleObject);
+          signatureToMethods.put(signature, (Method) accessibleObject);
         }
       }
     } catch (IOException e) {
@@ -246,7 +247,7 @@ public class SpecificationCollection {
   private static void readSpecificationZipFile(
       Path specificationZipFile,
       final Map<AccessibleObject, OperationSpecification> specificationMap,
-      final MultiMap<OperationSignature, Method> signatureToMethods) {
+      final SetMultimap<OperationSignature, Method> signatureToMethods) {
     Map<String, ?> myEmptyMap = Collections.emptyMap();
     FileSystem zipFS;
     try {
@@ -325,7 +326,7 @@ public class SpecificationCollection {
       Set<Method> parents = overridden.get(executable);
       // Parents is null in some tests.  Is it ever null other than that?
       if (parents == null) {
-        Set<Method> sigSet = signatureToMethods.getValues(OperationSignature.of(method));
+        Set<Method> sigSet = signatureToMethods.get(OperationSignature.of(method));
         if (sigSet != null) {
           // Todo: why isn't this added to the `parents` map?
           parents = findOverridden(method.getDeclaringClass(), sigSet);

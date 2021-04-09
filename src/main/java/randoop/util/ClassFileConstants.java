@@ -1,5 +1,7 @@
 package randoop.util;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -622,8 +624,8 @@ public class ClassFileConstants {
    * @param constantSets the sets of constantSets
    * @return a map of types to constant operations
    */
-  public static MultiMap<Class<?>, NonreceiverTerm> toMap(Collection<ConstantSet> constantSets) {
-    final MultiMap<Class<?>, NonreceiverTerm> map = new MultiMap<>();
+  public static SetMultimap<Class<?>, NonreceiverTerm> toMap(Collection<ConstantSet> constantSets) {
+    final SetMultimap<Class<?>, NonreceiverTerm> map = HashMultimap.create();
     for (ConstantSet cs : constantSets) {
       Class<?> clazz;
       try {
@@ -633,42 +635,42 @@ public class ClassFileConstants {
       }
       for (Integer x : cs.ints) {
         try {
-          map.add(clazz, new NonreceiverTerm(JavaTypes.INT_TYPE, x));
+          map.put(clazz, new NonreceiverTerm(JavaTypes.INT_TYPE, x));
         } catch (IllegalArgumentException e) {
           System.out.println("Ignoring int constant value: " + e.getMessage());
         }
       }
       for (Long x : cs.longs) {
         try {
-          map.add(clazz, new NonreceiverTerm(JavaTypes.LONG_TYPE, x));
+          map.put(clazz, new NonreceiverTerm(JavaTypes.LONG_TYPE, x));
         } catch (IllegalArgumentException e) {
           System.out.println("Ignoring long constant value: " + e.getMessage());
         }
       }
       for (Float x : cs.floats) {
         try {
-          map.add(clazz, new NonreceiverTerm(JavaTypes.FLOAT_TYPE, x));
+          map.put(clazz, new NonreceiverTerm(JavaTypes.FLOAT_TYPE, x));
         } catch (IllegalArgumentException e) {
           System.out.println("Ignoring float constant value: " + e.getMessage());
         }
       }
       for (Double x : cs.doubles) {
         try {
-          map.add(clazz, new NonreceiverTerm(JavaTypes.DOUBLE_TYPE, x));
+          map.put(clazz, new NonreceiverTerm(JavaTypes.DOUBLE_TYPE, x));
         } catch (IllegalArgumentException e) {
           System.out.println("Ignoring double constant value: " + e.getMessage());
         }
       }
       for (String x : cs.strings) {
         try {
-          map.add(clazz, new NonreceiverTerm(JavaTypes.STRING_TYPE, x));
+          map.put(clazz, new NonreceiverTerm(JavaTypes.STRING_TYPE, x));
         } catch (IllegalArgumentException e) {
           System.out.println("Ignoring String constant value: " + e.getMessage());
         }
       }
       for (Class<?> x : cs.classes) {
         try {
-          map.add(clazz, new NonreceiverTerm(JavaTypes.CLASS_TYPE, x));
+          map.put(clazz, new NonreceiverTerm(JavaTypes.CLASS_TYPE, x));
         } catch (IllegalArgumentException e) {
           System.out.println("Ignoring Class<?> constant value: " + e.getMessage());
         }

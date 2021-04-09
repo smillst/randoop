@@ -1,5 +1,7 @@
 package randoop.reflection;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 import java.util.ArrayList;
 import java.util.List;
 import org.checkerframework.checker.signature.qual.ClassGetName;
@@ -10,7 +12,6 @@ import randoop.operation.TypedOperation;
 import randoop.sequence.Sequence;
 import randoop.sequence.Variable;
 import randoop.types.ClassOrInterfaceType;
-import randoop.util.MultiMap;
 import randoop.util.RecordListReader;
 import randoop.util.RecordProcessor;
 
@@ -61,9 +62,9 @@ public class LiteralFileReader {
    * @param inFile the input file
    * @return the map from types to literal values
    */
-  public static MultiMap<ClassOrInterfaceType, Sequence> parse(String inFile) {
+  public static SetMultimap<ClassOrInterfaceType, Sequence> parse(String inFile) {
 
-    final MultiMap<ClassOrInterfaceType, Sequence> map = new MultiMap<>();
+    final SetMultimap<ClassOrInterfaceType, Sequence> map = HashMultimap.create();
 
     RecordProcessor processor =
         new RecordProcessor() {
@@ -96,7 +97,7 @@ public class LiteralFileReader {
             for (int i = 3; i < lines.size(); i++) {
               try {
                 TypedOperation operation = NonreceiverTerm.parse(lines.get(i));
-                map.add(classType, new Sequence().extend(operation, new ArrayList<Variable>()));
+                map.put(classType, new Sequence().extend(operation, new ArrayList<Variable>()));
               } catch (OperationParseException e) {
                 throwRecordSyntaxError(e);
               }

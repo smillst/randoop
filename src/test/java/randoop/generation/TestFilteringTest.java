@@ -32,7 +32,7 @@ import randoop.sequence.Sequence;
 import randoop.test.ContractSet;
 import randoop.test.TestCheckGenerator;
 import randoop.types.ClassOrInterfaceType;
-import randoop.util.MultiMap;
+import com.google.common.collect.SetMultimap;
 import randoop.util.ReflectionExecutor;
 
 public class TestFilteringTest {
@@ -278,7 +278,7 @@ public class TestFilteringTest {
     gen.setTestPredicate(isOutputTest);
     TestCheckGenerator checkGenerator =
         GenTests.createTestCheckGenerator(
-            visibility, new ContractSet(), new MultiMap<>(), OmitMethodsPredicate.NO_OMISSION);
+            visibility, new ContractSet(), HashMultimap.create(), OmitMethodsPredicate.NO_OMISSION);
     gen.setTestCheckGenerator(checkGenerator);
     gen.setExecutionVisitor(new DummyVisitor());
     TestUtils.setAllLogs(gen);

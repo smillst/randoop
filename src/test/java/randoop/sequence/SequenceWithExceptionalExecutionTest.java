@@ -24,7 +24,7 @@ import randoop.types.GenericClassType;
 import randoop.types.JDKTypes;
 import randoop.types.JavaTypes;
 import randoop.types.Substitution;
-import randoop.util.MultiMap;
+import com.google.common.collect.SetMultimap;
 
 /**
  * This test is to check behavior of sequence predicates on sequence that has an ArrayStoreException
@@ -79,7 +79,7 @@ public class SequenceWithExceptionalExecutionTest {
     ExecutableSequence es = new ExecutableSequence(sequence);
     TestCheckGenerator gen =
         GenTests.createTestCheckGenerator(
-            IS_PUBLIC, new ContractSet(), new MultiMap<>(), OmitMethodsPredicate.NO_OMISSION);
+            IS_PUBLIC, new ContractSet(), HashMultimap.create(), OmitMethodsPredicate.NO_OMISSION);
     es.execute(new DummyVisitor(), gen);
 
     assertFalse(es.hasNonExecutedStatements());

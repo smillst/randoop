@@ -5,6 +5,8 @@ import static randoop.reflection.VisibilityPredicate.IS_PUBLIC;
 import com.github.javaparser.ParseException;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -96,7 +98,6 @@ import randoop.test.ValueSizePredicate;
 import randoop.types.ClassOrInterfaceType;
 import randoop.types.Type;
 import randoop.util.Log;
-import randoop.util.MultiMap;
 import randoop.util.Randomness;
 import randoop.util.RandoopLoggingError;
 import randoop.util.ReflectionExecutor;
@@ -404,11 +405,12 @@ public class GenTests extends GenInputsAbstract {
 
     RandoopListenerManager listenerMgr = new RandoopListenerManager();
 
-    MultiMap<Type, TypedClassOperation> sideEffectFreeMethodsByType = readSideEffectFreeMethods();
+    SetMultimap<Type, TypedClassOperation> sideEffectFreeMethodsByType =
+        readSideEffectFreeMethods();
 
     Set<TypedOperation> sideEffectFreeMethods = new LinkedHashSet<>();
     for (Type keyType : sideEffectFreeMethodsByType.keySet()) {
-      sideEffectFreeMethods.addAll(sideEffectFreeMethodsByType.getValues(keyType));
+      sideEffectFreeMethods.putAll(sideEffectFreeMethodsByType.get(keyType));
     }
 
     /*
@@ -622,14 +624,14 @@ public class GenTests extends GenInputsAbstract {
    * @return a map from a Type to a set of side-effect-free methods that take that type as their
    *     only argument
    */
-  public static MultiMap<Type, TypedClassOperation> readSideEffectFreeMethods() {
-    MultiMap<Type, TypedClassOperation> sideEffectFreeJDKMethods;
+  public static SetMultimap<Type, TypedClassOperation> readSideEffectFreeMethods() {
+    SetMultimap<Type, TypedClassOperation> sideEffectFreeJDKMethods;
     String sefDefaultsFileName = "/JDK-sef-methods.txt";
     InputStream inputStream = GenTests.class.getResourceAsStream(sefDefaultsFileName);
     sideEffectFreeJDKMethods =
         OperationModel.readOperations(inputStream, sefDefaultsFileName, true);
 
-    MultiMap<Type, TypedClassOperation> sideEffectFreeUserMethods;
+    SetMultimap<Type, TypedClassOperation> sideEffectFreeUserMethods;
     try {
       sideEffectFreeUserMethods =
           OperationModel.readOperations(GenInputsAbstract.side_effect_free_methods);
@@ -640,9 +642,9 @@ public class GenTests extends GenInputsAbstract {
               GenInputsAbstract.side_effect_free_methods, e));
     }
 
-    MultiMap<Type, TypedClassOperation> result = new MultiMap<>();
-    result.addAll(sideEffectFreeJDKMethods);
-    result.addAll(sideEffectFreeUserMethods);
+    SetMultimap<Type, TypedClassOperation> result = HashMultimap.create();
+    result.putAll(sideEffectFreeJDKMethods);
+    result.putAll(sideEffectFreeUserMethods);
     return result;
   }
 
@@ -665,7 +667,7 @@ public class GenTests extends GenInputsAbstract {
   private void processAndOutputFlakyMethods(
       List<ExecutableSequence> flakySequences,
       List<ExecutableSequence> sequences,
-      MultiMap<Type, TypedClassOperation> sideEffectFreeMethodsByType,
+      SetMultimap<Type, TypedClassOperation> sideEffectFreeMethodsByType,
       OmitMethodsPredicate omitMethodsPredicate,
       VisibilityPredicate visibilityPredicate) {
 
@@ -674,16 +676,16 @@ public class GenTests extends GenInputsAbstract {
     }
 
     // Exclude methods that were omitted during test generation.
-    MultiMap<Type, TypedClassOperation> assertableSideEffectFreeMethods = new MultiMap<>();
+    SetMultimap<Type, TypedClassOperation> assertableSideEffectFreeMethods = HashMultimap.create();
     for (Type t : sideEffectFreeMethodsByType.keySet()) {
-      Set<TypedClassOperation> typeOperations = sideEffectFreeMethodsByType.getValues(t);
+      Set<TypedClassOperation> typeOperations = sideEffectFreeMethodsByType.get(t);
       for (TypedClassOperation tco : typeOperations) {
         if (!RegressionCaptureGenerator.isAssertableMethod(
             tco, omitMethodsPredicate, visibilityPredicate)) {
           continue;
         }
 
-        assertableSideEffectFreeMethods.add(t, tco);
+        assertableSideEffectFreeMethods.put(t, tco);
       }
     }
 
@@ -758,7 +760,7 @@ public class GenTests extends GenInputsAbstract {
    */
   private Map<TypedClassOperation, Integer> countSequencesPerOperation(
       List<ExecutableSequence> sequences,
-      MultiMap<Type, TypedClassOperation> assertableSideEffectFreeMethods) {
+      SetMultimap<Type, TypedClassOperation> assertableSideEffectFreeMethods) {
     // Map from method call operations to number of sequences it occurs in.
     Map<TypedClassOperation, Integer> numSequencesUsedIn = new HashMap<>();
 
@@ -776,7 +778,7 @@ public class GenTests extends GenInputsAbstract {
       SimpleList<Statement> statements = es.sequence.statements;
       Statement lastStatement = statements.get(statements.size() - 1);
       Type lastValueType = lastStatement.getOutputType();
-      for (TypedClassOperation tco : assertableSideEffectFreeMethods.getValues(lastValueType)) {
+      for (TypedClassOperation tco : assertableSideEffectFreeMethods.get(lastValueType)) {
         numSequencesUsedIn.merge(tco, 1, Integer::sum);
       }
     }
@@ -1208,7 +1210,7 @@ public class GenTests extends GenInputsAbstract {
   public static TestCheckGenerator createTestCheckGenerator(
       VisibilityPredicate visibility,
       ContractSet contracts,
-      MultiMap<Type, TypedClassOperation> sideEffectFreeMethodsByType,
+      SetMultimap<Type, TypedClassOperation> sideEffectFreeMethodsByType,
       OmitMethodsPredicate omitMethodsPredicate) {
 
     // Start with checking for invalid exceptions.

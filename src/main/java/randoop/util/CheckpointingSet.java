@@ -8,10 +8,10 @@ import java.util.Set;
  */
 public class CheckpointingSet<T> implements ISimpleSet<T> {
 
-  public final CheckpointingMultiMap<T, Boolean> map;
+  public final CheckpointingMultimap<T, Boolean> map;
 
   public CheckpointingSet() {
-    this.map = new CheckpointingMultiMap<>();
+    this.map = new CheckpointingMultimap<>();
   }
 
   @Override

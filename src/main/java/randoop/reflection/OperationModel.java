@@ -3,6 +3,8 @@ package randoop.reflection;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static randoop.main.GenInputsAbstract.ClassLiteralsMode;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,7 +57,6 @@ import randoop.test.ContractSet;
 import randoop.types.ClassOrInterfaceType;
 import randoop.types.Type;
 import randoop.util.Log;
-import randoop.util.MultiMap;
 
 /**
  * {@code OperationModel} represents the information context from which tests are generated. The
@@ -83,7 +84,7 @@ public class OperationModel {
   private final LinkedHashSet<Class<?>> coveredClassesGoal;
 
   /** Map for singleton sequences of literals extracted from classes. */
-  private MultiMap<ClassOrInterfaceType, Sequence> classLiteralMap;
+  private SetMultimap<ClassOrInterfaceType, Sequence> classLiteralMap;
 
   /** Set of singleton sequences for values from TestValue annotated fields. */
   private Set<Sequence> annotatedTestValues;
@@ -105,7 +106,7 @@ public class OperationModel {
     // TreeSet here for deterministic coverage in the systemTest runNaiveCollectionsTest()
     classTypes = new TreeSet<>();
     inputTypes = new TreeSet<>();
-    classLiteralMap = new MultiMap<>();
+    classLiteralMap = HashMultimap.create();
     annotatedTestValues = new LinkedHashSet<>();
     contracts = new ContractSet();
     contracts.add(EqualsReflexive.getInstance()); // arity=1
@@ -264,7 +265,7 @@ public class OperationModel {
     // manager.
 
     for (String filename : literalsFile) {
-      MultiMap<ClassOrInterfaceType, Sequence> literalmap;
+      SetMultimap<ClassOrInterfaceType, Sequence> literalmap;
       if (filename.equals("CLASSES")) {
         literalmap = classLiteralMap;
       } else {
@@ -273,7 +274,7 @@ public class OperationModel {
 
       for (ClassOrInterfaceType type : literalmap.keySet()) {
         Package pkg = (literalsLevel == ClassLiteralsMode.PACKAGE ? type.getPackage() : null);
-        for (Sequence seq : literalmap.getValues(type)) {
+        for (Sequence seq : literalmap.get(type)) {
           switch (literalsLevel) {
             case CLASS:
               compMgr.addClassLevelLiteral(type, seq);
@@ -305,7 +306,7 @@ public class OperationModel {
    * @return a map from each class type to its methods and constructors that were read from the file
    * @throws OperationParseException if a method signature cannot be parsed
    */
-  public static MultiMap<Type, TypedClassOperation> readOperations(@Nullable Path file)
+  public static SetMultimap<Type, TypedClassOperation> readOperations(@Nullable Path file)
       throws OperationParseException {
     return readOperations(file, false);
   }
@@ -319,7 +320,7 @@ public class OperationModel {
    * @return a map from each class type to its methods and constructors that were read from the file
    * @throws OperationParseException if a method signature cannot be parsed
    */
-  public static MultiMap<Type, TypedClassOperation> readOperations(
+  public static SetMultimap<Type, TypedClassOperation> readOperations(
       @Nullable Path file, boolean ignoreParseError) throws OperationParseException {
     if (file != null) {
       try (EntryReader er = new EntryReader(file, "(//|#).*$", null)) {
@@ -329,7 +330,7 @@ public class OperationModel {
         throw new RandoopUsageError(message, e);
       }
     }
-    return new MultiMap<>();
+    return HashMultimap.create();
   }
 
   /**
@@ -340,9 +341,9 @@ public class OperationModel {
    * @param ignoreParseError if true, ignore parse errors (skip malformed signatures)
    * @return contents of the file, as a map from classes to operations
    */
-  private static MultiMap<Type, TypedClassOperation> readOperations(
+  private static SetMultimap<Type, TypedClassOperation> readOperations(
       EntryReader er, boolean ignoreParseError) {
-    MultiMap<Type, TypedClassOperation> operationsMap = new MultiMap<>();
+    SetMultimap<Type, TypedClassOperation> operationsMap = HashMultimap.create();
     for (String line : er) {
       String sig = line.trim();
       TypedClassOperation operation;
@@ -360,7 +361,7 @@ public class OperationModel {
         throw new RandoopBug("This can't happen", e);
       }
       if (operation.getInputTypes().size() > 0) {
-        operationsMap.add(operation.getInputTypes().get(0), operation);
+        operationsMap.put(operation.getInputTypes().get(0), operation);
       }
     }
     return operationsMap;
@@ -374,7 +375,7 @@ public class OperationModel {
    * @param filename the file name to use in diagnostic messages
    * @return contents of the file, as a map from classes to operations
    */
-  public static MultiMap<Type, TypedClassOperation> readOperations(
+  public static SetMultimap<Type, TypedClassOperation> readOperations(
       InputStream is, String filename) {
     return readOperations(is, filename, false);
   }
@@ -388,7 +389,7 @@ public class OperationModel {
    * @param ignoreParseError if true, ignore parse errors (skip malformed signatures)
    * @return contents of the file, as a map from classes to operations
    */
-  public static MultiMap<Type, TypedClassOperation> readOperations(
+  public static SetMultimap<Type, TypedClassOperation> readOperations(
       InputStream is, String filename, boolean ignoreParseError) {
     if (is == null) {
       throw new RandoopBug("input stream is null for file " + filename);

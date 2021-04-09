@@ -36,7 +36,7 @@ import randoop.test.PostConditionCheckGenerator;
 import randoop.test.TestCheckGenerator;
 import randoop.types.JavaTypes;
 import randoop.types.Type;
-import randoop.util.MultiMap;
+import com.google.common.collect.SetMultimap;
 
 public class OperationSpecificationTest {
   @Test
@@ -285,7 +285,7 @@ public class OperationSpecificationTest {
     specMap.put(method, spec);
 
     Map<AccessibleObject, Set<Method>> parentMap = new HashMap<>();
-    MultiMap<OperationSignature, Method> signatureMap = new MultiMap<>();
+    SetMultimap<OperationSignature, Method> signatureMap = HashMultimap.create();
     SpecificationCollection collection =
         new SpecificationCollection(specMap, signatureMap, parentMap);
     return collection.getExecutableSpecification(method);
@@ -314,7 +314,7 @@ public class OperationSpecificationTest {
     Map<AccessibleObject, OperationSpecification> specMap = new HashMap<>();
     specMap.put(constructor, spec);
     Map<AccessibleObject, Set<Method>> parentMap = new HashMap<>();
-    MultiMap<OperationSignature, Method> signatureMap = new MultiMap<>();
+    SetMultimap<OperationSignature, Method> signatureMap = HashMultimap.create();
     SpecificationCollection collection =
         new SpecificationCollection(specMap, signatureMap, parentMap);
     return collection.getExecutableSpecification(constructor);
@@ -343,7 +343,7 @@ public class OperationSpecificationTest {
     Map<AccessibleObject, OperationSpecification> specMap = new HashMap<>();
     specMap.put(method, spec);
     Map<AccessibleObject, Set<Method>> parentMap = new HashMap<>();
-    MultiMap<OperationSignature, Method> signatureMap = new MultiMap<>();
+    SetMultimap<OperationSignature, Method> signatureMap = HashMultimap.create();
     SpecificationCollection collection =
         new SpecificationCollection(specMap, signatureMap, parentMap);
     return collection.getExecutableSpecification(method);

@@ -1,14 +1,14 @@
 package randoop;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import randoop.types.Type;
-import randoop.util.CheckpointingMultiMap;
+import randoop.util.CheckpointingMultimap;
 import randoop.util.CheckpointingSet;
-import randoop.util.IMultiMap;
 import randoop.util.ISimpleSet;
-import randoop.util.MultiMap;
 import randoop.util.SimpleSet;
 
 /**
@@ -24,7 +24,7 @@ public class SubTypeSet {
    * Maps a type to all its proper subtypes that are in the set. If the mapped-to list is empty,
    * then the set contains no subtypes of the given type.
    */
-  private IMultiMap<Type, Type> subTypes;
+  private SetMultimap<Type, Type> subTypes;
 
   /** If true, then {@link #mark} and {@link #undoLastStep()} are supported. */
   private boolean supportsCheckpoints;
@@ -32,11 +32,11 @@ public class SubTypeSet {
   public SubTypeSet(boolean supportsCheckpoints) {
     if (supportsCheckpoints) {
       this.supportsCheckpoints = true;
-      this.subTypes = new CheckpointingMultiMap<>();
+      this.subTypes = new CheckpointingMultimap<>();
       this.types = new CheckpointingSet<>();
     } else {
       this.supportsCheckpoints = false;
-      this.subTypes = new MultiMap<>();
+      this.subTypes = HashMultimap.create();
       this.types = new SimpleSet<>();
     }
   }
@@ -46,7 +46,7 @@ public class SubTypeSet {
     if (!supportsCheckpoints) {
       throw new RuntimeException("Operation not supported.");
     }
-    ((CheckpointingMultiMap<Type, Type>) subTypes).mark();
+    ((CheckpointingMultimap<Type, Type>) subTypes).mark();
     ((CheckpointingSet<Type>) types).mark();
   }
 
@@ -55,7 +55,7 @@ public class SubTypeSet {
     if (!supportsCheckpoints) {
       throw new RuntimeException("Operation not supported.");
     }
-    ((CheckpointingMultiMap<Type, Type>) subTypes).undoToLastMark();
+    ((CheckpointingMultimap<Type, Type>) subTypes).undoToLastMark();
     ((CheckpointingSet<Type>) types).undoToLastMark();
   }
 
@@ -74,7 +74,7 @@ public class SubTypeSet {
     // Update existing entries.
     for (Type cls : subTypes.keySet()) {
       if (cls.isAssignableFrom(c)) {
-        if (!subTypes.getValues(cls).contains(c)) subTypes.add(cls, c);
+        if (!subTypes.get(cls).contains(c)) subTypes.put(cls, c);
       }
     }
   }
@@ -93,7 +93,7 @@ public class SubTypeSet {
       }
     }
     for (Type cls : compatibleTypes) {
-      subTypes.add(type, cls);
+      subTypes.put(type, cls);
     }
   }
 
@@ -109,7 +109,7 @@ public class SubTypeSet {
     if (!subTypes.keySet().contains(type)) {
       addQueryType(type);
     }
-    return Collections.unmodifiableSet(subTypes.getValues(type));
+    return Collections.unmodifiableSet(subTypes.get(type));
   }
 
   /**

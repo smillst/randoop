@@ -4,6 +4,8 @@ import java.util.IdentityHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+// This courd be replaced by Guava:
+// https://stackoverflow.com/questions/35743767/is-there-identitysetmultimap-in-guava-or-somewhere-else
 /** A multi-map using key identity rather than equality. */
 public class IdentityMultiMap<K, V> {
 

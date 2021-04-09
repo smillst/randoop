@@ -42,7 +42,7 @@ import randoop.test.NoExceptionCheck;
 import randoop.test.TestCheckGenerator;
 import randoop.test.TestChecks;
 import randoop.types.JavaTypes;
-import randoop.util.MultiMap;
+import com.google.common.collect.SetMultimap;
 import randoop.util.ReflectionExecutor;
 import randoop.util.SimpleList;
 import randoop.util.predicate.AlwaysTrue;
@@ -363,7 +363,7 @@ public class TestClassificationTest {
     VisibilityPredicate visibility = IS_PUBLIC;
     TestCheckGenerator checkGenerator =
         GenTests.createTestCheckGenerator(
-            visibility, new ContractSet(), new MultiMap<>(), OmitMethodsPredicate.NO_OMISSION);
+            visibility, new ContractSet(), HashMultimap.create(), OmitMethodsPredicate.NO_OMISSION);
     ForwardGenerator gen = buildGenerator(c, componentManager, visibility, checkGenerator);
     gen.createAndClassifySequences();
     List<ExecutableSequence> rTests = gen.getRegressionSequences();
@@ -435,7 +435,7 @@ public class TestClassificationTest {
     VisibilityPredicate visibility = IS_PUBLIC;
     TestCheckGenerator checkGenerator =
         GenTests.createTestCheckGenerator(
-            visibility, new ContractSet(), new MultiMap<>(), OmitMethodsPredicate.NO_OMISSION);
+            visibility, new ContractSet(), HashMultimap.create(), OmitMethodsPredicate.NO_OMISSION);
     return buildGenerator(c, componentMgr, visibility, checkGenerator);
   }
 

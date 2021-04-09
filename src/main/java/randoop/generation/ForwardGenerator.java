@@ -1,5 +1,7 @@
 package randoop.generation;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -34,7 +36,6 @@ import randoop.types.Type;
 import randoop.types.TypeTuple;
 import randoop.util.ListOfLists;
 import randoop.util.Log;
-import randoop.util.MultiMap;
 import randoop.util.Randomness;
 import randoop.util.SimpleArrayList;
 import randoop.util.SimpleList;
@@ -684,7 +685,7 @@ public class ForwardGenerator extends AbstractGenerator {
     //   `types` contains the types of all variables in S, and
     //   `typesToVars` maps each type to all variable indices in S of the given type.
     SubTypeSet types = new SubTypeSet(false);
-    MultiMap<Type, Integer> typesToVars = new MultiMap<>();
+    SetMultimap<Type, Integer> typesToVars = HashMultimap.create();
 
     for (int i = 0; i < inputTypes.size(); i++) {
       Type inputType = inputTypes.get(i);
@@ -707,7 +708,7 @@ public class ForwardGenerator extends AbstractGenerator {
           // Sanity check: the domain of typesToVars contains all the types in
           // variable types.
           assert typesToVars.keySet().contains(match);
-          candidateVars.add(new SimpleArrayList<Integer>(typesToVars.getValues(match)));
+          candidateVars.put(new SimpleArrayList<Integer>(typesToVars.get(match)));
         }
 
         // If any type-compatible variables found, pick one at random as the
@@ -827,7 +828,7 @@ public class ForwardGenerator extends AbstractGenerator {
           // uses.
           Type outType = stk.getOutputType();
           types.add(outType);
-          typesToVars.add(outType, totStatements + j);
+          typesToVars.put(outType, totStatements + j);
         }
       }
 

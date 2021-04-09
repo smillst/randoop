@@ -37,7 +37,7 @@ import randoop.test.ContractSet;
 import randoop.test.TestCheckGenerator;
 import randoop.types.ClassOrInterfaceType;
 import randoop.types.Type;
-import randoop.util.MultiMap;
+import com.google.common.collect.SetMultimap;
 import randoop.util.ReflectionExecutor;
 
 /**
@@ -123,7 +123,7 @@ public class SpecialCoveredClassTest {
     ContractSet contracts = operationModel.getContracts();
     TestCheckGenerator checkGenerator =
         GenTests.createTestCheckGenerator(
-            visibility, contracts, new MultiMap<>(), operationModel.getOmitMethodsPredicate());
+            visibility, contracts, HashMultimap.create(), operationModel.getOmitMethodsPredicate());
     testGenerator.setTestCheckGenerator(checkGenerator);
     testGenerator.setExecutionVisitor(new CoveredClassVisitor(coveredClassesGoal));
     TestUtils.setAllLogs(testGenerator);

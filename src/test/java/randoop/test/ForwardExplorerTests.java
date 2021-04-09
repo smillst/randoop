@@ -39,7 +39,7 @@ import randoop.test.bh.Tree;
 import randoop.types.ClassOrInterfaceType;
 import randoop.types.JavaTypes;
 import randoop.types.TypeTuple;
-import randoop.util.MultiMap;
+import com.google.common.collect.SetMultimap;
 import randoop.util.ReflectionExecutor;
 
 public class ForwardExplorerTests {
@@ -176,7 +176,7 @@ public class ForwardExplorerTests {
 
   private static TestCheckGenerator createChecker(ContractSet contracts) {
     return GenTests.createTestCheckGenerator(
-        IS_PUBLIC, contracts, new MultiMap<>(), OmitMethodsPredicate.NO_OMISSION);
+        IS_PUBLIC, contracts, HashMultimap.create(), OmitMethodsPredicate.NO_OMISSION);
   }
 
   private static Predicate<ExecutableSequence> createOutputTest() {
