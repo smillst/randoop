@@ -8,6 +8,8 @@ import static randoop.main.GenInputsAbstract.require_classname_in_test;
 import static randoop.reflection.VisibilityPredicate.IS_PUBLIC;
 
 import com.google.common.collect.SetMultimap;
+import io.github.classgraph.ClassGraph;
+import java.net.URI;
 import java.nio.file.Paths;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -244,8 +246,15 @@ public class CoveredClassTest {
         componentMgr, GenInputsAbstract.literals_file, GenInputsAbstract.literals_level);
 
     // Maps each class type to the side-effect-free methods in it.
-    SetMultimap<Type, TypedClassOperation> sideEffectFreeMethodsByType =
-        GenTests.readSideEffectFreeMethods();
+    SetMultimap<Type, TypedClassOperation> sideEffectFreeMethodsByType;
+    try {
+      sideEffectFreeMethodsByType = GenTests.readSideEffectFreeMethods();
+    } catch (Throwable t) {
+      List<URI> classpath = new ClassGraph().getClasspathURIs();
+      System.out.println(classpath);
+      System.err.println(classpath);
+      throw t;
+    }
 
     Set<TypedOperation> sideEffectFreeMethods = new LinkedHashSet<>();
     for (Type keyType : sideEffectFreeMethodsByType.keySet()) {
