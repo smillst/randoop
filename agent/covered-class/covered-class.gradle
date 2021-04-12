@@ -18,6 +18,7 @@ dependencies {
 }
 
 jar {
+  archiveClassifier = "not-shaded"
   manifest {
     attributes(
       "Premain-Class": "randoop.instrument.CoveredClassAgent",
