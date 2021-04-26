@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import org.plumelib.util.CollectionsPlume;
 import org.plumelib.util.StringsPlume;
 import org.plumelib.util.SystemPlume;
 import randoop.DummyVisitor;
@@ -476,11 +477,7 @@ public class ForwardGenerator extends AbstractGenerator {
     Sequence concatSeq = Sequence.concatenate(inputs.sequences);
 
     // Figure out input variables.
-    List<Variable> inputVars = new ArrayList<>();
-    for (Integer inputIndex : inputs.indices) {
-      Variable v = concatSeq.getVariable(inputIndex);
-      inputVars.add(v);
-    }
+    List<Variable> inputVars = CollectionsPlume.mapList(concatSeq::getVariable, inputs.indices);
 
     Sequence newSequence = concatSeq.extend(operation, inputVars);
 
@@ -556,10 +553,8 @@ public class ForwardGenerator extends AbstractGenerator {
           vil.add(v.getDeclIndex());
         }
       }
-      List<Variable> vl = new ArrayList<>();
-      for (Integer vi : vil) {
-        vl.add(retval.getVariable(vi));
-      }
+      Sequence currentRetval = retval;
+      List<Variable> vl = CollectionsPlume.mapList(currentRetval::getVariable, vil);
       retval = retval.extend(operation, vl);
     }
     return retval;
