@@ -39,6 +39,7 @@ import org.checkerframework.checker.signature.qual.ClassGetName;
 import org.checkerframework.checker.signature.qual.Identifier;
 import org.plumelib.options.Options;
 import org.plumelib.options.Options.ArgException;
+import org.plumelib.util.CollectionsPlume;
 import org.plumelib.util.EntryReader;
 import org.plumelib.util.StringsPlume;
 import org.plumelib.util.UtilPlume;
@@ -190,6 +191,7 @@ public class GenTests extends GenInputsAbstract {
         throw new ArgException("Unrecognized command-line arguments: " + Arrays.toString(nonargs));
       }
     } catch (ArgException ae) {
+      // usage() exits the program by calling System.exit().
       usage("While parsing command-line arguments: %s", ae.getMessage());
     }
 
@@ -512,9 +514,7 @@ public class GenTests extends GenInputsAbstract {
     try {
       explorer.createAndClassifySequences();
     } catch (SequenceExceptionError e) {
-
       printSequenceExceptionError(explorer, e);
-
       System.exit(1);
     } catch (RandoopInstantiationError e) {
       throw new RandoopBug("Error instantiating operation " + e.getOpName(), e);
@@ -709,6 +709,8 @@ public class GenTests extends GenInputsAbstract {
       PriorityQueue<RankedTypeOperation> methodHeuristicPriorityQueue =
           new PriorityQueue<>(TypedOperation.compareRankedTypeOperation.reversed());
       for (TypedClassOperation op : flakyOccurrences.keySet()) {
+        // `op` is a key in both maps.
+        // (The keys of testOccurrences are a superset of the keys of flakyOccurrences.)
         double tfIdfMetric = (double) flakyOccurrences.get(op) / testOccurrences.get(op);
         RankedTypeOperation rankedMethod = new RankedTypeOperation(tfIdfMetric, op);
         methodHeuristicPriorityQueue.add(rankedMethod);
@@ -1032,11 +1034,7 @@ public class GenTests extends GenInputsAbstract {
    * @return the list of patterns for the signature strings
    */
   private List<Pattern> createPatternsFromSignatures(List<String> signatures) {
-    List<Pattern> patterns = new ArrayList<>();
-    for (String signatureString : signatures) {
-      patterns.add(signatureToPattern(signatureString));
-    }
-    return patterns;
+    return CollectionsPlume.mapList(GenTests::signatureToPattern, signatures);
   }
 
   /**
@@ -1046,7 +1044,7 @@ public class GenTests extends GenInputsAbstract {
    * @param signatureString the string representation of a signature
    * @return the pattern to match {@code signatureString}
    */
-  private Pattern signatureToPattern(String signatureString) {
+  private static Pattern signatureToPattern(String signatureString) {
     String patternString =
         signatureString
             .replaceAll(" ", "")
