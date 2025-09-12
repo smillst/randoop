@@ -158,6 +158,7 @@ allprojects {
       leadingTabsToSpaces(2)
       endWithNewline()
     }
+
     java {
       // Use fileTree per https://github.com/diffplug/spotless/issues/399
       targetExclude(fileTree("$projectDir/src/testInput") { include('**/*.java') })
@@ -165,6 +166,7 @@ allprojects {
       googleJavaFormat('1.25.2')
       formatAnnotations()
     }
+
     groovyGradle {
       target '**/*.gradle'
       greclipse()  // which formatter Spotless should use to format .gradle files.
