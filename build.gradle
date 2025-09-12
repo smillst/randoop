@@ -92,6 +92,19 @@ allprojects {
 
   apply plugin: 'org.checkerframework'
 
+  dependencies {
+    compileOnly "org.checkerframework:checker-qual:${versions.checkerFramework}"
+    implementation "org.checkerframework:checker-qual:${versions.checkerFramework}"
+    checkerFramework "org.checkerframework:checker:${versions.checkerFramework}"
+
+    if (project.hasProperty('cfLocal')) {
+      def cfHome = String.valueOf(System.getenv('CHECKERFRAMEWORK'))
+      compileOnly files(cfHome + '/checker/dist/checker-qual.jar')
+      implementation files(cfHome + '/checker/dist/checker-qual.jar')
+      checkerFramework files(cfHome + '/checker/dist/checker.jar')
+    }
+  }
+
   checkerFramework {
     excludeTests = true
     if (project.hasProperty('cfNullness')) {
@@ -132,20 +145,6 @@ allprojects {
     ]
   }
 
-  dependencies {
-    compileOnly "org.checkerframework:checker-qual:${versions.checkerFramework}"
-    implementation "org.checkerframework:checker-qual:${versions.checkerFramework}"
-    checkerFramework "org.checkerframework:checker:${versions.checkerFramework}"
-  }
-
-  dependencies {
-    if (project.hasProperty('cfLocal')) {
-      def cfHome = String.valueOf(System.getenv('CHECKERFRAMEWORK'))
-      compileOnly files(cfHome + '/checker/dist/checker-qual.jar')
-      testCompileOnly files(cfHome + '/checker/dist/checker-qual.jar')
-      checkerFramework files(cfHome + '/checker/dist/checker.jar')
-    }
-  }
   apply plugin: 'com.diffplug.spotless'
 
   spotless {
