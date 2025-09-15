@@ -233,26 +233,23 @@ configurations {
 
   junit
 
-  /*
-   * The agent tests are JUnit tests run with the covered-class-agent, so
-   * borrow from unit test configurations.
-   */
+  implementation.extendsFrom plumelib
+  implementation.extendsFrom junit
+
+  intTestImplementation.extendsFrom implementation
+  intTestRuntimeOnly.extendsFrom runtimeOnly
+
+  testImplementation.extendsFrom implementation
+  testtRuntimeOnly.extendsFrom runtimeOnly
+
   coveredTestImplementation.extendsFrom testImplementation
   coveredTestRuntimeOnly.extendsFrom testRuntimeOnly
+
   replacecallTestImplementation.extendsFrom testImplementation
   replacecallTestRuntimeOnly.extendsFrom testRuntimeOnly
 
-  implementation.extendsFrom(plumelib)
-  implementation.extendsFrom(junit)
-
-  systemTestImplementation.extendsFrom(plumelib)
-  systemTestImplementation.extendsFrom(junit)
-
-  testInputImplementation.extendsFrom(plumelib)
-  // Also, src/testInput/java/ps1/RatPolyTest.java uses JUnit
-  testInputImplementation.extendsFrom(junit)
-
-  testImplementation.extendsFrom(junit)
+  systemTestImplementation.extendsFrom plumelib
+  systemTestImplementation.extendsFrom junit
 }
 
 dependencies {
@@ -355,13 +352,6 @@ allprojects {
     }
   }
 }
-
-
-/*
- * Configuration for clean
- */
-clean.dependsOn ':replacecall:clean'
-clean.dependsOn ':covered-class:clean'
 
 /*
  * Configuration for testing.
@@ -557,10 +547,14 @@ tasks.register('systemTest', Test) {
   group = 'Verification'
   description = 'Run system tests'
 
-  /*
-   * Set system properties for jar paths, used by randoop.main.SystemTestEnvironment
-   */
+  // Set system properties for jar paths, used by randoop.main.SystemTestEnvironment
   doFirst {
+    // Pass along any system properties that begin with "randoop."
+    System.properties.each { k, v ->
+      if (k.startsWith('randoop.')) {
+        systemProperty k, v
+      }
+    }
     systemProperty 'jar.randoop', shadowJar.archiveFile.get()
     systemProperty 'jar.replacecall.agent', project(':replacecall').shadowJar.archiveFile.get()
     systemProperty 'jar.covered.class.agent', project(':covered-class').shadowJar.archiveFile.get()
@@ -582,8 +576,6 @@ tasks.register('systemTest', Test) {
   reports.html.required = false
 }
 
-systemTest.dependsOn shadowJar
-
 /*
  * Link the systemTest task into the project check task.
  * Includes system tests into the project build task.
@@ -600,16 +592,6 @@ tasks.withType(Test).configureEach {
    * Set the heap size and GC for running tests.
    */
   jvmArgs '-Xmx3000m'
-
-  /*
-   * Pass along any system properties that begin with "randoop."
-   * Used by randoop.main.RandoopOptions in systemTest.
-   */
-  System.properties.each { k, v ->
-    if (k.startsWith('randoop.')) {
-      systemProperty k, v
-    }
-  }
 }
 
 /*
