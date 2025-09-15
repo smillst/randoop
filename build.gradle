@@ -189,30 +189,38 @@ description = 'Randoop automated test generation'
 def workingDirectories = layout.buildDirectory.get().toString() + '/working-directories'
 
 sourceSets {
-  /* JUnit tests that must be run with -javaagent */
+  // Code sets used by system tests. There are no actual tests here.
+  testInput {
+    compileClasspath += sourceSets.main.output
+    runtimeClasspath += sourceSets.main.output
+  }
+
   /* JUnit tests are run in nondeterministic order, but system tests are
    run in deterministic order. */
+  // JUnit tests that must be run with -javaagent
   coveredTest {
     compileClasspath += sourceSets.main.output
     runtimeClasspath += sourceSets.main.output
   }
-  replacecallTest
 
-  /* system tests */
+  replacecallTest {
+    compileClasspath += sourceSets.testInput.output
+    runtimeClasspath += sourceSets.testInput.output
+  }
+
+  // system tests
   systemTest {
+    runtimeClasspath += sourceSets.testInput.output
+
     resources {
       srcDir 'src/testInput/resources'
     }
     output.dir(workingDirectories, builtBy: 'generateWorkingDirs')
   }
 
-  /* Code sets used by system tests. There are no actual tests here. */
-  testInput {
-    compileClasspath += sourceSets.main.output
-    runtimeClasspath += sourceSets.main.output
-  }
-
   test {
+    compileClasspath += sourceSets.testInput.output
+    runtimeClasspath += sourceSets.testInput.output
     resources {
       srcDir 'src/testInput/resources'
     }
@@ -220,9 +228,7 @@ sourceSets {
 }
 
 configurations {
-  /*
-   * Used to manage javaagent jar file
-   */
+  // Used to manage javaagent jar file
   jacocoagent
 
   junit
@@ -243,6 +249,10 @@ configurations {
   systemTestImplementation.extendsFrom(junit)
 
   testInputImplementation.extendsFrom(plumelib)
+  // Also, src/testInput/java/ps1/RatPolyTest.java uses JUnit
+  testInputImplementation.extendsFrom(junit)
+
+  testImplementation.extendsFrom(junit)
 }
 
 dependencies {
@@ -257,19 +267,12 @@ dependencies {
 
   compileOnly 'org.plumelib:require-javadoc:1.0.9'
 
-  compileOnly "org.checkerframework:checker-qual:${versions.checkerFramework}"
-  implementation "org.checkerframework:checker-qual:${versions.checkerFramework}"
-  checkerFramework "org.checkerframework:checker:${versions.checkerFramework}"
-
-  /* Jacoco measures coverage of classes and methods under test. */
+  // Jacoco measures coverage of classes and methods under test.
   implementation "org.jacoco:org.jacoco.core:${versions.jacoco}"
   implementation group: 'org.jacoco', name: 'org.jacoco.agent', version: "${versions.jacoco}", classifier: 'runtime'
 
-  /* sourceSet test uses JUnit and some use testInput source set */
   testImplementation 'commons-codec:commons-codec:1.19.0'
   testImplementation "org.hamcrest:hamcrest-all:${versions.hamcrestAll}"
-  testImplementation configurations.junit.dependencies
-  testImplementation sourceSets.testInput.output
 
   coveredTestRuntimeOnly project(':covered-class')
 
@@ -277,19 +280,15 @@ dependencies {
 
   jacocoagent "org.jacoco:org.jacoco.agent:${versions.jacoco}"
 
-  /*
-   * source set systemTest
-   */
+
+  // source set systemTest
   systemTestImplementation "org.checkerframework:checker-qual:${versions.checkerFramework}"
   systemTestImplementation "org.jacoco:org.jacoco.core:${versions.jacoco}"
   systemTestImplementation "org.jacoco:org.jacoco.report:${versions.jacoco}"
   systemTestImplementation "org.apache.commons:commons-exec:${versions.commonsExec}"
   systemTestImplementation "org.checkerframework.annotatedlib:commons-io:${versions.commonsIo}"
   systemTestImplementation "org.hamcrest:hamcrest-all:${versions.hamcrestAll}"
-  systemTestRuntimeOnly sourceSets.testInput.output
 
-  // Also, src/testInput/java/ps1/RatPolyTest.java uses JUnit
-  testInputImplementation configurations.junit.dependencies
   testInputCompileOnly "org.checkerframework:checker-qual:${versions.checkerFramework}"
 
   errorprone "com.google.errorprone:error_prone_core:${versions.errorProne}"
