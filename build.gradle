@@ -6,7 +6,7 @@
  */
 
 plugins {
-  id 'com.gradleup.shadow' version '8.3.9'
+  id 'com.gradleup.shadow' version '9.1.0'
   id 'java'
   id 'eclipse'
   id 'idea'
@@ -192,7 +192,10 @@ sourceSets {
   /* JUnit tests that must be run with -javaagent */
   /* JUnit tests are run in nondeterministic order, but system tests are
    run in deterministic order. */
-  coveredTest
+  coveredTest {
+    compileClasspath += sourceSets.main.output
+    runtimeClasspath += sourceSets.main.output
+  }
   replacecallTest
 
   /* system tests */
@@ -204,7 +207,10 @@ sourceSets {
   }
 
   /* Code sets used by system tests. There are no actual tests here. */
-  testInput
+  testInput {
+    compileClasspath += sourceSets.main.output
+    runtimeClasspath += sourceSets.main.output
+  }
 
   test {
     resources {
@@ -265,12 +271,6 @@ dependencies {
   testImplementation configurations.junit.dependencies
   testImplementation sourceSets.testInput.output
 
-  /*
-   * sourceSet coveredTest uses output from main sourceSet, and agent projects.
-   * (Also, see configuration block.)
-   */
-  coveredTestImplementation sourceSets.main.output
-  coveredTestImplementation sourceSets.test.output
   coveredTestRuntimeOnly project(':covered-class')
 
   replacecallTestImplementation files(project(':replacecall').sourceSets.main.output)
@@ -288,11 +288,7 @@ dependencies {
   systemTestImplementation "org.hamcrest:hamcrest-all:${versions.hamcrestAll}"
   systemTestRuntimeOnly sourceSets.testInput.output
 
-  /*
-   * sourceSet testInput depends on output of main.
-   * Also, src/testInput/java/ps1/RatPolyTest.java uses JUnit
-   */
-  testInputImplementation sourceSets.main.output
+  // Also, src/testInput/java/ps1/RatPolyTest.java uses JUnit
   testInputImplementation configurations.junit.dependencies
   testInputCompileOnly "org.checkerframework:checker-qual:${versions.checkerFramework}"
 
@@ -439,11 +435,7 @@ test {
 }
 
 tasks.register('coveredTest', Test) {
-  dependsOn(
-      shadowJar,
-      'copyJars',
-      'compileTestJava'
-      )
+  dependsOn('copyJars')
   description = 'Run covered-class tests'
 
   /*
