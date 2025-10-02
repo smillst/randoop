@@ -43,139 +43,6 @@ ext {
   javadocMemberLevel = JavadocMemberLevel.PROTECTED
 }
 
-/* Common build configuration for Randoop and agents */
-allprojects {
-
-  apply plugin: 'java'
-  apply plugin: 'com.gradleup.shadow'
-  apply plugin: 'net.ltgt.errorprone'
-
-  java {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-  }
-
-  repositories {
-    mavenCentral()
-    maven { url = uri('https://central.sonatype.com/repository/maven-snapshots/') }
-    mavenLocal()
-  }
-
-  group = 'com.github.randoop'
-  /* Randoop version number - added to generated jar files */
-  version = '4.3.4'
-
-  configurations {
-    // A collection of all plumelib dependencies required, so that all
-    // sub-projects use the same versions.
-    plumelib
-  }
-
-  dependencies {
-    // https://mvnrepository.com/artifact/org.plumelib/bcel-util
-    plumelib 'org.plumelib:bcel-util:1.2.3'
-    // https://mvnrepository.com/artifact/org.plumelib/options
-    if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
-      plumelib 'org.plumelib:options:1.0.6'
-    } else {
-      plumelib 'org.plumelib:options:2.0.3'
-    }
-    // https://mvnrepository.com/artifact/org.plumelib/plume-util
-    plumelib 'org.plumelib:plume-util:1.11.0'
-    // https://mvnrepository.com/artifact/org.plumelib/reflection-util
-    plumelib 'org.plumelib:reflection-util:1.1.5'
-  }
-  java {
-    withJavadocJar()
-    withSourcesJar()
-  }
-
-  apply plugin: 'org.checkerframework'
-
-  dependencies {
-    compileOnly "org.checkerframework:checker-qual:${versions.checkerFramework}"
-    implementation "org.checkerframework:checker-qual:${versions.checkerFramework}"
-    checkerFramework "org.checkerframework:checker:${versions.checkerFramework}"
-
-    if (project.hasProperty('cfLocal')) {
-      def cfHome = String.valueOf(System.getenv('CHECKERFRAMEWORK'))
-      compileOnly files(cfHome + '/checker/dist/checker-qual.jar')
-      implementation files(cfHome + '/checker/dist/checker-qual.jar')
-      checkerFramework files(cfHome + '/checker/dist/checker.jar')
-    }
-  }
-
-  checkerFramework {
-    excludeTests = true
-    if (project.hasProperty('cfNullness')) {
-      checkers = [
-        'org.checkerframework.checker.nullness.NullnessChecker',
-        // These are included to avoid this failure:
-        //   The following options were not recognized by any processor: '[permitStaticOwning]'
-        'org.checkerframework.checker.regex.RegexChecker',
-        'org.checkerframework.checker.resourceleak.ResourceLeakChecker',
-        'org.checkerframework.checker.signedness.SignednessChecker',
-        'org.checkerframework.checker.signature.SignatureChecker',
-      ]
-    } else {
-      checkers = [
-        // 'org.checkerframework.checker.nullness.NullnessChecker',
-        'org.checkerframework.checker.regex.RegexChecker',
-        'org.checkerframework.checker.resourceleak.ResourceLeakChecker',
-        'org.checkerframework.checker.signedness.SignednessChecker',
-        'org.checkerframework.checker.signature.SignatureChecker',
-      ]
-    }
-    extraJavacArgs = [
-      // Uncomment -proc:none to disable all annotation processing and speed up the build.
-      // '-proc:none',
-
-      '-Werror',
-      '-Awarns',
-      '-Xmaxwarns',
-      '10000',
-      // '-AcheckPurityAnnotations',
-      '-ArequirePrefixInWarningSuppressions',
-      '-AwarnUnneededSuppressions',
-      '-AwarnRedundantAnnotations',
-      '-ApermitStaticOwning',
-      // -processing: suppresses "No processor claimed any of these annotations ..."
-      // -options: suppresses "target value 8 is obsolete and will be removed in a future release"
-      '-Xlint:-processing,-options'
-    ]
-  }
-
-  apply plugin: 'com.diffplug.spotless'
-
-  spotless {
-    format 'misc', {
-      // define the files to apply `misc` to
-      target '*.md', '.gitignore'
-
-      // define the steps to apply to those files
-      trimTrailingWhitespace()
-      leadingTabsToSpaces(2)
-      endWithNewline()
-    }
-
-    java {
-      // Use fileTree per https://github.com/diffplug/spotless/issues/399
-      targetExclude(fileTree("$projectDir/src/testInput") { include('**/*.java') })
-
-      googleJavaFormat('1.25.2')
-      formatAnnotations()
-    }
-
-    groovyGradle {
-      target '**/*.gradle'
-      greclipse()  // which formatter Spotless should use to format .gradle files.
-      leadingTabsToSpaces(2)
-      trimTrailingWhitespace()
-      // endWithNewline() // Don't want to end empty files with a newline
-    }
-  }
-} // // end allprojects
-
 import org.apache.tools.ant.taskdefs.condition.Os
 
 /******
@@ -326,32 +193,6 @@ tasks.register('compileAll') {
 // Get early notification of compilation failures, when running assemble.
 assemble.mustRunAfter compileAll
 build.dependsOn compileAll
-
-// Error Prone linter
-allprojects {
-  dependencies {
-    errorprone("com.google.errorprone:error_prone_core:${versions.errorProne}")
-  }
-  tasks.withType(JavaCompile).configureEach { t ->
-    if (t.name.equals('compileTestInputJava') || t.name.equals('compileTestJava')) {
-      options.errorprone.enabled = false
-    } else {
-      options.compilerArgs << '-Xlint:all,-processing' << '-Werror'
-      options.errorprone {
-        enabled = JavaVersion.current() != JavaVersion.VERSION_1_8
-        // TODO: uncomment once we run the Interning Checker on Randoop.
-        // disable('ReferenceEquality') // Use Interning Checker instead.
-        disable('StringSplitter') // Obscure case isn't likely.
-        disable('AnnotateFormatMethod') // Error Prone doesn't use Checker Framework @FormatMethod.
-        // Removing "public" from private class members loses information about the abstraction.
-        disable('EffectivelyPrivate')
-
-        excludedPaths = '.*/testInput/.*'
-      }
-      options.errorprone.enabled = isJava17orHigher
-    }
-  }
-}
 
 /*
  * Configuration for testing.
@@ -593,6 +434,163 @@ tasks.withType(Test).configureEach {
    */
   jvmArgs '-Xmx3000m'
 }
+
+/* Common build configuration for Randoop and agents */
+allprojects {
+
+  apply plugin: 'java'
+  apply plugin: 'com.gradleup.shadow'
+  apply plugin: 'net.ltgt.errorprone'
+
+  java {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+  }
+
+  repositories {
+    mavenCentral()
+    maven { url = uri('https://central.sonatype.com/repository/maven-snapshots/') }
+    mavenLocal()
+  }
+
+  group = 'com.github.randoop'
+  /* Randoop version number - added to generated jar files */
+  version = '4.3.4'
+
+  configurations {
+    // A collection of all plumelib dependencies required, so that all
+    // sub-projects use the same versions.
+    plumelib
+  }
+
+  dependencies {
+    // https://mvnrepository.com/artifact/org.plumelib/bcel-util
+    plumelib 'org.plumelib:bcel-util:1.2.3'
+    // https://mvnrepository.com/artifact/org.plumelib/options
+    if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
+      plumelib 'org.plumelib:options:1.0.6'
+    } else {
+      plumelib 'org.plumelib:options:2.0.3'
+    }
+    // https://mvnrepository.com/artifact/org.plumelib/plume-util
+    plumelib 'org.plumelib:plume-util:1.11.0'
+    // https://mvnrepository.com/artifact/org.plumelib/reflection-util
+    plumelib 'org.plumelib:reflection-util:1.1.5'
+  }
+  java {
+    withJavadocJar()
+    withSourcesJar()
+  }
+
+  apply plugin: 'org.checkerframework'
+
+  dependencies {
+    compileOnly "org.checkerframework:checker-qual:${versions.checkerFramework}"
+    implementation "org.checkerframework:checker-qual:${versions.checkerFramework}"
+    checkerFramework "org.checkerframework:checker:${versions.checkerFramework}"
+
+    if (project.hasProperty('cfLocal')) {
+      def cfHome = String.valueOf(System.getenv('CHECKERFRAMEWORK'))
+      compileOnly files(cfHome + '/checker/dist/checker-qual.jar')
+      implementation files(cfHome + '/checker/dist/checker-qual.jar')
+      checkerFramework files(cfHome + '/checker/dist/checker.jar')
+    }
+  }
+
+  checkerFramework {
+    excludeTests = true
+    if (project.hasProperty('cfNullness')) {
+      checkers = [
+        'org.checkerframework.checker.nullness.NullnessChecker',
+        // These are included to avoid this failure:
+        //   The following options were not recognized by any processor: '[permitStaticOwning]'
+        'org.checkerframework.checker.regex.RegexChecker',
+        'org.checkerframework.checker.resourceleak.ResourceLeakChecker',
+        'org.checkerframework.checker.signedness.SignednessChecker',
+        'org.checkerframework.checker.signature.SignatureChecker',
+      ]
+    } else {
+      checkers = [
+        // 'org.checkerframework.checker.nullness.NullnessChecker',
+        'org.checkerframework.checker.regex.RegexChecker',
+        'org.checkerframework.checker.resourceleak.ResourceLeakChecker',
+        'org.checkerframework.checker.signedness.SignednessChecker',
+        'org.checkerframework.checker.signature.SignatureChecker',
+      ]
+    }
+    extraJavacArgs = [
+      // Uncomment -proc:none to disable all annotation processing and speed up the build.
+      // '-proc:none',
+
+      '-Werror',
+      '-Awarns',
+      '-Xmaxwarns',
+      '10000',
+      // '-AcheckPurityAnnotations',
+      '-ArequirePrefixInWarningSuppressions',
+      '-AwarnUnneededSuppressions',
+      '-AwarnRedundantAnnotations',
+      '-ApermitStaticOwning',
+      // -processing: suppresses "No processor claimed any of these annotations ..."
+      // -options: suppresses "target value 8 is obsolete and will be removed in a future release"
+      '-Xlint:-processing,-options'
+    ]
+  }
+
+  apply plugin: 'com.diffplug.spotless'
+
+  spotless {
+    format 'misc', {
+      // define the files to apply `misc` to
+      target '*.md', '.gitignore'
+
+      // define the steps to apply to those files
+      trimTrailingWhitespace()
+      leadingTabsToSpaces(2)
+      endWithNewline()
+    }
+
+    java {
+      // Use fileTree per https://github.com/diffplug/spotless/issues/399
+      targetExclude(fileTree("$projectDir/src/testInput") { include('**/*.java') })
+
+      googleJavaFormat('1.25.2')
+      formatAnnotations()
+    }
+
+    groovyGradle {
+      target '**/*.gradle'
+      greclipse()  // which formatter Spotless should use to format .gradle files.
+      leadingTabsToSpaces(2)
+      trimTrailingWhitespace()
+      // endWithNewline() // Don't want to end empty files with a newline
+    }
+  }
+  // Error Prone linter
+
+  dependencies {
+    errorprone("com.google.errorprone:error_prone_core:${versions.errorProne}")
+  }
+  tasks.withType(JavaCompile).configureEach { t ->
+    if (t.name.equals('compileTestInputJava') || t.name.equals('compileTestJava')) {
+      options.errorprone.enabled = false
+    } else {
+      options.compilerArgs << '-Xlint:all,-processing' << '-Werror'
+      options.errorprone {
+        enabled = JavaVersion.current() != JavaVersion.VERSION_1_8
+        // TODO: uncomment once we run the Interning Checker on Randoop.
+        // disable('ReferenceEquality') // Use Interning Checker instead.
+        disable('StringSplitter') // Obscure case isn't likely.
+        disable('AnnotateFormatMethod') // Error Prone doesn't use Checker Framework @FormatMethod.
+        // Removing "public" from private class members loses information about the abstraction.
+        disable('EffectivelyPrivate')
+
+        excludedPaths = '.*/testInput/.*'
+      }
+      options.errorprone.enabled = isJava17orHigher
+    }
+  }
+}  // // end allprojects
 
 /*
  * Write HTML reports into build/reports/allTests for all tests.
