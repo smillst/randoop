@@ -208,6 +208,7 @@ configurations {
   implementation.extendsFrom plumelib
   implementation.extendsFrom junit
 
+  testInputImplementation.extendsFrom plumelib
   testInputImplementation.extendsFrom junit
 
   intTestImplementation.extendsFrom implementation
