@@ -199,6 +199,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            62, // 62 for Java 8, 63 for Java 21.
             "java7.util7.Collections.addAll(java7.util7.Collection, java.lang.Object[]) ignore17+",
             "java7.util7.Collections.asLifoQueue(java7.util7.Deque) exclude",
             "java7.util7.Collections.binarySearch(java7.util7.List, java.lang.Object) exclude",
@@ -288,6 +289,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            126,
             "java7.util7.ArrayList.addAll(int, java7.util7.Collection) ignore",
             "java7.util7.ArrayList.addAll(java7.util7.Collection) ignore17+",
             "java7.util7.ArrayList.fastRemove(int) ignore",
@@ -407,6 +409,9 @@ public class RandoopSystemTest {
     options.setErrorBasename("JDK_Tests_error");
 
     options.setOption("generated_limit", "6000");
+    // Using these values instead slightly reduced coverage:
+    // options.setOption("null-ratio", "0.1");
+    // options.setOption("alias-ratio", "0.2");
     options.setOption("null-ratio", "0.3");
     options.setOption("alias-ratio", "0.3");
     options.setOption("input-selection", "small-tests");
@@ -416,7 +421,7 @@ public class RandoopSystemTest {
     ExpectedTests expectedRegressionTests = ExpectedTests.SOME;
     ExpectedTests expectedErrorTests = ExpectedTests.DONT_CARE;
 
-    CoverageChecker coverageChecker = CoverageChecker.fromFile(options, "JDKTest.methodspecs");
+    CoverageChecker coverageChecker = CoverageChecker.fromFile(options, 491, "JDKTest.methodspecs");
     generateAndTest(
         testEnvironment, options, expectedRegressionTests, expectedErrorTests, coverageChecker);
   }
@@ -451,6 +456,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            44,
             "examples.Buggy.throwStackOverflowError() ignore",
             "examples.Buggy.toString() ignore",
 
@@ -491,6 +497,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            2,
             // I don't see how to cover a checkRep method that always throws an exception.
             "examples.CheckRep1.throwsException() ignore");
 
@@ -520,7 +527,7 @@ public class RandoopSystemTest {
 
     ExpectedTests expectedRegressionTests = ExpectedTests.SOME;
     ExpectedTests expectedErrorTests = ExpectedTests.NONE;
-    generateAndTest(testEnvironment, options, expectedRegressionTests, expectedErrorTests);
+    generateAndTest(testEnvironment, options, 14, expectedRegressionTests, expectedErrorTests);
   }
 
   /**
@@ -546,6 +553,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            2,
             // XXX after adding compile check this method did not appear in JDK7 runs
             "randoop.test.LongString.tooLongString() ignore");
     generateAndTest(
@@ -571,6 +579,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            2,
             "examples.Visibility.getNonVisible() exclude",
             "examples.Visibility.takesNonVisible(examples.NonVisible) exclude");
 
@@ -675,7 +684,7 @@ public class RandoopSystemTest {
 
     ExpectedTests expectedRegressionTests = ExpectedTests.SOME;
     ExpectedTests expectedErrorTests = ExpectedTests.SOME;
-    generateAndTest(testEnvironment, options, expectedRegressionTests, expectedErrorTests);
+    generateAndTest(testEnvironment, options, 5, expectedRegressionTests, expectedErrorTests);
   }
 
   @Test
@@ -694,7 +703,7 @@ public class RandoopSystemTest {
 
     ExpectedTests expectedRegressionTests = ExpectedTests.SOME;
     ExpectedTests expectedErrorTests = ExpectedTests.NONE;
-    generateAndTest(testEnvironment, options, expectedRegressionTests, expectedErrorTests);
+    generateAndTest(testEnvironment, options, 6, expectedRegressionTests, expectedErrorTests);
   }
 
   @Test
@@ -713,7 +722,7 @@ public class RandoopSystemTest {
 
     ExpectedTests expectedRegressionTests = ExpectedTests.SOME;
     ExpectedTests expectedErrorTests = ExpectedTests.NONE;
-    generateAndTest(testEnvironment, options, expectedRegressionTests, expectedErrorTests);
+    generateAndTest(testEnvironment, options, 2, expectedRegressionTests, expectedErrorTests);
   }
 
   /** Runs Randoop on a class in the default package to ensure nothing breaks. */
@@ -730,7 +739,7 @@ public class RandoopSystemTest {
 
     ExpectedTests expectedRegressionTests = ExpectedTests.SOME;
     ExpectedTests expectedErrorTests = ExpectedTests.NONE;
-    generateAndTest(testEnvironment, options, expectedRegressionTests, expectedErrorTests);
+    generateAndTest(testEnvironment, options, 2, expectedRegressionTests, expectedErrorTests);
   }
 
   /** Tests that Randoop deals properly with exceptions. */
@@ -747,7 +756,7 @@ public class RandoopSystemTest {
 
     ExpectedTests expectedRegressionTests = ExpectedTests.SOME;
     ExpectedTests expectedErrorTests = ExpectedTests.NONE;
-    generateAndTest(testEnvironment, options, expectedRegressionTests, expectedErrorTests);
+    generateAndTest(testEnvironment, options, 2, expectedRegressionTests, expectedErrorTests);
   }
 
   /** Tests that Randoop deals properly with ConcurrentModificationException in contract checks. */
@@ -769,6 +778,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            6,
             // Randoop does not test hashCode(), because it may be nondeterministic
             "misc.MyCmeList.hashCode() ignore");
 
@@ -807,6 +817,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            25, // 26 for most JDKs, 25 for JDK 17
             "collectiongen.AnInputClass.hashCode() ignore",
             "collectiongen.Day.$values() ignore17+",
             "collectiongen.Day.valueOf(java.lang.String) exclude",
@@ -840,7 +851,7 @@ public class RandoopSystemTest {
 
     ExpectedTests expectedRegressionTests = ExpectedTests.SOME;
     ExpectedTests expectedErrorTests = ExpectedTests.NONE;
-    generateAndTest(testEnvironment, options, expectedRegressionTests, expectedErrorTests);
+    generateAndTest(testEnvironment, options, 2, expectedRegressionTests, expectedErrorTests);
   }
 
   /** Test what happens when have empty input class names. */
@@ -883,7 +894,7 @@ public class RandoopSystemTest {
 
     ExpectedTests expectedRegressionTests = ExpectedTests.SOME;
     ExpectedTests expectedErrorTests = ExpectedTests.NONE;
-    generateAndTest(testEnvironment, options, expectedRegressionTests, expectedErrorTests);
+    generateAndTest(testEnvironment, options, 6, expectedRegressionTests, expectedErrorTests);
   }
 
   /**
@@ -903,6 +914,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            5,
             "flaky.FlakyClass.flakyDefaultHashCode() ignore",
             "flaky.FlakyClass.getThree() include",
             "flaky.FlakyClass.getTwo() include",
@@ -937,6 +949,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            4,
             "flaky.FlakyClass.flakyDefaultHashCode() ignore",
             "flaky.FlakyClass.getThree() include",
             "flaky.FlakyClass.getTwo() include",
@@ -1069,7 +1082,7 @@ public class RandoopSystemTest {
     options.setOption("output_limit", "200");
 
     // TODO should check for invalid test count
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
+    generateAndTest(testEnvironment, options, 5, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
   }
 
   /** Test input based on Toradocu tutorial example. */
@@ -1087,7 +1100,7 @@ public class RandoopSystemTest {
     options.setOption("output_limit", "200");
 
     // TODO should check for invalid test count
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
+    generateAndTest(testEnvironment, options, 6, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
   }
 
   // TODO need these 3 together: counts should not change when standard classification changes
@@ -1107,7 +1120,7 @@ public class RandoopSystemTest {
     options.setOption("unchecked-exception", "INVALID");
 
     // TODO should check for invalid test count
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
+    generateAndTest(testEnvironment, options, 6, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
   }
 
   @Test
@@ -1126,7 +1139,7 @@ public class RandoopSystemTest {
     options.setOption("unchecked-exception", "ERROR");
 
     // TODO should check for invalid test count
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
+    generateAndTest(testEnvironment, options, 6, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
   }
 
   @Test
@@ -1141,7 +1154,7 @@ public class RandoopSystemTest {
     options.setRegressionBasename("ConditionRegression");
     options.setOption("output_limit", "200");
 
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
+    generateAndTest(testEnvironment, options, 3, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
   }
 
   /**
@@ -1171,6 +1184,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            3,
             "randoop.condition.ConditionWithException.getOne() exclude",
             "randoop.condition.ConditionWithException.getZero() exclude"
             //
@@ -1193,7 +1207,7 @@ public class RandoopSystemTest {
     options.setRegressionBasename("ConditionsRegression");
     options.setOption("output_limit", "200");
 
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.NONE);
+    generateAndTest(testEnvironment, options, 2, ExpectedTests.SOME, ExpectedTests.NONE);
   }
 
   @Test
@@ -1209,7 +1223,7 @@ public class RandoopSystemTest {
     options.setRegressionBasename("ConditionsRegression");
     options.setOption("output_limit", "200");
 
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.NONE);
+    generateAndTest(testEnvironment, options, 2, ExpectedTests.SOME, ExpectedTests.NONE);
   }
 
   @Test
@@ -1225,7 +1239,7 @@ public class RandoopSystemTest {
     options.setRegressionBasename("ConditionsRegression");
     options.setOption("output_limit", "200");
 
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.NONE);
+    generateAndTest(testEnvironment, options, 2, ExpectedTests.SOME, ExpectedTests.NONE);
   }
 
   @Test
@@ -1241,7 +1255,7 @@ public class RandoopSystemTest {
     options.setRegressionBasename("ConditionsRegression");
     options.setOption("output_limit", "200");
 
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.NONE);
+    generateAndTest(testEnvironment, options, 2, ExpectedTests.SOME, ExpectedTests.NONE);
   }
 
   /**
@@ -1260,7 +1274,7 @@ public class RandoopSystemTest {
     options.setOption("attempted_limit", "10000");
     options.setOption("generated_limit", "3000");
 
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
+    generateAndTest(testEnvironment, options, 3, ExpectedTests.SOME, ExpectedTests.DONT_CARE);
   }
 
   /** This test uses input classes that result in uncompilable tests. */
@@ -1276,7 +1290,9 @@ public class RandoopSystemTest {
 
     CoverageChecker coverageChecker =
         new CoverageChecker(
-            options, "compileerr.WildcardCollection.munge(java.util.List, java.util.List) ignore");
+            options,
+            4,
+            "compileerr.WildcardCollection.munge(java.util.List, java.util.List) ignore");
     generateAndTest(
         testEnvironment, options, ExpectedTests.SOME, ExpectedTests.NONE, coverageChecker);
   }
@@ -1298,6 +1314,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            5,
             // TODO figure out why this method is not covered.
             "instrument.testcase.A.toString() ignore",
             "instrument.testcase.C.getValue() exclude",
@@ -1329,7 +1346,7 @@ public class RandoopSystemTest {
     options.setOption("generated_limit", "2000");
     options.setOption("output_limit", "200");
 
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.NONE);
+    generateAndTest(testEnvironment, options, 6, ExpectedTests.SOME, ExpectedTests.NONE);
   }
 
   /** This test tests the contract collection.toArray().length == collection.size() */
@@ -1345,6 +1362,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            3,
             "collections.BadCollection.add(java.lang.Object) exclude",
             "collections.BadCollection.addAll(java.util.Collection) exclude",
             "collections.BadCollection.clear() exclude",
@@ -1397,7 +1415,7 @@ public class RandoopSystemTest {
     options.setOption("output_limit", "20");
     options.setOption("generated_limit", "80");
     CoverageChecker coverageChecker =
-        new CoverageChecker(options, "input.SystemExitClass.hashCode() ignore");
+        new CoverageChecker(options, 5, "input.SystemExitClass.hashCode() ignore");
     generateAndTest(
         testEnvironment, options, ExpectedTests.SOME, ExpectedTests.NONE, coverageChecker);
   }
@@ -1421,7 +1439,7 @@ public class RandoopSystemTest {
     options.setOption("output_limit", "20");
     options.setOption("generated_limit", "40");
     CoverageChecker coverageChecker =
-        new CoverageChecker(options, "input.NoExitClass.hashCode() exclude");
+        new CoverageChecker(options, 6, "input.NoExitClass.hashCode() exclude");
     generateAndTest(
         testEnvironment, options, ExpectedTests.SOME, ExpectedTests.NONE, coverageChecker);
   }
@@ -1440,6 +1458,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            36,
             "java7.util7.ArrayList.addAll(int, java7.util7.Collection) ignore",
             "java7.util7.ArrayList.addAll(java7.util7.Collection) ignore",
             "java7.util7.ArrayList.elementData(int) ignore",
@@ -1467,7 +1486,7 @@ public class RandoopSystemTest {
     options.setOption("grt_fuzzing_stddev", "10000");
     CoverageChecker coverageChecker =
         new CoverageChecker(
-            options, "collections.SeedIntegerCollection.handleSeedNotFound() include");
+            options, 3, "collections.SeedIntegerCollection.handleSeedNotFound() include");
     generateAndTest(
         testEnvironment, options, ExpectedTests.SOME, ExpectedTests.NONE, coverageChecker);
   }
@@ -1489,6 +1508,7 @@ public class RandoopSystemTest {
     CoverageChecker coverageChecker =
         new CoverageChecker(
             options,
+            12,
             "misc.elephantbrain.ElephantBrainTest.testA() include",
             "misc.elephantbrain.ElephantBrainTest.testB() include",
             "misc.elephantbrain.ElephantBrainTest.testP() exclude",
@@ -1505,7 +1525,7 @@ public class RandoopSystemTest {
     RandoopOptions options = createRandoopOptions(testEnvironment);
     options.addTestClass("collections.NonNullCollection");
     options.setOption("output_limit", "20");
-    generateAndTest(testEnvironment, options, ExpectedTests.SOME, ExpectedTests.NONE);
+    generateAndTest(testEnvironment, options, 4, ExpectedTests.SOME, ExpectedTests.NONE);
   }
 
   @Test
@@ -1522,6 +1542,7 @@ public class RandoopSystemTest {
         ExpectedTests.NONE,
         new CoverageChecker(
             options,
+            3,
             "misc.PureStaticUnaryMethodExample.describeLength(java.lang.String) ignore",
             "misc.PureStaticUnaryMethodExample.printAndStore(java.lang.String) ignore"));
   }
@@ -1624,16 +1645,22 @@ public class RandoopSystemTest {
    *
    * @param environment the working environment of the test
    * @param options the Randoop options
+   * @param minMethodsToCover the minimum number of methods that must be covered by this test
    * @param expectedRegression the minimum expected number of regression tests
    * @param expectedError the minimum expected error tests
    */
   private void generateAndTest(
       SystemTestEnvironment environment,
       RandoopOptions options,
+      int minMethodsToCover,
       ExpectedTests expectedRegression,
       ExpectedTests expectedError) {
     generateAndTest(
-        environment, options, expectedRegression, expectedError, new CoverageChecker(options));
+        environment,
+        options,
+        expectedRegression,
+        expectedError,
+        new CoverageChecker(options, minMethodsToCover));
   }
 
   /**
