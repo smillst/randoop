@@ -158,9 +158,6 @@ sourceSets {
    run in deterministic order. */
   /* system tests */
   systemTest {
-    resources {
-      srcDir("src/testInput/resources")
-    }
     output.dir(workingDirectories, builtBy: "generateWorkingDirs")
   }
 
