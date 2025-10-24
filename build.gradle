@@ -371,7 +371,7 @@ test {
    * instead of the project directory.
    */
 
-  workingDir = layout.buildDirectory.file("resources")
+  workingDir = layout.projectDirectory.file("src/testInput/resources")
 
   /*
    * Show as much as possible to console.
