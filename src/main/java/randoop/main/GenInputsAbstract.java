@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.checkerframework.checker.modifiability.qual.Growable;
-import org.checkerframework.checker.modifiability.qual.IteratorPreserveRemove;
+import org.checkerframework.checker.modifiability.qual.IteratorPreservesRemove;
 import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.modifiability.qual.Shrinkable;
 import org.checkerframework.checker.mustcall.qual.Owning;
@@ -1178,7 +1178,8 @@ public abstract class GenInputsAbstract extends CommandHandler {
    */
   public static Set<@ClassGetName String> getClassnamesFromArgs(
       AccessibilityPredicate accessibility) {
-    @IteratorPreserveRemove Set<@ClassGetName String> classnames = getClassNamesFromFile(classlist);
+    @IteratorPreservesRemove
+    Set<@ClassGetName String> classnames = getClassNamesFromFile(classlist);
     for (Path jarFile : testjar) {
       classnames.addAll(getClassnamesFromJarFile(jarFile, accessibility));
     }
@@ -1409,8 +1410,8 @@ public abstract class GenInputsAbstract extends CommandHandler {
    * @param file the file containing the strings
    * @return the lines in the file, or null if listFile is null
    */
-  public static @Modifiable @IteratorPreserveRemove Set<@ClassGetName String> getClassNamesFromFile(
-      Path file) {
+  public static @Modifiable @IteratorPreservesRemove Set<@ClassGetName String>
+      getClassNamesFromFile(Path file) {
     Set<@ClassGetName String> result = new LinkedHashSet<>();
     for (String line : getStringSetFromFile(file, "class names")) {
       if (!Signatures.isClassGetName(line)) {
