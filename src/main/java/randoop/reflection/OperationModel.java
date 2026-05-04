@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
-import org.checkerframework.checker.modifiability.qual.IteratorPreservesRemove;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.checker.signature.qual.ClassGetName;
@@ -81,8 +81,7 @@ public class OperationModel {
 
   /** The set of class declaration types for this model. */
   // TreeSet here for deterministic coverage in the systemTest runNaiveCollectionsTest()
-  private @Modifiable @IteratorPreservesRemove Set<ClassOrInterfaceType> classTypes =
-      new TreeSet<>();
+  private @Modifiable @IteratorPolyMod Set<ClassOrInterfaceType> classTypes = new TreeSet<>();
 
   /**
    * The set of input types for this model. It is set by {@link #addClassTypes}, which calls {@link
