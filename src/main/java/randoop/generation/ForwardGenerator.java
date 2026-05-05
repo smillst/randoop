@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.modifiability.qual.Shrinkable;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
@@ -90,7 +91,8 @@ public class ForwardGenerator extends AbstractGenerator {
    * scope, used to select literals from the component manager's literal statistics. A scope is a
    * type, package, or {@code ScopeToLiteralStatistics#ALL_SCOPE}.
    */
-  private @MonotonicNonNull HashMap<@Nullable Object, TfIdfSelector> scopeToTfIdfSelectors;
+  private @Growable @MonotonicNonNull HashMap<@Nullable Object, TfIdfSelector>
+      scopeToTfIdfSelectors;
 
   /**
    * The set of all primitive values seen during generation and execution of sequences. This set is

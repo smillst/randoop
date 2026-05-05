@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -289,7 +290,7 @@ public class OperationModel {
       return;
     }
     // Add sequences from external literals files (ignore "CLASSES").
-    Map<ClassOrInterfaceType, Set<Sequence>> sequencesPerType = new LinkedHashMap<>();
+    Map<ClassOrInterfaceType, @Growable Set<Sequence>> sequencesPerType = new LinkedHashMap<>();
     for (String literalsFile : GenInputsAbstract.literals_file) {
       if (literalsFile.equals("CLASSES")) {
         continue;
@@ -307,7 +308,7 @@ public class OperationModel {
         }
       }
     }
-    for (Map.Entry<ClassOrInterfaceType, Set<Sequence>> e : sequencesPerType.entrySet()) {
+    for (Map.Entry<ClassOrInterfaceType, @Growable Set<Sequence>> e : sequencesPerType.entrySet()) {
       scopeToLiteralStatistics.recordSequencesInClass(e.getKey(), e.getValue());
     }
 
