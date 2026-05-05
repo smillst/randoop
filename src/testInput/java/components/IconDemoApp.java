@@ -129,7 +129,7 @@ public class IconDemoApp extends JFrame {
         photographLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         
         // We add two glue components. Later in process() we will add thumbnail buttons
-        // to the toolbar inbetween thease glue compoents. This will center the
+        // to the toolbar in between these glue components. This will center the
         // buttons in the toolbar.
         buttonBar.add(Box.createGlue());
         buttonBar.add(Box.createGlue());
@@ -150,7 +150,7 @@ public class IconDemoApp extends JFrame {
      * SwingWorker class that loads the images a background thread and calls publish
      * when a new one is ready to be displayed.
      *
-     * We use Void as the first SwingWroker param as we do not need to return
+     * We use Void as the first SwingWorker param as we do not need to return
      * anything from doInBackground().
      */
     private SwingWorker<Void, ThumbnailAction> loadimages = new SwingWorker<Void, ThumbnailAction>() {
