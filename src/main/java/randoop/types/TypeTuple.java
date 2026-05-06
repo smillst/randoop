@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import org.checkerframework.checker.modifiability.qual.Unshrinkable;
+import org.checkerframework.checker.modifiability.qual.Unmodifiable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.plumelib.util.CollectionsPlume;
 import org.plumelib.util.StringsPlume;
@@ -183,7 +183,7 @@ public class TypeTuple implements Iterable<Type>, Comparable<TypeTuple> {
   // }
 
   @Override
-  public @Unshrinkable Iterator<Type> iterator(TypeTuple this) {
+  public @Unmodifiable Iterator<Type> iterator(TypeTuple this) {
     return Collections.unmodifiableList(list).iterator();
   }
 
