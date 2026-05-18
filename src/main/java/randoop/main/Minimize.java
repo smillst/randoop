@@ -73,6 +73,7 @@ import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Replaceable;
 import org.checkerframework.checker.modifiability.qual.Shrinkable;
 import org.plumelib.options.Option;
@@ -1292,7 +1293,9 @@ public class Minimize extends CommandHandler {
    * @param compilationUnit the compilation unit whose imports will be sorted by name
    */
   private static void sortImports(CompilationUnit compilationUnit) {
-    @Replaceable NodeList<ImportDeclaration> imports = compilationUnit.getImports();
+    @Replaceable
+    @IteratorPolyMod
+    NodeList<ImportDeclaration> imports = compilationUnit.getImports();
 
     Collections.sort(imports, importDeclarationComparator);
 
