@@ -116,6 +116,7 @@ public class LiteralStatistics {
    *
    * @return all pairs of ({@link Sequence}, {@link LiteralUses})
    */
+  @SuppressWarnings("modifiability:annotation.unverified")
   public Iterable<Map.Entry<Sequence, LiteralUses>> literalUsesEntries() {
     return () -> // This line makes the method return an Iterable rather than an Iterator.
         // An Iterable can be used in a foreach loop, but an Iterator cannot.

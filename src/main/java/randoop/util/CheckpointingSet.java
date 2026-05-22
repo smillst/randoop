@@ -16,6 +16,7 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
  *
  * @param <E> the type of elements
  */
+@SuppressWarnings("modifiability:annotation.unverified")
 public class CheckpointingSet<E extends @Signed Object> implements Set<E> {
 
   // This uses a MultiMap just because that is an existing checkpointing data structure.
