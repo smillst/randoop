@@ -40,8 +40,7 @@ public class OperationHistoryLogger implements OperationHistoryLogInterface {
 
   @Override
   public void add(TypedOperation operation, OperationOutcome outcome) {
-    @Modifiable
-    EnumMap<OperationOutcome, Integer> outcomeMap =
+    @Modifiable EnumMap<OperationOutcome, Integer> outcomeMap =
         operationMap.computeIfAbsent(
             operation, __ -> new @Modifiable EnumMap<>(OperationOutcome.class));
     int count = outcomeMap.getOrDefault(outcome, 0);

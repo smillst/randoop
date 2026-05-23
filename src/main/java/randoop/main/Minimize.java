@@ -462,9 +462,7 @@ public class Minimize extends CommandHandler {
       return;
     }
     BlockStmt body = oBlockStmt.get();
-    @Growable
-    @Shrinkable
-    List<Statement> statements = body.getStatements();
+    @Growable @Shrinkable List<Statement> statements = body.getStatements();
 
     // Map from primitive variable name to the variable's value extracted
     // from a passing assertion.  Modified by the call to storeValueFromAssertion().
@@ -1293,9 +1291,7 @@ public class Minimize extends CommandHandler {
    * @param compilationUnit the compilation unit whose imports will be sorted by name
    */
   private static void sortImports(CompilationUnit compilationUnit) {
-    @Replaceable
-    @IteratorPolyMod
-    NodeList<ImportDeclaration> imports = compilationUnit.getImports();
+    @Replaceable @IteratorPolyMod NodeList<ImportDeclaration> imports = compilationUnit.getImports();
 
     Collections.sort(imports, importDeclarationComparator);
 
