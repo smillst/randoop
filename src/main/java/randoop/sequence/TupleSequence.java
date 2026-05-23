@@ -2,6 +2,7 @@ package randoop.sequence;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.plumelib.util.SIList;
 import randoop.types.Type;
 import randoop.util.Randomness;
@@ -43,7 +44,7 @@ public final class TupleSequence {
   public Sequence sequence;
 
   /** The list of statement indices that define outputs of this sequence. */
-  private List<Integer> outputIndices;
+  private @Growable List<Integer> outputIndices;
 
   /**
    * Create a TupleSequence that concatenates the given sequences, choosing the given variable from

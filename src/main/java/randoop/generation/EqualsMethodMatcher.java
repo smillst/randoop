@@ -2,10 +2,11 @@ package randoop.generation;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 
 public class EqualsMethodMatcher implements StateMatcher {
 
-  private final Set<Object> cache = new LinkedHashSet<>();
+  private final @Modifiable Set<Object> cache = new LinkedHashSet<>();
 
   @Override
   public boolean add(Object object) {

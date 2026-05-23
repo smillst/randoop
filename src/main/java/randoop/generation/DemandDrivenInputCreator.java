@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.checker.nullness.qual.RequiresNonNull;
 import org.plumelib.util.CollectionsPlume;
@@ -130,7 +131,7 @@ public class DemandDrivenInputCreator {
    * about external dependencies introduced by demand-driven input creation, which is an exception
    * to Randoop's usual contract of using only SUT classes.
    */
-  private final Set<Type> visitedTypes = new HashSet<>();
+  private final @Modifiable Set<Type> visitedTypes = new HashSet<>();
 
   /**
    * Given a TypedOperation whose output or parameter types are unbound type variables (e.g., {@code
@@ -143,7 +144,7 @@ public class DemandDrivenInputCreator {
    * A set of SUT types that are non-instantiable. This is used to avoid generating sequences
    * through {@link DemandDrivenInputCreator} for such types.
    */
-  private final Set<Type> uninstantiableTypes = new LinkedHashSet<>();
+  private final @Modifiable Set<Type> uninstantiableTypes = new LinkedHashSet<>();
 
   /**
    * A predicate that determines what constructors/methods are accessible (e.g., {@code public}) to

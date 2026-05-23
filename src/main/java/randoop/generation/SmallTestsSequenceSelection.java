@@ -2,6 +2,7 @@ package randoop.generation;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.plumelib.util.SIList;
 import randoop.sequence.Sequence;
 import randoop.util.Randomness;
@@ -13,7 +14,7 @@ import randoop.util.Randomness;
 public class SmallTestsSequenceSelection extends InputSequenceSelector {
 
   /** Map from a sequence to its weight. */
-  private final Map<Sequence, Double> weightMap = new HashMap<>();
+  private final @Modifiable Map<Sequence, Double> weightMap = new HashMap<>();
 
   /**
    * Pick a sequence from the candidate list using a weighting that favors shorter sequences.

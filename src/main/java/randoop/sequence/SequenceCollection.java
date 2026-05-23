@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import org.checkerframework.checker.initialization.qual.UnknownInitialization;
+import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.RequiresNonNull;
@@ -42,7 +44,7 @@ public class SequenceCollection {
   // When Randoop kept all previously-generated sequences together, in a single
   // collection, profiling showed that finding these sequences was a bottleneck in generation.
   /** For each type, all the sequences that produce one or more values of exactly the given type. */
-  private Map<Type, List<Sequence>> sequenceMap = new LinkedHashMap<>();
+  private @Modifiable Map<Type, @Growable List<Sequence>> sequenceMap = new LinkedHashMap<>();
 
   /**
    * A set of all the types that can be created with the sequences in this. This is the same as
@@ -54,7 +56,7 @@ public class SequenceCollection {
    * A set of all the types that can be created with the sequences in this, and all their
    * supertypes. Thus, this may be larger than {@link #typeSet}.
    */
-  private Set<Type> typesAndSupertypes = new TreeSet<>();
+  private @Modifiable Set<Type> typesAndSupertypes = new TreeSet<>();
 
   /** Number of sequences in the collection: sum of sizes of all values in sequenceMap. */
   private int sequenceCount = 0;
@@ -64,7 +66,7 @@ public class SequenceCollection {
    * randoop.generation.DemandDrivenInputCreator} will create sequences for these types when no
    * existing instances are available.
    */
-  private final Set<Type> sutParameterOnlyTypes = new HashSet<>();
+  private final @Modifiable Set<Type> sutParameterOnlyTypes = new HashSet<>();
 
   /** Checks the representation invariant. */
   private void checkRep(@UnknownInitialization(SequenceCollection.class) SequenceCollection this) {

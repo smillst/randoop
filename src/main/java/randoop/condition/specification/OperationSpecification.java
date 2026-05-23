@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -64,15 +65,15 @@ public class OperationSpecification {
 
   /** The list of pre-conditions for the operation. */
   @SerializedName("pre")
-  private final List<Precondition> preSpecifications;
+  private final @Growable List<Precondition> preSpecifications;
 
   /** The list of post-conditions for the operation. */
   @SerializedName("post")
-  private final List<Postcondition> postSpecifications;
+  private final @Growable List<Postcondition> postSpecifications;
 
   /** The specification of expected exceptions for the operation. */
   @SerializedName("throws")
-  private final List<ThrowsCondition> throwsSpecifications;
+  private final @Growable List<ThrowsCondition> throwsSpecifications;
 
   /** Gson serialization requires a no-argument constructor. */
   @SuppressWarnings({"unused", "nullness:assignment"}) // dummy constructor for Gson serialization
@@ -113,9 +114,9 @@ public class OperationSpecification {
   public OperationSpecification(
       OperationSignature operation,
       Identifiers identifiers,
-      List<Precondition> preSpecifications,
-      List<Postcondition> postSpecifications,
-      List<ThrowsCondition> throwsSpecifications) {
+      @Growable List<Precondition> preSpecifications,
+      @Growable List<Postcondition> postSpecifications,
+      @Growable List<ThrowsCondition> throwsSpecifications) {
     this.operation = operation;
     this.identifiers = identifiers;
     this.preSpecifications = preSpecifications;

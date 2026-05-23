@@ -7,6 +7,7 @@ import com.github.javaparser.ast.type.WildcardType;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.Optional;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
 
 /** Visitor for Class types in JavaParser AST. */
 public class ClassTypeVisitor extends VoidVisitorAdapter<Set<ClassOrInterfaceType>> {
@@ -21,9 +22,12 @@ public class ClassTypeVisitor extends VoidVisitorAdapter<Set<ClassOrInterfaceTyp
    * @param params a set of {@code Type} objects; will be modified if the class or interface type is
    *     a non-accessible type by default
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "growable:override.param"})
+  // this function overrides the visit function in VoidVisitorAdapter, which has a parameter of type
+  // A. However, in the parent class, A doesn't have to be growable. I think this is a true
+  // positive?
   @Override
-  public void visit(ClassOrInterfaceType n, Set<ClassOrInterfaceType> params) {
+  public void visit(ClassOrInterfaceType n, @Growable Set<ClassOrInterfaceType> params) {
 
     // If the class type is a generic types, visit each one of the
     // parameter types as well.

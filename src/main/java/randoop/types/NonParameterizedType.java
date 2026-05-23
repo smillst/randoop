@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.dataflow.qual.Pure;
 import org.plumelib.util.CollectionsPlume;
@@ -20,7 +21,7 @@ public class NonParameterizedType extends ClassOrInterfaceType {
   private final Class<?> runtimeType;
 
   /** A cache of all NonParameterizedTypes that have been created. */
-  private static final Map<Class<?>, NonParameterizedType> cache = new HashMap<>();
+  private static final @Modifiable Map<Class<?>, NonParameterizedType> cache = new HashMap<>();
 
   /**
    * Create a {@link NonParameterizedType} object for the runtime class.

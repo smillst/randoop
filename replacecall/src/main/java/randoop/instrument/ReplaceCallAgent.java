@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
+import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.Replaceable;
 import org.checkerframework.checker.mustcall.qual.Owning;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -152,6 +154,8 @@ public class ReplaceCallAgent {
        * The agent is called when classes are loaded. If Randoop is using threads, this can result
        * in multiple threads accessing the map to apply replacements.
        */
+      @Growable
+      @Replaceable
       Map<MethodSignature, MethodSignature> replacementMap;
 
       // Read the default replacement file

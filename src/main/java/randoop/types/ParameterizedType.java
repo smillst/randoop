@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.plumelib.util.CollectionsPlume;
 
 /**
@@ -18,7 +19,7 @@ import org.plumelib.util.CollectionsPlume;
 public abstract class ParameterizedType extends ClassOrInterfaceType {
 
   /** A cache of all ParameterizedTypes that have been created. */
-  private static final Map<Class<?>, GenericClassType> cache = new HashMap<>();
+  private static final @Modifiable Map<Class<?>, GenericClassType> cache = new HashMap<>();
 
   /**
    * Creates a {@link GenericClassType} for the given reflective {@link Class} object.

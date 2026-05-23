@@ -2,6 +2,7 @@ package randoop.types;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -15,7 +16,7 @@ public class PrimitiveType extends Type {
   private final Class<?> runtimeClass;
 
   /** All the PrimitiveTypes that have been created. */
-  private static Map<Class<?>, PrimitiveType> cache = new HashMap<>();
+  private static @Modifiable Map<Class<?>, PrimitiveType> cache = new HashMap<>();
 
   /**
    * Creates a primitive type from the given runtime class.

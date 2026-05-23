@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.checkerframework.checker.initialization.qual.UnknownInitialization;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.plumelib.util.SIList;
 import randoop.sequence.ExecutableSequence;
 import randoop.sequence.Sequence;
@@ -34,14 +35,14 @@ import randoop.util.Randomness;
  */
 public class OrienteeringSelection extends InputSequenceSelector {
   /** Map from a sequence to its details used for computing its weight. */
-  private final Map<Sequence, SequenceDetails> sequenceDetailsMap = new HashMap<>();
+  private final @Modifiable Map<Sequence, SequenceDetails> sequenceDetailsMap = new HashMap<>();
 
   /**
    * Map from a sequence to its weight. For every sequence s, {@code weightMap.get(s) ==
    * sequenceDetailsMap.get(s).getWeight()}. This is needed because {@code
    * Randomneess#randomMemberWeighted} takes a {@code Map<T, Double>} as an argument.
    */
-  private final Map<Sequence, Double> weightMap = new HashMap<>();
+  private final @Modifiable Map<Sequence, Double> weightMap = new HashMap<>();
 
   /** Information used by Orienteering to compute a weight for a sequence. */
   private static class SequenceDetails {

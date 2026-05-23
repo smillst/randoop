@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.regex.Pattern;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.plumelib.util.StringsPlume;
 import randoop.ExecutionOutcome;
 import randoop.NormalExecution;
@@ -188,7 +189,7 @@ public class Value {
   }
 
   /** Used to increase performance of stringLengthOk method. */
-  private static Map<String, Boolean> escapedStringLengthOkCached = new WeakHashMap<>();
+  private static @Modifiable Map<String, Boolean> escapedStringLengthOkCached = new WeakHashMap<>();
 
   /**
    * Returns true if the given string, when quoted for inclusion in a Java program, is no longer

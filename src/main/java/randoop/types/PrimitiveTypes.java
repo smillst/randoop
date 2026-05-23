@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.plumelib.util.MapsP;
 
 /**
@@ -19,7 +20,7 @@ public final class PrimitiveTypes {
   }
 
   /** Map from boxed primitive to primitive {@code Class<?>} objects. */
-  private static final Map<Class<?>, Class<?>> boxedToPrimitive =
+  private static final @Modifiable Map<Class<?>, Class<?>> boxedToPrimitive =
       new HashMap<>(MapsP.mapCapacity(8));
 
   static {
@@ -34,7 +35,7 @@ public final class PrimitiveTypes {
   }
 
   /** Map from primitive to boxed primitive {@code Class<?>} objects. */
-  private static final Map<Class<?>, Class<?>> primitiveToBoxed =
+  private static final @Modifiable Map<Class<?>, Class<?>> primitiveToBoxed =
       new HashMap<>(MapsP.mapCapacity(8));
 
   static {
@@ -49,7 +50,8 @@ public final class PrimitiveTypes {
   }
 
   /** Map from primitive type name (and "void") to {@code Class<?>} objects. */
-  private static final Map<String, Class<?>> nameToClass = new HashMap<>(MapsP.mapCapacity(8));
+  private static final @Modifiable Map<String, Class<?>> nameToClass =
+      new HashMap<>(MapsP.mapCapacity(8));
 
   static {
     nameToClass.put("void", void.class); // reflection considers void a primitive
@@ -69,7 +71,7 @@ public final class PrimitiveTypes {
    * href="https://docs.oracle.com/javase/specs/jls/se17/html/jls-5.html#jls-5.1.2">JLS section
    * 5.1.2</a>.
    */
-  private static final Map<Class<?>, Set<Class<?>>> wideningTable =
+  private static final @Modifiable Map<Class<?>, Set<Class<?>>> wideningTable =
       new HashMap<>(MapsP.mapCapacity(8));
 
   static {

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import randoop.main.RandoopBug;
 
@@ -13,7 +14,7 @@ public class RegressionChecks implements TestChecks<RegressionChecks> {
   /** An empty, immutable set of regression checks. */
   public static RegressionChecks EMPTY = new RegressionChecks();
 
-  private Set<Check> checks;
+  private @Growable Set<Check> checks;
   private @Nullable ExceptionCheck exceptionCheck;
 
   /** Create an empty set of regression checks. */
@@ -27,6 +28,9 @@ public class RegressionChecks implements TestChecks<RegressionChecks> {
    *
    * @param check the check to put in the newly-created singleton set
    */
+  @SuppressWarnings(
+      "growable:assignment") // false positive if check is an ExceptionCheck, but true positive in
+  // the else branch.
   public RegressionChecks(Check check) {
     if (check instanceof ExceptionCheck) {
       this.checks = Collections.emptySet();

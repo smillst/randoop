@@ -14,6 +14,10 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
+import org.checkerframework.checker.modifiability.qual.Shrinkable;
 import org.checkerframework.checker.mustcall.qual.Owning;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -134,7 +138,7 @@ public abstract class GenInputsAbstract extends CommandHandler {
    * of the class name.
    */
   @Option("Do not test classes that match regular expression <string>")
-  public static List<Pattern> omit_classes = new ArrayList<>();
+  public static @Modifiable List<Pattern> omit_classes = new ArrayList<>();
 
   /**
    * A file containing a list of regular expressions that indicate classes not to call in a test.
@@ -168,7 +172,7 @@ public abstract class GenInputsAbstract extends CommandHandler {
    * agent</a> are also automatically omitted.
    */
   @Option("Do not call methods that match regular expression <string>")
-  public static List<Pattern> omit_methods = new ArrayList<>();
+  public static @Modifiable List<Pattern> omit_methods = new ArrayList<>();
 
   /**
    * A file containing a list of regular expressions that indicate methods that should not be
@@ -451,7 +455,7 @@ public abstract class GenInputsAbstract extends CommandHandler {
   // ///////////////////////////////////////////////////////////////////
   @OptionGroup("Specifications for methods/constructors")
   @Option("JSON specifications for methods/constructors")
-  public static @MonotonicNonNull List<Path> specifications = null;
+  public static @Growable @MonotonicNonNull List<Path> specifications = null;
 
   /**
    * Use built-in specifications for JDK classes and for classes that inherit from them, as if they
@@ -1223,7 +1227,7 @@ public abstract class GenInputsAbstract extends CommandHandler {
    */
   public static Set<@ClassGetName String> getClassnamesFromArgs(
       AccessibilityPredicate accessibility) {
-    Set<@ClassGetName String> classnames = getClassNamesFromFile(classlist);
+    @IteratorPolyMod Set<@ClassGetName String> classnames = getClassNamesFromFile(classlist);
     for (Path jarFile : testjar) {
       classnames.addAll(getClassnamesFromJarFile(jarFile, accessibility));
     }
@@ -1240,7 +1244,7 @@ public abstract class GenInputsAbstract extends CommandHandler {
 
     // This does not exclude explicitly-specified methods.  In other words, if the user specified a
     // method explicitly, this does not exclude it even if it is in an excluded class.
-    for (Iterator<String> itor = classnames.iterator(); itor.hasNext(); ) {
+    for (@Shrinkable Iterator<String> itor = classnames.iterator(); itor.hasNext(); ) {
       String classname = itor.next();
       if (shouldOmitClass(classname)) {
         itor.remove();
@@ -1452,7 +1456,8 @@ public abstract class GenInputsAbstract extends CommandHandler {
    * @param file the file containing the strings
    * @return the lines in the file, or null if listFile is null
    */
-  public static Set<@ClassGetName String> getClassNamesFromFile(Path file) {
+  public static @Modifiable @IteratorPolyMod Set<@ClassGetName String> getClassNamesFromFile(
+      Path file) {
     Set<@ClassGetName String> result = new LinkedHashSet<>();
     for (String line : getStringSetFromFile(file, "class names")) {
       if (!Signatures.isClassGetName(line)) {
@@ -1477,7 +1482,7 @@ public abstract class GenInputsAbstract extends CommandHandler {
    * @param fileDescription string used in error messages
    * @return the lines in the file, or null if listFile is null
    */
-  public static Set<String> getStringSetFromFile(Path listFile, String fileDescription) {
+  public static @Growable Set<String> getStringSetFromFile(Path listFile, String fileDescription) {
     return getStringSetFromFile(listFile, fileDescription, "^#.*", null);
   }
 
@@ -1491,7 +1496,7 @@ public abstract class GenInputsAbstract extends CommandHandler {
    * @return the strings in the file, or null if listFile is null
    */
   @SuppressWarnings("SameParameterValue")
-  public static Set<String> getStringSetFromFile(
+  public static @Growable Set<String> getStringSetFromFile(
       @Nullable Path listFile,
       String fileDescription,
       @Regex String commentRegex,

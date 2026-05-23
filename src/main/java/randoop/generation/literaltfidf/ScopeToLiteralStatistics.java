@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.KeyFor;
 import randoop.main.GenInputsAbstract;
 import randoop.main.RandoopBug;
@@ -26,7 +27,8 @@ public class ScopeToLiteralStatistics {
    * A map from a specific scope to its literal statistics. The constant {@link UNNAMED_PACKAGE}
    * represents the unnamed package.
    */
-  private LinkedHashMap<Object, LiteralStatistics> scopeToStatisticsMap = new LinkedHashMap<>();
+  private @Modifiable LinkedHashMap<Object, LiteralStatistics> scopeToStatisticsMap =
+      new LinkedHashMap<>();
 
   /** Creates a ScopeToLiteralStatistics. */
   public ScopeToLiteralStatistics() {}
@@ -74,8 +76,8 @@ public class ScopeToLiteralStatistics {
   }
 
   /** A cache to speed up {@link #createStatisticsWithSuperclasses}. */
-  private HashMap<ClassOrInterfaceType, LiteralStatistics> createStatisticsWithSuperclassesCache =
-      new HashMap<>();
+  private @Modifiable HashMap<ClassOrInterfaceType, LiteralStatistics>
+      createStatisticsWithSuperclassesCache = new HashMap<>();
 
   /**
    * Creates a LiteralStatistics object that includes literals from the given type and all its

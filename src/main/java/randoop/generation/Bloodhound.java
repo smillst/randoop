@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.plumelib.util.MapsP;
 import randoop.main.GenInputsAbstract;
 import randoop.main.RandoopBug;
@@ -50,21 +51,21 @@ public class Bloodhound implements TypedOperationSelector {
    * Map from methods under test to their weights. These weights are dynamic and depend on branch
    * coverage.
    */
-  private final Map<TypedOperation, Double> methodWeights = new HashMap<>();
+  private final @Modifiable Map<TypedOperation, Double> methodWeights = new HashMap<>();
 
   /**
    * Map from methods under test to the number of times they have been recently selected by the
    * {@link ForwardGenerator} to construct a new sequence. This map is cleared every time branch
    * coverage is recomputed.
    */
-  private final Map<TypedOperation, Integer> methodSelectionCounts = new HashMap<>();
+  private final @Modifiable Map<TypedOperation, Integer> methodSelectionCounts = new HashMap<>();
 
   /**
    * Map from methods under test to the total number of times they have ever been successfully
    * invoked by the {@link AbstractGenerator}. The integer value for a given method is
    * non-decreasing during a run of Randoop.
    */
-  private final Map<TypedOperation, Integer> methodInvocationCounts = new HashMap<>();
+  private final @Modifiable Map<TypedOperation, Integer> methodInvocationCounts = new HashMap<>();
 
   /**
    * List of operations, identical to {@link ForwardGenerator}'s operation list. Used for making

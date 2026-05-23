@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import randoop.TestValue;
 import randoop.generation.SeedSequences;
 import randoop.main.GenInputsAbstract;
@@ -19,9 +20,9 @@ import randoop.sequence.Sequence;
  */
 public class TestValueExtractor extends DefaultClassVisitor {
 
-  private final Set<Sequence> valueSequences;
+  private final @Growable Set<Sequence> valueSequences;
 
-  public TestValueExtractor(Set<Sequence> valueSequences) {
+  public TestValueExtractor(@Growable Set<Sequence> valueSequences) {
     this.valueSequences = valueSequences;
   }
 

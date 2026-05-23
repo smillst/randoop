@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.plumelib.util.CollectionsPlume;
 
@@ -211,7 +212,7 @@ public class InstantiatedType extends ParameterizedType {
   }
 
   @Override
-  public List<TypeVariable> getTypeParameters() {
+  public @Growable List<TypeVariable> getTypeParameters() {
     Set<TypeVariable> paramSet = new LinkedHashSet<>(super.getTypeParameters());
     for (TypeArgument argument : argumentList) {
       List<TypeVariable> params = argument.getTypeParameters();

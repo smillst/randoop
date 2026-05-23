@@ -19,6 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
+import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.regex.qual.Regex;
 import org.plumelib.util.FilesPlume;
 import org.plumelib.util.StringsPlume;
@@ -84,7 +86,7 @@ public class FailingAssertionCommentWriter implements CodeWriter {
   private final JavaFileWriter javaFileWriter;
 
   /** Method names for flaky tests (e.g., "test005"). */
-  private final HashSet<String> flakyTestNames = new HashSet<>();
+  private final @Modifiable HashSet<String> flakyTestNames = new HashSet<>();
 
   /**
    * Create a {@link FailingAssertionCommentWriter}.
@@ -290,7 +292,7 @@ public class FailingAssertionCommentWriter implements CodeWriter {
       String classname,
       String javaCode,
       Status status,
-      Set<String> flakyTests) {
+      @Growable Set<String> flakyTests) {
     assert !Objects.equals(packageName, "");
     String qualifiedClassname = packageName == null ? classname : packageName + "." + classname;
 

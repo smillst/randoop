@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.signedness.qual.Signed;
 
 /**
@@ -18,7 +19,7 @@ import org.checkerframework.checker.signedness.qual.Signed;
 public class KeyToMultiSet<K extends @Signed Object, V extends @Signed Object> {
 
   /** The backing map. */
-  private final Map<K, MultiSet<V>> map;
+  private final @Modifiable Map<K, MultiSet<V>> map;
 
   /** Creates a new, empty KeyToMultiSet. */
   public KeyToMultiSet() {
@@ -80,8 +81,14 @@ public class KeyToMultiSet<K extends @Signed Object, V extends @Signed Object> {
   }
 
   // Removes all keys with an empty set
+  // map.entrySet() is shrinkable. Our type system does not guarantee that set.Iterator is
+  // shrinkable.
+  // map is a LinkedHashMap at run time, and its entrySet().iterator is shrinkable.
+  // This is a false positive.
   public void clean() {
-    for (Iterator<Map.Entry<K, MultiSet<V>>> iter = map.entrySet().iterator(); iter.hasNext(); ) {
+    for (@Modifiable
+        Iterator<Map.@Modifiable Entry<K, MultiSet<V>>> iter = map.entrySet().iterator();
+        iter.hasNext(); ) {
       Map.Entry<K, MultiSet<V>> element = iter.next();
       if (element.getValue().isEmpty()) {
         iter.remove();

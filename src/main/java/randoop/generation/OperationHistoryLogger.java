@@ -7,6 +7,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import randoop.operation.TypedOperation;
 
 // TODO: It's weird to call this a "history log" when it is just a summary, printed at the end of
@@ -24,7 +25,8 @@ public class OperationHistoryLogger implements OperationHistoryLogInterface {
    * A sparse representation for the operation-outcome table. The integer {@code
    * operationMap.get(A).get(B)} is the number of times that (A, B) were arguments to {@link #add}.
    */
-  private final Map<TypedOperation, EnumMap<OperationOutcome, Integer>> operationMap;
+  private final @Modifiable Map<TypedOperation, @Modifiable EnumMap<OperationOutcome, Integer>>
+      operationMap;
 
   /**
    * Creates an {@link OperationHistoryLogger} that will write to the given {@code PrintWriter}.
@@ -38,8 +40,10 @@ public class OperationHistoryLogger implements OperationHistoryLogInterface {
 
   @Override
   public void add(TypedOperation operation, OperationOutcome outcome) {
+    @Modifiable
     EnumMap<OperationOutcome, Integer> outcomeMap =
-        operationMap.computeIfAbsent(operation, __ -> new EnumMap<>(OperationOutcome.class));
+        operationMap.computeIfAbsent(
+            operation, __ -> new @Modifiable EnumMap<>(OperationOutcome.class));
     int count = outcomeMap.getOrDefault(outcome, 0);
     count += 1;
     outcomeMap.put(outcome, count);

@@ -1,11 +1,13 @@
 package randoop.types;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Unmodifiable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.plumelib.util.CollectionsPlume;
 import org.plumelib.util.StringsPlume;
@@ -175,9 +177,14 @@ public class TypeTuple implements Iterable<Type>, Comparable<TypeTuple> {
     return false;
   }
 
+  // @Override
+  // public @Unmodifiable Iterator<Type> iterator(TypeTuple this) {
+  //   return new TypeIterator(list.iterator());
+  // }
+
   @Override
-  public Iterator<Type> iterator() {
-    return new TypeIterator(list.iterator());
+  public @Unmodifiable Iterator<Type> iterator(TypeTuple this) {
+    return Collections.unmodifiableList(list).iterator();
   }
 
   @Override
@@ -195,27 +202,27 @@ public class TypeTuple implements Iterable<Type>, Comparable<TypeTuple> {
     return result;
   }
 
-  private static class TypeIterator implements Iterator<Type> {
+  // private static class TypeIterator implements Iterator<Type> {
 
-    private Iterator<Type> iterator;
+  //   private Iterator<Type> iterator;
 
-    public TypeIterator(Iterator<Type> iterator) {
-      this.iterator = iterator;
-    }
+  //   public TypeIterator(Iterator<Type> iterator) {
+  //     this.iterator = iterator;
+  //   }
 
-    @Override
-    public boolean hasNext() {
-      return iterator.hasNext();
-    }
+  //   @Override
+  //   public boolean hasNext() {
+  //     return iterator.hasNext();
+  //   }
 
-    @Override
-    public Type next() {
-      return iterator.next();
-    }
+  //   @Override
+  //   public Type next() {
+  //     return iterator.next();
+  //   }
 
-    @Override
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
-  }
+  //   @Override
+  //   public void remove() {
+  //     throw new UnsupportedOperationException();
+  //   }
+  // }
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.plumelib.util.CollectionsPlume;
 import org.plumelib.util.MapsP;
@@ -85,7 +86,7 @@ public class ComponentManager {
    *
    * <p>This variable is used only by {@link #clearGeneratedSequences}.
    */
-  private final Set<Type> sutParameterNeverReturnedTypes = new LinkedHashSet<>();
+  private final @Growable Set<Type> sutParameterNeverReturnedTypes = new LinkedHashSet<>();
 
   /**
    * Create an empty component manager, with an immutable empty seed sequence set.

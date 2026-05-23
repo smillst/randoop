@@ -16,6 +16,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.plumelib.util.ClassDeterministic;
 import org.plumelib.util.MapsP;
 import randoop.util.Log;
@@ -62,7 +63,7 @@ public class ReflectionManager {
   private AccessibilityPredicate predicate;
 
   /** The visitors to apply. */
-  private ArrayList<ClassVisitor> visitors;
+  private @Growable ArrayList<ClassVisitor> visitors;
 
   /**
    * Creates a manager object that uses the given predicate to determine which classes, methods, and
@@ -231,12 +232,13 @@ public class ReflectionManager {
   @SuppressWarnings({"GetClassOnEnum"}) // c is an enum class
   private void applyToEnum(ClassVisitor visitor, Class<?> c) {
     // Maps from a name to a set of methods.
-    Map<String, Set<Method>> overrideMethods = new HashMap<>();
+    Map<String, @Growable Set<Method>> overrideMethods = new HashMap<>();
     for (Object obj : c.getEnumConstants()) {
       Enum<?> e = (Enum<?>) obj;
       applyTo(visitor, e);
       if (!e.getClass().equals(c)) { // does constant have an anonymous class?
         for (Method m : e.getClass().getDeclaredMethods()) {
+          @Growable
           Set<Method> methodSet =
               overrideMethods.computeIfAbsent(m.getName(), __ -> new LinkedHashSet<>());
           methodSet.add(m);
