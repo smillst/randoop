@@ -3,6 +3,7 @@ package randoop;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import randoop.types.Type;
 import randoop.util.CheckpointingMultiMap;
 import randoop.util.CheckpointingSet;
@@ -16,7 +17,7 @@ import randoop.util.MultiMap;
 public class SubTypeSet {
 
   /** The members of the set. */
-  public Set<Type> types;
+  public @Growable Set<Type> types;
 
   /**
    * Maps a type to all its proper subtypes that are in the set. If the mapped-to list is empty,

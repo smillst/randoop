@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -19,10 +20,13 @@ public class ErrorRevealingChecks implements TestChecks<ErrorRevealingChecks> {
 
   static {
     EMPTY = new ErrorRevealingChecks();
-    EMPTY.checks = Collections.emptySet(); // make immutable
+    @SuppressWarnings("growable:assignment")
+    @Growable
+    Set<Check> emptyChecks = Collections.emptySet();
+    EMPTY.checks = emptyChecks; // make immutable
   }
 
-  private Set<Check> checks;
+  private @Growable Set<Check> checks;
 
   /** Create an empty set of error checks. */
   public ErrorRevealingChecks() {
@@ -34,6 +38,7 @@ public class ErrorRevealingChecks implements TestChecks<ErrorRevealingChecks> {
    *
    * @param check the check to put in the newly-created singleton set
    */
+  @SuppressWarnings("growable:assignment") // true positive?
   public ErrorRevealingChecks(Check check) {
     validateCheck(check);
     this.checks = Collections.singleton(check);

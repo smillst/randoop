@@ -3,6 +3,7 @@ package randoop.util;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.mustcall.qual.MustCallUnknown;
 import org.checkerframework.checker.signedness.qual.PolySigned;
 import org.checkerframework.checker.signedness.qual.Signed;
@@ -15,13 +16,15 @@ import org.checkerframework.dataflow.qual.SideEffectFree;
  *
  * @param <E> the type of elements
  */
+@SuppressWarnings("modifiability:annotation.unverified")
 public class CheckpointingSet<E extends @Signed Object> implements Set<E> {
 
   // This uses a MultiMap just because that is an existing checkpointing data structure.
   // The value is always true in this mapping, never false.
   public final CheckpointingMultiMap<E, Boolean> map;
 
-  public CheckpointingSet() {
+  @SuppressWarnings({"growable:super.invocation", "shrinkable:super.invocation"}) // calls `super`
+  public @Modifiable CheckpointingSet() {
     this.map = new CheckpointingMultiMap<>();
   }
 

@@ -3,6 +3,7 @@ package randoop.types;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Objects;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.plumelib.util.CollectionsPlume;
 
@@ -165,7 +166,7 @@ public class GenericClassType extends ParameterizedType {
    * @return the list of type parameters of this generic class
    */
   @Override
-  public List<TypeVariable> getTypeParameters() {
+  public @Growable List<TypeVariable> getTypeParameters() {
     List<TypeVariable> params = super.getTypeParameters();
     params.addAll(parameters);
     return params;

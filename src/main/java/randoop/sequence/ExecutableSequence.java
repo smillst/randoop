@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
+import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.Replaceable;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import randoop.ExceptionalExecution;
@@ -540,7 +542,7 @@ public class ExecutableSequence {
   // Execute the index-th statement in the sequence.
   // Precondition: this method has been invoked on 0..index-1.
   private static void executeStatement(
-      Sequence s, List<ExecutionOutcome> outcome, int index, Object[] inputVariables) {
+      Sequence s, @Replaceable List<ExecutionOutcome> outcome, int index, Object[] inputVariables) {
     Statement statement = s.getStatement(index);
 
     // Capture any output Synchronize with ProgressDisplay so that
@@ -649,7 +651,8 @@ public class ExecutableSequence {
    * @param value the Java value to use as a key in variableMap
    * @param refValues the set of all reference values; is side-effected by this method
    */
-  private void addReferenceValue(Variable variable, Object value, Set<ReferenceValue> refValues) {
+  private void addReferenceValue(
+      Variable variable, Object value, @Growable Set<ReferenceValue> refValues) {
     if (value != null) {
       Type type = variable.getType();
       if (type.isReferenceType() && !type.isString()) {

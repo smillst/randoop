@@ -6,6 +6,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -39,7 +41,8 @@ public final class GrtObjectFuzzer extends GrtFuzzer {
   private static final GrtObjectFuzzer INSTANCE = new GrtObjectFuzzer();
 
   /** Maps RAW type to mutating operations that have a parameter of that type. */
-  private final Map<Type, List<TypedOperation>> rawTypeToSideEffectingOps = new HashMap<>();
+  private final @Modifiable Map<Type, @Growable List<TypedOperation>> rawTypeToSideEffectingOps =
+      new HashMap<>();
 
   /** Component manager to get sequences for types. */
   private @MonotonicNonNull ComponentManager componentManager;
@@ -52,7 +55,7 @@ public final class GrtObjectFuzzer extends GrtFuzzer {
    * supertypes for repeated queries; full type/generic compatibility is checked later when an
    * operation is selected.
    */
-  private final Map<Type, List<TypedOperation>> typeToApplicableOps = new HashMap<>();
+  private final @Modifiable Map<Type, List<TypedOperation>> typeToApplicableOps = new HashMap<>();
 
   /** How to select sequences as inputs for creating new sequences. */
   private @MonotonicNonNull InputSequenceSelector inputSequenceSelector;

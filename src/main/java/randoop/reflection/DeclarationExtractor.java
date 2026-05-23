@@ -2,6 +2,7 @@ package randoop.reflection;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import randoop.types.ClassOrInterfaceType;
 
 /**
@@ -9,11 +10,12 @@ import randoop.types.ClassOrInterfaceType;
  * {@link Class} objects.
  */
 public class DeclarationExtractor extends DefaultClassVisitor {
-  private final Set<ClassOrInterfaceType> classDeclarationTypes;
+  private final @Growable Set<ClassOrInterfaceType> classDeclarationTypes;
   private ReflectionPredicate reflectionPredicate;
 
   public DeclarationExtractor(
-      Set<ClassOrInterfaceType> classDeclarationTypes, ReflectionPredicate reflectionPredicate) {
+      @Growable Set<ClassOrInterfaceType> classDeclarationTypes,
+      ReflectionPredicate reflectionPredicate) {
     this.classDeclarationTypes = classDeclarationTypes;
     this.reflectionPredicate = reflectionPredicate;
   }

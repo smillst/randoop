@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import randoop.main.RandoopBug;
 
 /** Stores the mutable state of a class, allowing it to be saved, printed and restored. */
@@ -13,7 +14,7 @@ public class StaticCache {
   private final Class<?> declaringClass;
 
   /** The map from static fields to a value. */
-  private final Map<Field, Object> valueMap;
+  private final @Modifiable Map<Field, Object> valueMap;
 
   /**
    * Creates the cache object for a particular class. State is not saved until {@link #saveState()}

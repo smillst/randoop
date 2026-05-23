@@ -72,6 +72,10 @@ import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
+import org.checkerframework.checker.modifiability.qual.Replaceable;
+import org.checkerframework.checker.modifiability.qual.Shrinkable;
 import org.plumelib.options.Option;
 import org.plumelib.options.OptionGroup;
 import org.plumelib.options.Options;
@@ -458,6 +462,8 @@ public class Minimize extends CommandHandler {
       return;
     }
     BlockStmt body = oBlockStmt.get();
+    @Growable
+    @Shrinkable
     List<Statement> statements = body.getStatements();
 
     // Map from primitive variable name to the variable's value extracted
@@ -537,7 +543,7 @@ public class Minimize extends CommandHandler {
    */
   private static void storeValueFromAssertion(
       Statement currStmt,
-      Map<String, String> primitiveValues,
+      @Growable @Replaceable Map<String, String> primitiveValues,
       Set<String> primitiveAndWrappedTypeVars) {
     // Check if the statement is an assertion regarding a value that can be
     // used in a simplification later on.
@@ -599,7 +605,7 @@ public class Minimize extends CommandHandler {
   private static void primitiveVarEquality(
       Expression exp1,
       Expression exp2,
-      Map<String, String> primitiveValues,
+      @Growable @Replaceable Map<String, String> primitiveValues,
       Set<String> primitiveAndWrappedTypeVars) {
 
     NameExpr name;
@@ -1287,6 +1293,8 @@ public class Minimize extends CommandHandler {
    * @param compilationUnit the compilation unit whose imports will be sorted by name
    */
   private static void sortImports(CompilationUnit compilationUnit) {
+    @Replaceable
+    @IteratorPolyMod
     NodeList<ImportDeclaration> imports = compilationUnit.getImports();
 
     Collections.sort(imports, importDeclarationComparator);
@@ -1474,7 +1482,8 @@ public class Minimize extends CommandHandler {
     "JdkObsolete", // for LinkedList
     "ReferenceEquality"
   })
-  private static void getOrphanCommentsBeforeThisChildNode(final Node node, List<Comment> result) {
+  private static void getOrphanCommentsBeforeThisChildNode(
+      final Node node, @Growable List<Comment> result) {
     if (node instanceof Comment) {
       return;
     }

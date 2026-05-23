@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.signedness.qual.Signed;
 
 /**
@@ -19,7 +20,7 @@ public class MultiMap<K extends @Signed Object, V extends @Signed Object>
     implements IMultiMap<K, V> {
 
   /** The backing map. */
-  private final Map<K, Set<V>> map;
+  private final @Modifiable Map<K, @Modifiable Set<V>> map;
 
   /** Creates a new, empyt MultiMap. */
   public MultiMap() {
@@ -66,7 +67,7 @@ public class MultiMap<K extends @Signed Object, V extends @Signed Object>
   }
 
   public void addAll(MultiMap<K, V> mmap) {
-    for (Map.Entry<K, Set<V>> entry : mmap.map.entrySet()) {
+    for (Map.Entry<K, @Modifiable Set<V>> entry : mmap.map.entrySet()) {
       addAll(entry.getKey(), entry.getValue());
     }
   }
@@ -100,6 +101,9 @@ public class MultiMap<K extends @Signed Object, V extends @Signed Object>
   }
 
   @Override
+  @SuppressWarnings({"growable:argument", "shrinkable:argument"}) // true positive?
+  // the values of the map has to be @Modifiable sets, but the default of getOrDefault is
+  // Collections.emptySet()，causing a miss match.
   public Set<V> getValues(K key) {
     return map.getOrDefault(key, Collections.emptySet());
   }

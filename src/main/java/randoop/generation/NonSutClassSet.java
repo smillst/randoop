@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import randoop.types.Type;
 
 /**
@@ -18,13 +19,13 @@ import randoop.types.Type;
 public class NonSutClassSet {
 
   /** The classes visited during input creation that are not part of the SUT. */
-  private final Set<Class<?>> nonSutClasses = new LinkedHashSet<>();
+  private final @Modifiable Set<Class<?>> nonSutClasses = new LinkedHashSet<>();
 
   /**
    * Non-SUT classes that are not part of the JDK and are not primitive types. This is a subset of
    * {@link #nonSutClasses}.
    */
-  private final Set<Class<?>> nonJdkNonSutClasses = new LinkedHashSet<>();
+  private final @Modifiable Set<Class<?>> nonJdkNonSutClasses = new LinkedHashSet<>();
 
   /**
    * Creates a {@code NonSutClassSet} from a set of types.

@@ -2,6 +2,7 @@ package randoop;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import randoop.sequence.ExecutableSequence;
 
 /**
@@ -19,7 +20,7 @@ import randoop.sequence.ExecutableSequence;
 public class MultiVisitor implements ExecutionVisitor {
 
   /** The list of visitors. */
-  private final List<ExecutionVisitor> visitors = new ArrayList<>();
+  private final @Modifiable List<ExecutionVisitor> visitors = new ArrayList<>();
 
   /** Creates a new MultiVisitor. */
   public MultiVisitor() {}

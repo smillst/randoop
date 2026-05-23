@@ -40,6 +40,7 @@ import org.apache.bcel.generic.LDC2_W;
 import org.apache.bcel.generic.LDC_W;
 import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.util.ClassPath;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.signature.qual.ClassGetName;
 import org.plumelib.util.MapsP;
 import randoop.main.RandoopBug;
@@ -90,28 +91,28 @@ public class ClassFileConstants {
     public @ClassGetName String classname;
 
     /** Set of all int constants in a class. */
-    public Set<Integer> ints = new TreeSet<>();
+    public @Modifiable Set<Integer> ints = new TreeSet<>();
 
     /** Set of all long constants in a class. */
-    public Set<Long> longs = new TreeSet<>();
+    public @Modifiable Set<Long> longs = new TreeSet<>();
 
     /** Set of all float constants in a class. */
-    public Set<Float> floats = new TreeSet<>();
+    public @Modifiable Set<Float> floats = new TreeSet<>();
 
     /** Set of all double constants in a class. */
-    public Set<Double> doubles = new TreeSet<>();
+    public @Modifiable Set<Double> doubles = new TreeSet<>();
 
     /** Set of all string constants in a class. */
-    public Set<String> strings = new TreeSet<>();
+    public @Modifiable Set<String> strings = new TreeSet<>();
 
     /** Values that are non-receiver terms. */
-    public Set<Class<?>> classes = new HashSet<>();
+    public @Modifiable Set<Class<?>> classes = new HashSet<>();
 
     /** Set of all enum constants in a class. */
-    public Set<Enum<?>> enums = new HashSet<>();
+    public @Modifiable Set<Enum<?>> enums = new HashSet<>();
 
     /** Map that stores the number of uses of each constant in the current class. */
-    public Map<Object, Integer> constantFrequency = new HashMap<>();
+    public @Modifiable Map<Object, Integer> constantFrequency = new HashMap<>();
 
     /**
      * Returns the number of uses of the given constant in the current class.

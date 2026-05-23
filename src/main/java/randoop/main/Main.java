@@ -2,6 +2,7 @@ package randoop.main;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.plumelib.util.SystemPlume;
 import randoop.Globals;
 import randoop.condition.RandoopSpecificationError;
@@ -15,7 +16,7 @@ import randoop.sequence.Sequence;
 public class Main {
 
   // Handlers for user-visible commands.
-  public static List<CommandHandler> handlers;
+  public static @Modifiable List<CommandHandler> handlers;
 
   static {
     handlers = new ArrayList<>(3);

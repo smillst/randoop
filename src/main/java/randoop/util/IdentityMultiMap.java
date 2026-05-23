@@ -3,6 +3,8 @@ package randoop.util;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -14,7 +16,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class IdentityMultiMap<K, V> {
 
   /** The underlying map. */
-  private IdentityHashMap<K, Set<V>> map;
+  private @Modifiable IdentityHashMap<K, @Growable Set<V>> map;
 
   /** Creates an empty multi-map. */
   public IdentityMultiMap() {

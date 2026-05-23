@@ -36,6 +36,9 @@ import java.util.StringTokenizer;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
+import org.checkerframework.checker.modifiability.qual.Shrinkable;
 import org.checkerframework.checker.nullness.qual.PolyNull;
 import org.checkerframework.checker.regex.qual.Regex;
 import org.checkerframework.checker.signature.qual.ClassGetName;
@@ -313,6 +316,7 @@ public class GenTests extends GenInputsAbstract {
         GenInputsAbstract.getClassNamesFromFile(require_covered_classes);
 
     // Get names of fields to be omitted
+    @Growable
     Set<String> omitFields = GenInputsAbstract.getStringSetFromFile(omit_field_file, "fields");
     omitFields.addAll(omit_field);
     // Temporary, for backward compatibility
@@ -426,7 +430,7 @@ public class GenTests extends GenInputsAbstract {
     }
     assert operationModel != null;
 
-    List<TypedOperation> operations = operationModel.getOperations();
+    @Shrinkable List<TypedOperation> operations = operationModel.getOperations();
     Set<ClassOrInterfaceType> classesUnderTest = operationModel.getClassTypes();
 
     /*
@@ -833,7 +837,7 @@ public class GenTests extends GenInputsAbstract {
   public static final String POSSIBLY_FLAKY_PREFIX = "  Possibly flaky:  ";
 
   /** Methods that are known to be non-flaky. */
-  private static final List<RawSignature> nonFlakyMethods = new ArrayList<>();
+  private static final @Modifiable List<RawSignature> nonFlakyMethods = new ArrayList<>();
 
   static {
     nonFlakyMethods.add(
@@ -1523,7 +1527,7 @@ public class GenTests extends GenInputsAbstract {
    * A cache used by {@link #getResourceDirectoryPath}, to prevent {@code
    * FileSystemAlreadyExistsException}.
    */
-  private Map<URI, FileSystem> fileSystemCache = new HashMap<>();
+  private @Modifiable Map<URI, FileSystem> fileSystemCache = new HashMap<>();
 
   /**
    * Returns the path for the resource directory in the jar file.

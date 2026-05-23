@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.plumelib.util.SIList;
 import randoop.generation.ComponentManager;
 import randoop.reflection.LiteralFileReader;
@@ -35,7 +36,8 @@ public class LiteralStatistics {
    * ComponentManager}, this map is read-only. It's read once when {@link TfIdfSelector} is created
    * for this scope, then never accessed again for this scope.
    */
-  private final Map<Type, Map<Sequence, LiteralUses>> literalUsesByType = new LinkedHashMap<>();
+  private final @Growable Map<Type, @Growable Map<Sequence, LiteralUses>> literalUsesByType =
+      new LinkedHashMap<>();
 
   /**
    * The number of classes in this scope.
@@ -88,6 +90,7 @@ public class LiteralStatistics {
       throw new IllegalArgumentException("sequence must be a literal producer: " + seq);
     }
     Type outputType = seq.getLastVariable().getType();
+    @Growable
     Map<Sequence, LiteralUses> typeMap =
         literalUsesByType.computeIfAbsent(outputType, __ -> new LinkedHashMap<>());
     LiteralUses currentUses = typeMap.computeIfAbsent(seq, __ -> new LiteralUses());
@@ -113,6 +116,7 @@ public class LiteralStatistics {
    *
    * @return all pairs of ({@link Sequence}, {@link LiteralUses})
    */
+  @SuppressWarnings("modifiability:annotation.unverified")
   public Iterable<Map.Entry<Sequence, LiteralUses>> literalUsesEntries() {
     return () -> // This line makes the method return an Iterable rather than an Iterator.
         // An Iterable can be used in a foreach loop, but an Iterator cannot.

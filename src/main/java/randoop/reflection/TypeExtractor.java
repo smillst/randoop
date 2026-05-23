@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import randoop.types.ClassOrInterfaceType;
 import randoop.types.ParameterizedType;
 import randoop.types.PrimitiveType;
@@ -17,7 +18,7 @@ import randoop.util.Log;
 class TypeExtractor extends DefaultClassVisitor {
 
   /** The set of concrete types. */
-  private Set<Type> inputTypes;
+  private @Growable Set<Type> inputTypes;
 
   /** The accessibility predicate for checking whether a type is accessible in generated tests. */
   private final AccessibilityPredicate predicate;
@@ -30,7 +31,7 @@ class TypeExtractor extends DefaultClassVisitor {
    *     class populates the set, and the client reads the set it passed in.
    * @param predicate the accessibility predicate
    */
-  TypeExtractor(Set<Type> inputTypes, AccessibilityPredicate predicate) {
+  TypeExtractor(@Growable Set<Type> inputTypes, AccessibilityPredicate predicate) {
     this.inputTypes = inputTypes;
     this.predicate = predicate;
   }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -43,7 +44,7 @@ public class ExecutableSpecification {
    * local specification for method declaration m, the {@code parentList} contains one element for
    * each method that m overrides or implements (and has specifications).
    */
-  private List<ExecutableSpecification> parentList = new ArrayList<>();
+  private @Modifiable List<ExecutableSpecification> parentList = new ArrayList<>();
 
   /** Creates an empty {@link ExecutableSpecification} object. */
   public ExecutableSpecification() {

@@ -2,6 +2,7 @@ package randoop.condition;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.plumelib.util.StringsPlume;
 import randoop.test.ExpectedExceptionGenerator;
 import randoop.test.ExtendGenerator;
@@ -70,13 +71,13 @@ public class ExpectedOutcomeTable {
   private boolean hasSatisfiedPrecondition = false;
 
   /** The list of post-conditions whose guard expression was satisfied. */
-  private final List<ExecutableBooleanExpression> postConditions = new ArrayList<>();
+  private final @Modifiable List<ExecutableBooleanExpression> postConditions = new ArrayList<>();
 
   /**
    * The list of lists of throws clauses for which the guard expression was satisfied. Each list of
    * throwsclauses represents one specification, and each such list must be satisfied.
    */
-  private final List<List<ThrowsClause>> exceptionSets = new ArrayList<>();
+  private final @Modifiable List<List<ThrowsClause>> exceptionSets = new ArrayList<>();
 
   /** Creates an empty {@link ExpectedOutcomeTable}. */
   public ExpectedOutcomeTable() {}

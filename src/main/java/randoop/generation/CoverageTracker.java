@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.signature.qual.BinaryName;
 import org.checkerframework.checker.signature.qual.InternalForm;
 import org.jacoco.agent.rt.RT;
@@ -44,10 +45,10 @@ public class CoverageTracker {
    * where a method's total branches is zero, the uncovered branch ratio is NaN, and this map uses
    * zero instead.
    */
-  private final Map<String, Double> branchCoverageMap = new HashMap<>();
+  private final @Modifiable Map<String, Double> branchCoverageMap = new HashMap<>();
 
   /** Names of all the classes under test. */
-  protected final Set<@BinaryName String> classesUnderTest = new HashSet<>();
+  protected final @Modifiable Set<@BinaryName String> classesUnderTest = new HashSet<>();
 
   /**
    * Initialize the coverage tracker.

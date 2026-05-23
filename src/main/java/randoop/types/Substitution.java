@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiFunction;
 import org.checkerframework.checker.initialization.qual.UnknownInitialization;
+import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.KeyFor;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.checker.nullness.qual.RequiresNonNull;
@@ -20,13 +21,13 @@ import org.checkerframework.checker.nullness.qual.RequiresNonNull;
 public class Substitution {
 
   /** The map from type variables to concrete types. */
-  private Map<TypeVariable, ReferenceType> map;
+  private @Modifiable Map<TypeVariable, ReferenceType> map;
 
   /**
    * Map on reflection types - used for testing bounds. Its keys are a subset of the keys of {@link
    * #map}: those that are type parameters as opposed to other type variables such as wildcards.
    */
-  private Map<java.lang.reflect.Type, ReferenceType> rawMap;
+  private @Modifiable Map<java.lang.reflect.Type, ReferenceType> rawMap;
 
   /** Create an empty substitution. */
   public Substitution() {

@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
 import org.checkerframework.checker.calledmethods.qual.EnsuresCalledMethods;
+import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.Replaceable;
 import org.checkerframework.checker.mustcall.qual.MustCall;
 import org.checkerframework.checker.mustcall.qual.Owning;
 import org.checkerframework.checker.signature.qual.ClassGetName;
@@ -260,7 +262,7 @@ import randoop.util.Util;
   @SuppressWarnings("unchecked")
   private static void readSpecificationFile(
       Path specificationFile,
-      Map<AccessibleObject, OperationSpecification> specificationMap,
+      @Growable @Replaceable Map<AccessibleObject, OperationSpecification> specificationMap,
       MultiMap<OperationSignature, Method> signatureToMethods) {
     if (specificationFile.toString().toLowerCase(Locale.getDefault()).endsWith(".zip")) {
       readSpecificationZipFile(specificationFile, specificationMap, signatureToMethods);
@@ -316,7 +318,7 @@ import randoop.util.Util;
    */
   private static void readSpecificationZipFile(
       Path specificationZipFile,
-      final Map<AccessibleObject, OperationSpecification> specificationMap,
+      final @Growable @Replaceable Map<AccessibleObject, OperationSpecification> specificationMap,
       final MultiMap<OperationSignature, Method> signatureToMethods) {
     Map<String, ?> myEmptyMap = Collections.emptyMap();
     FileSystem zipFS;
@@ -352,7 +354,8 @@ import randoop.util.Util;
   }
 
   /** Cache for {@link #getExecutableSpecification}. */
-  private Map<AccessibleObject, ExecutableSpecification> getExecutableSpecificationCache;
+  private @Growable @Replaceable Map<AccessibleObject, ExecutableSpecification>
+      getExecutableSpecificationCache;
 
   /**
    * Creates an {@link ExecutableSpecification} object for the given constructor or method, from its
