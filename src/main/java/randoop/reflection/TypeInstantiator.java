@@ -385,10 +385,7 @@ public class TypeInstantiator {
     // instantiating type for each variable.
 
     // These are the candidates that this routine will return.
-    @Growable
-    @Replaceable
-    @IteratorPolyMod
-    List<Substitution> result = new ArrayList<>();
+    @Growable @Replaceable @IteratorPolyMod List<Substitution> result = new ArrayList<>();
     if (!genericParameters.isEmpty()) {
       // if there are type parameters with generic bounds
       if (!nongenericParameters.isEmpty()) {

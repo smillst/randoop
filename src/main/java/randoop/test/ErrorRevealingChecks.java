@@ -21,8 +21,7 @@ public class ErrorRevealingChecks implements TestChecks<ErrorRevealingChecks> {
   static {
     EMPTY = new ErrorRevealingChecks();
     @SuppressWarnings("growable:assignment")
-    @Growable
-    Set<Check> emptyChecks = Collections.emptySet();
+    @Growable Set<Check> emptyChecks = Collections.emptySet();
     EMPTY.checks = emptyChecks; // make immutable
   }
 

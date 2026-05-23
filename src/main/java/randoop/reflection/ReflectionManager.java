@@ -238,8 +238,7 @@ public class ReflectionManager {
       applyTo(visitor, e);
       if (!e.getClass().equals(c)) { // does constant have an anonymous class?
         for (Method m : e.getClass().getDeclaredMethods()) {
-          @Growable
-          Set<Method> methodSet =
+          @Growable Set<Method> methodSet =
               overrideMethods.computeIfAbsent(m.getName(), __ -> new LinkedHashSet<>());
           methodSet.add(m);
         }
