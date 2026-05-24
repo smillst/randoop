@@ -154,9 +154,7 @@ public class ReplaceCallAgent {
        * The agent is called when classes are loaded. If Randoop is using threads, this can result
        * in multiple threads accessing the map to apply replacements.
        */
-      @Growable
-      @Replaceable
-      Map<MethodSignature, MethodSignature> replacementMap;
+      @Growable @Replaceable Map<MethodSignature, MethodSignature> replacementMap;
 
       // Read the default replacement file
       String replacementPath = "/default-replacements.txt";

@@ -738,8 +738,7 @@ public class OperationModel {
       AccessibilityPredicate accessibility,
       ReflectionPredicate reflectionPredicate,
       SpecificationCollection operationSpecifications) {
-    @Modifiable
-    Iterator<ClassOrInterfaceType> itor =
+    @Modifiable Iterator<ClassOrInterfaceType> itor =
         classTypes.iterator(); // classTypes is a TreeSet, its iterator is modifiable.
     while (itor.hasNext()) {
       ClassOrInterfaceType classType = itor.next();

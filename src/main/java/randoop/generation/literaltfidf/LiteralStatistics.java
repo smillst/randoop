@@ -90,8 +90,7 @@ public class LiteralStatistics {
       throw new IllegalArgumentException("sequence must be a literal producer: " + seq);
     }
     Type outputType = seq.getLastVariable().getType();
-    @Growable
-    Map<Sequence, LiteralUses> typeMap =
+    @Growable Map<Sequence, LiteralUses> typeMap =
         literalUsesByType.computeIfAbsent(outputType, __ -> new LinkedHashMap<>());
     LiteralUses currentUses = typeMap.computeIfAbsent(seq, __ -> new LiteralUses());
     return currentUses;

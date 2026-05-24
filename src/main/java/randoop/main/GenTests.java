@@ -316,8 +316,7 @@ public class GenTests extends GenInputsAbstract {
         GenInputsAbstract.getClassNamesFromFile(require_covered_classes);
 
     // Get names of fields to be omitted
-    @Growable
-    Set<String> omitFields = GenInputsAbstract.getStringSetFromFile(omit_field_file, "fields");
+    @Growable Set<String> omitFields = GenInputsAbstract.getStringSetFromFile(omit_field_file, "fields");
     omitFields.addAll(omit_field);
     // Temporary, for backward compatibility
     omitFields.addAll(GenInputsAbstract.getStringSetFromFile(omit_field_list, "fields"));
