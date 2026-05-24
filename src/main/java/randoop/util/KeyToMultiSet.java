@@ -80,7 +80,7 @@ public class KeyToMultiSet<K extends @Signed Object, V extends @Signed Object> {
     return map.containsKey(obj);
   }
 
-  // Removes all keys with an empty set
+  /** Removes all keys that map to an empty set. */
   // map.entrySet() is shrinkable. Our type system does not guarantee that set.Iterator is
   // shrinkable.
   // map is a LinkedHashMap at run time, and its entrySet().iterator is shrinkable.

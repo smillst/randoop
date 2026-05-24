@@ -169,9 +169,8 @@ public class CheckpointingMultiMap<K extends @Signed Object, V extends @Signed O
 
   @Override
   @SuppressWarnings({"growable:argument", "shrinkable:argument"}) // true positive?
-  // the values of the map has to be @Modifiable sets, but the default of getOrDefault is
-  // Collections.emptySet(),
-  // causing a miss match.
+  // The values of the map has to be @Modifiable sets, but the default of getOrDefault is
+  // Collections.emptySet(), causing a mismatch.
   public Set<V> getValues(K key) {
     if (key == null) throw new IllegalArgumentException("arg cannot be null.");
     return map.getOrDefault(key, Collections.emptySet());
