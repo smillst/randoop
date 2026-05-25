@@ -1,10 +1,8 @@
 package randoop.test;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
-import org.checkerframework.checker.modifiability.qual.Growable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -16,20 +14,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class ErrorRevealingChecks implements TestChecks<ErrorRevealingChecks> {
 
   /** An empty, immutable set of error-revealing checks. */
-  public static final ErrorRevealingChecks EMPTY;
+  public static final ErrorRevealingChecks EMPTY = new ErrorRevealingChecks();
 
-  static {
-    EMPTY = new ErrorRevealingChecks();
-    @SuppressWarnings("growable:assignment")
-    @Growable Set<Check> emptyChecks = Collections.emptySet();
-    EMPTY.checks = emptyChecks; // make immutable
-  }
-
-  private @Growable Set<Check> checks;
+  /** The checks that this {@code ErrorRevealingChecks} represents. */
+  private final Set<Check> checks;
 
   /** Create an empty set of error checks. */
-  public ErrorRevealingChecks() {
-    this.checks = new LinkedHashSet<>();
+  private ErrorRevealingChecks() {
+    this.checks = Collections.emptySet();
   }
 
   /**
@@ -37,7 +29,6 @@ public class ErrorRevealingChecks implements TestChecks<ErrorRevealingChecks> {
    *
    * @param check the check to put in the newly-created singleton set
    */
-  @SuppressWarnings("growable:assignment") // true positive?
   public ErrorRevealingChecks(Check check) {
     validateCheck(check);
     this.checks = Collections.singleton(check);
@@ -103,17 +94,6 @@ public class ErrorRevealingChecks implements TestChecks<ErrorRevealingChecks> {
     return null;
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @throws Error if {@code check} is an exception check
-   */
-  @Override
-  public void add(Check check) {
-    validateCheck(check);
-    checks.add(check);
-  }
-
   @Override
   public boolean equals(@Nullable Object obj) {
     if (this == obj) {
@@ -129,17 +109,6 @@ public class ErrorRevealingChecks implements TestChecks<ErrorRevealingChecks> {
   @Override
   public int hashCode() {
     return Objects.hash(checks);
-  }
-
-  @Override
-  public ErrorRevealingChecks commonChecks(ErrorRevealingChecks other) {
-    ErrorRevealingChecks common = new ErrorRevealingChecks();
-    for (Check ck : checks) {
-      if (other.checks.contains(ck)) {
-        common.add(ck);
-      }
-    }
-    return common;
   }
 
   /**
