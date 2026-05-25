@@ -13,14 +13,14 @@ import org.checkerframework.checker.modifiability.qual.Growable;
  * Visit every variable declaration. Adds to a set of strings for all the names of variables that
  * are either primitive or wrapped types.
  */
-public class PrimitiveAndWrappedTypeVarNameCollector extends VoidVisitorAdapter<Set<String>> {
+public class PrimitiveAndWrappedTypeVarNameCollector
+    extends VoidVisitorAdapter<@Growable Set<String>> {
   /**
    * Visit every variable declaration.
    *
    * @param variableNames a set containing the names of all the variables that are of primitive or
    *     wrapped types. It is modified by side effect.
    */
-  @SuppressWarnings({"unchecked", "growable:override.param"})
   @Override
   public void visit(VariableDeclarationExpr n, @Growable Set<String> variableNames) {
     for (VariableDeclarator vd : n.getVariables()) {
