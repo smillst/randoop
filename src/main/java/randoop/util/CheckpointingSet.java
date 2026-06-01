@@ -2,7 +2,9 @@ package randoop.util;
 
 import java.util.AbstractSet;
 import java.util.Iterator;
+import org.checkerframework.checker.modifiability.qual.Growable;
 import org.checkerframework.checker.modifiability.qual.Modifiable;
+import org.checkerframework.checker.modifiability.qual.Shrinkable;
 import org.checkerframework.checker.mustcall.qual.MustCallUnknown;
 import org.checkerframework.checker.signedness.qual.Signed;
 import org.checkerframework.checker.signedness.qual.UnknownSignedness;
@@ -20,13 +22,13 @@ public class CheckpointingSet<E extends @Signed Object> extends AbstractSet<E> {
   // The value is always true in this mapping, never false.
   public final CheckpointingMultiMap<E, Boolean> map;
 
-  @SuppressWarnings({"growable:super.invocation", "shrinkable:super.invocation"}) // calls `super`
+  @SuppressWarnings("modifiability:super.invocation") // calls `super`
   public @Modifiable CheckpointingSet() {
     this.map = new CheckpointingMultiMap<>();
   }
 
   @Override
-  public boolean add(E elt) {
+  public boolean add(@Growable CheckpointingSet<E> this, E elt) {
     if (elt == null) throw new IllegalArgumentException("arg cannot be null.");
     if (contains(elt)) throw new IllegalArgumentException("set already contains elt " + elt);
     return map.add(elt, true);
@@ -39,7 +41,8 @@ public class CheckpointingSet<E extends @Signed Object> extends AbstractSet<E> {
   }
 
   @Override
-  public boolean remove(@MustCallUnknown @UnknownSignedness Object elt) {
+  public boolean remove(
+      @Shrinkable CheckpointingSet<E> this, @MustCallUnknown @UnknownSignedness Object elt) {
     if (elt == null) {
       throw new IllegalArgumentException("arg cannot be null.");
     }
@@ -58,9 +61,13 @@ public class CheckpointingSet<E extends @Signed Object> extends AbstractSet<E> {
   }
 
   @Override
-  public Iterator<E> iterator() {
+  @SuppressWarnings({
+    "modifiability:cast.unsafe.constructor.invocation",
+    "modifiability:method.invocation", // cannot verify that CheckpointingSet.this is @Shrinkable.
+  })
+  public @Shrinkable Iterator<E> iterator() {
     Iterator<E> underlying = map.keySet().iterator();
-    return new Iterator<E>() {
+    return new @Shrinkable Iterator<E>() {
       private E current;
 
       @Override
