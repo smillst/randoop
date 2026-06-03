@@ -62,12 +62,13 @@ public class CheckpointingSet<E extends @Signed Object> extends AbstractSet<E> {
 
   @Override
   @SuppressWarnings({
-    "modifiability:cast.unsafe.constructor.invocation",
     "modifiability:method.invocation", // cannot verify that CheckpointingSet.this is @Shrinkable.
+    "modifiability:override.receiver", // JLS bug: can't write receiver annotation on method of
+    // anonymous class
   })
-  public @Shrinkable Iterator<E> iterator() {
+  public Iterator<E> iterator() {
     Iterator<E> underlying = map.keySet().iterator();
-    return new @Shrinkable Iterator<E>() {
+    return new Iterator<E>() {
       private E current;
 
       @Override
@@ -82,7 +83,7 @@ public class CheckpointingSet<E extends @Signed Object> extends AbstractSet<E> {
       }
 
       @Override
-      public void remove() {
+      public void remove(/* @Shrinkable Iterator<PptTopLevel> this */ ) {
         // Delegate to CheckpointingSet.remove() to preserve checkpointing
         if (current == null) {
           throw new IllegalStateException();
