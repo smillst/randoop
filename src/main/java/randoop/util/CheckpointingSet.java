@@ -15,7 +15,8 @@ import org.checkerframework.checker.signedness.qual.UnknownSignedness;
  *
  * @param <E> the type of elements
  */
-@SuppressWarnings("modifiability:annotation.unverified")
+@SuppressWarnings(
+    "modifiability:annotation.unverified") // cannot verify that CheckpointingSet is @Modifiable
 public class CheckpointingSet<E extends @Signed Object> extends AbstractSet<E> {
 
   // This uses a MultiMap just because that is an existing checkpointing data structure.
