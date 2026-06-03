@@ -71,7 +71,7 @@ public class CheckpointingMultiMap<K extends @Signed Object, V extends @Signed O
     }
   }
 
-  public @Modifiable CheckpointingMultiMap() {
+  public CheckpointingMultiMap() {
     map = new LinkedHashMap<>();
     marks = new ArrayList<>();
     ops = new ArrayList<>();
