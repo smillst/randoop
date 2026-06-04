@@ -489,7 +489,7 @@ public class OperationModel {
    *
    * @return the operations of this model
    */
-  public @Modifiable List<TypedOperation> getOperations() {
+  public @Modifiable @IteratorPolyMod List<TypedOperation> getOperations() {
     return new ArrayList<>(operations);
   }
 

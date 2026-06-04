@@ -37,6 +37,7 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.modifiability.qual.Shrinkable;
 import org.checkerframework.checker.nullness.qual.PolyNull;
@@ -429,7 +430,7 @@ public class GenTests extends GenInputsAbstract {
     }
     assert operationModel != null;
 
-    @Shrinkable List<TypedOperation> operations = operationModel.getOperations();
+    @Shrinkable @IteratorPolyMod List<TypedOperation> operations = operationModel.getOperations();
     Set<ClassOrInterfaceType> classesUnderTest = operationModel.getClassTypes();
 
     /*

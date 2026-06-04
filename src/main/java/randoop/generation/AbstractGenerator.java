@@ -94,7 +94,7 @@ public abstract class AbstractGenerator {
    * generate sequences. In other words, statements specifies the universe of operations from which
    * sequences are generated.
    */
-  protected final @Shrinkable List<TypedOperation> operations;
+  protected final @Shrinkable @IteratorPolyMod List<TypedOperation> operations;
 
   /**
    * A copy of {@link AbstractGenerator#operations} that contains all operations used to generate
@@ -160,7 +160,7 @@ public abstract class AbstractGenerator {
    * @param stopper optional, additional stopping criterion for the generator. Can be null.
    */
   protected AbstractGenerator(
-      @Shrinkable List<TypedOperation> operations,
+      @Shrinkable @IteratorPolyMod List<TypedOperation> operations,
       GenInputsAbstract.Limits limits,
       @Nullable ComponentManager componentManager,
       IStopper stopper) {

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
 import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.modifiability.qual.Shrinkable;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
@@ -70,13 +71,13 @@ public class ForwardGenerator extends AbstractGenerator {
    * components as {@link #allSequences}, in the same order, but stores them as strings obtained via
    * the toCodeString() method.
    */
-  private final @Modifiable List<String> allsequencesAsCode = new ArrayList<>();
+  private final @Modifiable @IteratorPolyMod List<String> allsequencesAsCode = new ArrayList<>();
 
   /**
    * Set and used only if {@link GenInputsAbstract#debug_checks}==true. This contains the same
    * components as {@link #allSequences}, in the same order, but can be accessed by index.
    */
-  private final @Modifiable List<Sequence> allsequencesAsList = new ArrayList<>();
+  private final @Modifiable @IteratorPolyMod List<Sequence> allsequencesAsList = new ArrayList<>();
 
   private final TypeInstantiator instantiator;
 
@@ -112,7 +113,7 @@ public class ForwardGenerator extends AbstractGenerator {
    * @param classesUnderTest set of classes under test
    */
   public ForwardGenerator(
-      @Shrinkable List<TypedOperation> operations,
+      @Shrinkable @IteratorPolyMod List<TypedOperation> operations,
       Set<TypedOperation> sideEffectFreeMethods,
       GenInputsAbstract.Limits limits,
       ComponentManager componentManager,
@@ -137,7 +138,7 @@ public class ForwardGenerator extends AbstractGenerator {
    * @param classesUnderTest the classes that are under test
    */
   public ForwardGenerator(
-      @Shrinkable List<TypedOperation> operations,
+      @Shrinkable @IteratorPolyMod List<TypedOperation> operations,
       Set<TypedOperation> sideEffectFreeMethods,
       GenInputsAbstract.Limits limits,
       ComponentManager componentManager,
