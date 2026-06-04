@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Replaceable;
 import randoop.ExecutionOutcome;
 import randoop.NotExecuted;
@@ -19,7 +20,7 @@ import randoop.NotExecuted;
 public final class Execution {
 
   // The execution outcome of each statement.
-  final @Replaceable List<ExecutionOutcome> outcomes;
+  final @Replaceable @IteratorPolyMod List<ExecutionOutcome> outcomes;
 
   private @Growable Set<Class<?>> coveredClasses;
 

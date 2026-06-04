@@ -3,6 +3,7 @@ package randoop.test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Modifiable;
 import randoop.contract.ObjectContract;
 
@@ -13,7 +14,8 @@ public class ContractSet {
    * Each element is a list of all contracts of that arity. For example, the element at index 2 is a
    * list of contracts of arity 2. Used only for containment check.
    */
-  private final @Modifiable List<@Modifiable List<ObjectContract>> contractMap = new ArrayList<>(1);
+  private final @Modifiable @IteratorPolyMod List<@Modifiable @IteratorPolyMod List<ObjectContract>>
+      contractMap = new ArrayList<>(1);
 
   /**
    * Returns the list of contracts with the given arity.

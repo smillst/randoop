@@ -462,7 +462,7 @@ public class Minimize extends CommandHandler {
       return;
     }
     BlockStmt body = oBlockStmt.get();
-    @Growable @Shrinkable List<Statement> statements = body.getStatements();
+    @Growable @Shrinkable @IteratorPolyMod List<Statement> statements = body.getStatements();
 
     // Map from primitive variable name to the variable's value extracted
     // from a passing assertion.  Modified by the call to storeValueFromAssertion().
@@ -1479,7 +1479,7 @@ public class Minimize extends CommandHandler {
     "ReferenceEquality"
   })
   private static void getOrphanCommentsBeforeThisChildNode(
-      final Node node, @Growable List<Comment> result) {
+      final Node node, @Growable @IteratorPolyMod List<Comment> result) {
     if (node instanceof Comment) {
       return;
     }

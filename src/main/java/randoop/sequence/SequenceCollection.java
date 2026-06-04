@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -44,7 +45,8 @@ public class SequenceCollection {
   // When Randoop kept all previously-generated sequences together, in a single
   // collection, profiling showed that finding these sequences was a bottleneck in generation.
   /** For each type, all the sequences that produce one or more values of exactly the given type. */
-  private @Modifiable Map<Type, @Growable List<Sequence>> sequenceMap = new LinkedHashMap<>();
+  private @Modifiable Map<Type, @Growable @IteratorPolyMod List<Sequence>> sequenceMap =
+      new LinkedHashMap<>();
 
   /**
    * A set of all the types that can be created with the sequences in this. This is the same as

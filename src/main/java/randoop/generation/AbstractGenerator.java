@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Shrinkable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.plumelib.options.Option;
@@ -128,13 +129,13 @@ public abstract class AbstractGenerator {
    * The list of error test sequences to be output as JUnit tests. May include subsequences of other
    * sequences in the list.
    */
-  public @Growable List<ExecutableSequence> outErrorSeqs;
+  public @Growable @IteratorPolyMod List<ExecutableSequence> outErrorSeqs;
 
   /**
    * The list of regression sequences to be output as JUnit tests. May include subsequences of other
    * sequences in the list.
    */
-  public @Growable List<ExecutableSequence> outRegressionSeqs;
+  public @Growable @IteratorPolyMod List<ExecutableSequence> outRegressionSeqs;
 
   /**
    * A filter to determine whether a sequence should be added to the output sequence lists. Returns

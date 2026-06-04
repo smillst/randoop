@@ -25,6 +25,7 @@ import org.apache.bcel.generic.InvokeInstruction;
 import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.NEW;
 import org.apache.bcel.generic.Type;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Modifiable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.plumelib.bcelutil.InstructionListUtils;
@@ -230,7 +231,7 @@ public class CallReplacementTransformer extends InstructionListUtils
     }
   }
 
-  private @Modifiable Deque<NewInstInfo> new_inst_stack = new ArrayDeque<>();
+  private @Modifiable @IteratorPolyMod Deque<NewInstInfo> new_inst_stack = new ArrayDeque<>();
 
   /**
    * Processes each method in the given class replacing any specified calls. The replacements are

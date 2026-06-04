@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 import org.checkerframework.checker.modifiability.qual.Growable;
+import org.checkerframework.checker.modifiability.qual.IteratorPolyMod;
 import org.checkerframework.checker.modifiability.qual.Replaceable;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -542,7 +543,10 @@ public class ExecutableSequence {
   // Execute the index-th statement in the sequence.
   // Precondition: this method has been invoked on 0..index-1.
   private static void executeStatement(
-      Sequence s, @Replaceable List<ExecutionOutcome> outcome, int index, Object[] inputVariables) {
+      Sequence s,
+      @Replaceable @IteratorPolyMod List<ExecutionOutcome> outcome,
+      int index,
+      Object[] inputVariables) {
     Statement statement = s.getStatement(index);
 
     // Capture any output Synchronize with ProgressDisplay so that
