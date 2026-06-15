@@ -15,6 +15,10 @@ import org.checkerframework.checker.modifiability.qual.Growable;
  */
 public class PrimitiveAndWrappedTypeVarNameCollector
     extends VoidVisitorAdapter<@Growable Set<String>> {
+
+  /** Creates a PrimitiveAndWrappedTypeVarNameCollector. */
+  public PrimitiveAndWrappedTypeVarNameCollector() {}
+
   /**
    * Visit every variable declaration.
    *

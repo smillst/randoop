@@ -63,6 +63,7 @@ import randoop.sequence.Sequence;
 import randoop.test.ContractSet;
 import randoop.types.ClassOrInterfaceType;
 import randoop.types.Type;
+import randoop.types.TypeTuple;
 import randoop.util.Log;
 import randoop.util.MultiMap;
 import randoop.util.Util;
@@ -81,7 +82,7 @@ import randoop.util.Util;
  * <p>This class manages all information about generic classes internally, and instantiates any type
  * variables in operations before returning them.
  */
-public class OperationModel {
+public final class OperationModel {
 
   /** The set of class declaration types for this model. */
   // TreeSet here for deterministic coverage in the systemTest runNaiveCollectionsTest()
@@ -408,8 +409,9 @@ public class OperationModel {
       } catch (FailedPredicateException e) {
         throw new RandoopBug("This can't happen", e);
       }
-      if (!operation.getInputTypes().isEmpty()) {
-        operationsMap.add(operation.getInputTypes().get(0), operation);
+      TypeTuple inputTypes = operation.getInputTypes();
+      if (!inputTypes.isEmpty()) {
+        operationsMap.add(inputTypes.get(0), operation);
       }
     }
     return operationsMap;

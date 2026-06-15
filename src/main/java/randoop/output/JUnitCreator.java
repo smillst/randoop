@@ -50,7 +50,7 @@ import randoop.sequence.ExecutableSequence;
 
 /** Creates Java source as {@code String} for a suite of JUnit4 tests. */
 @SuppressWarnings("deprecation") // TODO: fix. "new ClassOrInterfaceType()" does not handle generics
-public class JUnitCreator {
+public final class JUnitCreator {
 
   /** An instance of a Java parser. */
   static JavaParser javaParser = new JavaParser();
@@ -566,11 +566,11 @@ public class JUnitCreator {
       return null;
     }
     StringBuilder blockText = new StringBuilder();
-    blockText.append("{").append(Globals.lineSep);
+    blockText.append('{').append(Globals.lineSep);
     for (String line : bodyText) {
       blockText.append(line).append(Globals.lineSep);
     }
-    blockText.append(Globals.lineSep).append("}");
+    blockText.append(Globals.lineSep).append('}');
     return javaParser.parseBlock(blockText.toString()).getResult().get();
   }
 }

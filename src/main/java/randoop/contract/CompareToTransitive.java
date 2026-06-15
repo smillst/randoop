@@ -12,7 +12,8 @@ import randoop.types.TypeTuple;
  *  => (x0.compareTo(x2) > 0)
  * }</pre>
  */
-public class CompareToTransitive extends ObjectContract {
+public final class CompareToTransitive extends ObjectContract {
+  /** The singleton instance of this class. */
   private static final CompareToTransitive instance = new CompareToTransitive();
 
   private CompareToTransitive() {}
@@ -71,11 +72,10 @@ public class CompareToTransitive extends ObjectContract {
 
   @Override
   public String toCodeString() {
-    StringBuilder b = new StringBuilder();
-    b.append("org.junit.Assert.assertTrue(");
-    b.append("\"Contract failed: " + toCommentString() + "\", ");
-    b.append("!(x0.compareTo(x1)>0 && x1.compareTo(x2)>0) || x0.compareTo(x2)>0");
-    b.append(");");
+    StringBuilder b = new StringBuilder(128);
+    b.append("org.junit.Assert.assertTrue(\"Contract failed: ");
+    b.append(toCommentString());
+    b.append("\", !(x0.compareTo(x1)>0 && x1.compareTo(x2)>0) || x0.compareTo(x2)>0);");
     return b.toString();
   }
 }

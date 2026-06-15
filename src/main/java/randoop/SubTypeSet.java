@@ -64,7 +64,9 @@ public class SubTypeSet {
    * @param c the type to be added
    */
   public void add(Type c) {
-    if (c == null) throw new IllegalArgumentException("c cannot be null.");
+    if (c == null) {
+      throw new IllegalArgumentException("c cannot be null.");
+    }
     if (types.contains(c)) {
       return;
     }
@@ -81,7 +83,9 @@ public class SubTypeSet {
   }
 
   private void addQueryType(Type type) {
-    if (type == null) throw new IllegalArgumentException("c cannot be null.");
+    if (type == null) {
+      throw new IllegalArgumentException("c cannot be null.");
+    }
     Set<Type> keySet = subTypes.keySet();
     if (keySet.contains(type)) {
       return;

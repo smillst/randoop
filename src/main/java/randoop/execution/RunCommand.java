@@ -19,7 +19,12 @@ import randoop.util.Log;
  * Class providing the {@link #run(List, Path, long)} method to run a command in a separate process
  * with a timeout.
  */
-public class RunCommand {
+public final class RunCommand {
+
+  /** Do not instantiate. */
+  private RunCommand() {
+    throw new Error("Do not instantiate");
+  }
 
   /**
    * Runs the given command synchronously in the given directory using the given timeout. If the
@@ -151,7 +156,7 @@ public class RunCommand {
     }
 
     /**
-     * Print to sb the lines, or say how many lines there were.
+     * Print to {@code sb} the lines, or say how many lines there were.
      *
      * @param source the source of the lines, such as "stdout" or "stderr"
      * @param lines the lines
@@ -163,7 +168,7 @@ public class RunCommand {
         sb.append(source);
         sb.append("=\"");
         sb.append(StringsPlume.joinLines(lines));
-        sb.append("\"");
+        sb.append('\"');
         sb.append(Globals.lineSep);
       } else {
         sb.append(", ");
@@ -180,6 +185,7 @@ public class RunCommand {
    */
   public static class CommandException extends Throwable {
 
+    /** ID for serializing this class. */
     private static final long serialVersionUID = 736230736083495268L;
 
     /**

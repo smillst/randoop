@@ -8,6 +8,9 @@ import randoop.types.TypeTuple;
 /** Checks that calling toString() on an object does not throw an exception. */
 public final class ToStringReturnsNormally extends ObjectContract {
 
+  /** Creates a ToStringReturnsNormally. */
+  public ToStringReturnsNormally() {}
+
   @Override
   public boolean equals(@Nullable Object o) {
     if (o == this) {
@@ -56,11 +59,10 @@ public final class ToStringReturnsNormally extends ObjectContract {
 
   @Override
   public String toCodeString() {
-    StringBuilder b = new StringBuilder();
-    b.append("org.junit.Assert.assertTrue(");
-    b.append("\"Contract failed: " + toCommentString() + "\", ");
-    b.append("x0.toString()");
-    b.append(");");
+    StringBuilder b = new StringBuilder(128);
+    b.append("org.junit.Assert.assertTrue(\"Contract failed: ");
+    b.append(toCommentString());
+    b.append("\", x0.toString());");
     return b.toString();
   }
 }

@@ -50,7 +50,9 @@ public class MultiMap<K extends @Signed Object, V extends @Signed Object>
    * @param values the values
    */
   public void put(K key, Collection<? extends V> values) {
-    if (contains(key)) remove(key);
+    if (contains(key)) {
+      remove(key);
+    }
     map.put(key, new LinkedHashSet<>(values));
   }
 
@@ -138,7 +140,7 @@ public class MultiMap<K extends @Signed Object, V extends @Signed Object>
    * @param <K> the type of keys
    * @param <V> the type of values
    */
-  private static class EmptyMultiMap<K extends @Signed Object, V extends @Signed Object>
+  private static final class EmptyMultiMap<K extends @Signed Object, V extends @Signed Object>
       extends MultiMap<K, V> {
 
     /** The canonical EmptyMultiMap. */

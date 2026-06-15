@@ -8,6 +8,9 @@ public class EqualsMethodMatcher implements StateMatcher {
 
   private final @Modifiable Set<Object> cache = new LinkedHashSet<>();
 
+  /** Creates a EqualsMethodMatcher. */
+  public EqualsMethodMatcher() {}
+
   @Override
   public boolean add(Object object) {
     try {

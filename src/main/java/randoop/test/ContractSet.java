@@ -17,6 +17,9 @@ public class ContractSet {
   private final @Modifiable @IteratorPolyMod List<@Modifiable @IteratorPolyMod List<ObjectContract>>
       contractMap = new ArrayList<>(1);
 
+  /** Creates a ContractSet. */
+  public ContractSet() {}
+
   /**
    * Returns the list of contracts with the given arity.
    *

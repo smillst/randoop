@@ -114,6 +114,9 @@ public class ClassFileConstants {
     /** Map that stores the number of uses of each constant in the current class. */
     public @Modifiable Map<Object, Integer> constantFrequency = new HashMap<>();
 
+    /** Creates a new ConstantSet. */
+    public ConstantSet() {}
+
     /**
      * Returns the number of uses of the given constant in the current class.
      *
@@ -154,6 +157,11 @@ public class ClassFileConstants {
 
       return sb.toString();
     }
+  }
+
+  /** Do not instantiate. */
+  private ClassFileConstants() {
+    throw new Error("Do not instantiate");
   }
 
   /**

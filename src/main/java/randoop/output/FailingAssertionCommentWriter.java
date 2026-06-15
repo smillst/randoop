@@ -442,7 +442,7 @@ public class FailingAssertionCommentWriter implements CodeWriter {
                   + "Please correct the classpath and re-run Randoop.");
         }
       }
-      StringBuilder errorMessage = new StringBuilder();
+      StringBuilder errorMessage = new StringBuilder(256);
       if (status.exitStatus == 137) {
         errorMessage.append("Exit status 137.  Probably interrupted or out of memory.");
         errorMessage.append(Globals.lineSep);
@@ -556,6 +556,7 @@ public class FailingAssertionCommentWriter implements CodeWriter {
 
   /** An exception that indicates that an expected pattern was not found. */
   private static class NotMatchedException extends RuntimeException {
+    /** ID for serializing this class. */
     private static final long serialVersionUID = 20171024;
 
     /** The pattern that was not found. */

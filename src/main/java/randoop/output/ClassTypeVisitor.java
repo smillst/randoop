@@ -11,6 +11,10 @@ import org.checkerframework.checker.modifiability.qual.Growable;
 
 /** Visitor for Class types in JavaParser AST. */
 public class ClassTypeVisitor extends VoidVisitorAdapter<@Growable Set<ClassOrInterfaceType>> {
+
+  /** Creates a ClassTypeVisitor. */
+  public ClassTypeVisitor() {}
+
   /**
    * If the class or interface type is in a package that's not visible by default, add the type to
    * the set of types that is passed in as an argument. For instance, suppose that the type {@code

@@ -5,7 +5,8 @@ import randoop.types.JavaTypes;
 import randoop.types.TypeTuple;
 
 /** Checks that calling compareTo() on an object does not throw an exception. */
-public class CompareToReturnsNormally extends ObjectContract {
+public final class CompareToReturnsNormally extends ObjectContract {
+  /** The singleton instance of this class. */
   private static final CompareToReturnsNormally instance = new CompareToReturnsNormally();
 
   private CompareToReturnsNormally() {}
@@ -55,11 +56,6 @@ public class CompareToReturnsNormally extends ObjectContract {
 
   @Override
   public String toCodeString() {
-    StringBuilder b = new StringBuilder();
-    b.append("org.junit.Assert.assertTrue(");
-    b.append("\"Contract failed: " + toCommentString() + "\", ");
-    b.append("x0.compareTo()");
-    b.append(");");
-    return b.toString();
+    return "x0.compareTo(x0);";
   }
 }
