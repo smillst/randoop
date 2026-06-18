@@ -23,7 +23,6 @@ public class CheckpointingSet<E extends @Signed Object> extends AbstractSet<E> {
   // The value is always true in this mapping, never false.
   public final CheckpointingMultiMap<E, Boolean> map;
 
-  @SuppressWarnings("modifiability:super.invocation") // calls `super`
   public @Modifiable CheckpointingSet() {
     this.map = new CheckpointingMultiMap<>();
   }
